@@ -15,7 +15,7 @@ Felizmente com o passar do tempo *[especificações foram surgindo](https://www.
 Padrões foram adotados e ganhamos maturidade/[interoperabilidade](https://pt.wikipedia.org/wiki/Interoperabilidade) no desenvolvimento.
 
 Dentre essas especificações temos algumas que dizem respeito ao autoloading de classes (PSR-0 e PSR-4). A PSR-0 hoje se encontra depreciada e como substituição temos a ¹[PSR-4](https://www.php-fig.org/psr/psr-4/) que nos da um padrão de como devemos estruturar nosso projeto para ter um autoload "mágico"/eficiente/perfomático e por demanda (Os arquivos só são carregados em memória quando precisamos deles!).
-Para isso temos algumas regras bem definidas que iremos colocar em prática criando um projeto via composer ([Já escrevi brevemente sobre o composer se não souber do que se trata...](post-composer)).
+Para isso temos algumas regras bem definidas que iremos colocar em prática criando um projeto via composer ([Já escrevi brevemente sobre o composer se não souber do que se trata...](http://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/)).
 
 ### Criando o projeto com composer
 Uma vez que você já possui o composer pronto para uso podemos criar o projeto:
