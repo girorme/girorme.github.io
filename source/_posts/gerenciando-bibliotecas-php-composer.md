@@ -1,5 +1,5 @@
 ---
-title: Gerenciando bibliotecas no php com composer
+title: Gerenciando bibliotecas no PHP com composer
 date: 2017-07-23 01:02:17
 tags:
 ---
