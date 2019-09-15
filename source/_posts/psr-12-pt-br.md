@@ -1,8 +1,11 @@
 ---
-title: psr-12-pt-br
+title: Tradução PSR-12 PT-BR
 date: 2019-09-04 23:37:02
 tags:
 ---
+
+> Resolvi traduzir a [PSR12](https://www.php-fig.org/psr/psr-12/) para português para que aqueles que não tenham tanta familiaridade com inglês possam acompanhar o documento
+
 PSR-12: Estilo de codificação estendido
 --
 
