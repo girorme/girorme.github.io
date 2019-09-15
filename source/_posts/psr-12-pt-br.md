@@ -109,8 +109,6 @@ O cabeçalho de um arquivo PHP pode consistir de um número diferente de blocos.
 - Uma ou mais instruções de `use` com base em constantes.
 - O restante do código no arquivo.
 
-When a file contains a mix of HTML and PHP, any of the above sections may still be used. If so, they MUST be present at the top of the file, even if the remainder of the code consists of a closing PHP tag and then a mixture of HTML and PHP.
-
 Quando um arquivo contém uma mistura de HTML e PHP, qualquer uma das seções acima ainda pode ser usada. Nesse caso, eles DEVEM estar presentes no topo do arquivo, mesmo que o restante do código consista em uma tag PHP de fechamento e, em seguida, uma mistura de HTML e PHP.
 
 As instruções de importação nunca DEVEM começar com uma barra invertida principal, pois sempre devem ser totalmente qualificadas.
