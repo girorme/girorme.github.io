@@ -2,6 +2,9 @@
 title: Autoload no PHP utilizando o composer (PSR4)
 date: 2019-09-01 14:23:03
 tags:
+- PHP autoload
+- Composer
+- PSR-4
 ---
 
 ## TL;DR

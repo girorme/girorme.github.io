@@ -2,6 +2,9 @@
 title: Gerenciando bibliotecas no PHP com composer
 date: 2017-07-23 01:02:17
 tags:
+- Composer
+- PHP
+- Packagist
 ---
 
 O composer é um gerenciador de dependências para o PHP. Podemos utiliza-lo também para gerenciamento de autoloading e outras coisas legais que podemos abordar em outros artigos. Por enquanto vamos instalar e utilizar bibliotecas no nosso projeto teste

@@ -2,6 +2,15 @@
 title: Tradução PSR-12 PT-BR
 date: 2019-09-04 23:37:02
 tags:
+- PHP
+- PSR-12
+- PSR12
+- PHP-FIG
+- PSR12 PT-BR
+- PSR-12 PT-BR
+- PSR12 PTBR
+- PSR-12 PT-BR
+- Best Pratices
 ---
 
 > Até o presente momento não temos tradução da [PSR12](https://www.php-fig.org/psr/psr-12/). Então resolvi adiantar e submeter para alguns repos BR. :)
