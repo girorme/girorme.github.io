@@ -458,7 +458,7 @@ A utilização da propridade `$this->extraThemes` com um valor arbitrário dentr
 <div style="text-align:center"><img src="/images/mindblow.gif" /></div>
 
 Então essa vulnerabilidade não se limita apenas ao contexto da aplicação, pelo contrário... é possível abusar de bibliotecas instaladas para que outros tipos de ataques sejam alcançados.
-E pensando nisso foi criado a ferramenta ([phpggc][phpggc] que é especializada nesse tipo de payload utilizando pop, que possui diversas bibliotecas/frameworks de mercado mapeadas. É possível obter diversos payloads com estratégias diversas de encoding/bypass via linha de comando (no qual já contribui :))
+E pensando nisso foi criado a ferramenta ([phpggc][phpggc] que é especializada nesse tipo de payload utilizando as mais diversas técnicas com gadget chains, que possui diversas bibliotecas/frameworks de mercado mapeadas. É possível obter diversos payloads com estratégias diversas de encoding/bypass via linha de comando (no qual já contribui :))
 A ferramenta hoje possui uma vasta quantidade de bibliotecas já mapeadas:
 
 <div style="text-align:center"><img src="/images/phpggc.png" /></div>
