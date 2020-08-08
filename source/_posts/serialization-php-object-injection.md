@@ -365,7 +365,7 @@ Atualizamos a página e....
 
 <div style="text-align:center"><img src="/images/index2.png" /></div>
 
-Booom! **Pwned**. Conseguimos escalar um ataque de [local-file-inclusion](LFD) injetando um objeto nos cookies que como é deserializado e "printado" na página, faz com que o método `__toString` seja executado, com a propriedade alterada e com um valor arbitrário -> `/etc/passwd`. Nesse caso utilizamos como vetor uma classe vetor que utiliza `__toString` mas poderiamos usar classes do sistema/vendor que utilizam `__destruct` ou  `__wakeup` facilmente. O grande trabalho é apenas encontrar classes que nos deem esse tipo de entrada.
+Booom! **Pwned**. Conseguimos escalar um ataque de [local-file-inclusion][LFD] injetando um objeto nos cookies que como é deserializado e "printado" na página, faz com que o método `__toString` seja executado, com a propriedade alterada e com um valor arbitrário -> `/etc/passwd`. Nesse caso utilizamos como vetor uma classe vetor que utiliza `__toString` mas poderiamos usar classes do sistema/vendor que utilizam `__destruct` ou  `__wakeup` facilmente. O grande trabalho é apenas encontrar classes que nos deem esse tipo de entrada.
 
 ### Gadget chains/POP - Property Oriented Programming
 
