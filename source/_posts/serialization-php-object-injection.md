@@ -15,17 +15,17 @@ TL;DR
 
 ### Agenda
 
-- [Serialization?](#)
-	- [Serializando](#)
-	- [Onde mora o perigo?](#)
-- [O que é PHP Object Injection](#)
-- [Exploração](#)
-	- [Preparação](#)
-	- [Condições necessárias](#)
-	- [Ataque direto](#)
-	- [Gadget chains/POP - Property Oriented Programming](#)
-- [Onde estamos errando?](#)
-- [Créditos e referência](#)
+- Serialization?
+	- Serializando
+	- Onde mora o perigo?
+- O que é PHP Object Injection
+- Exploração
+	- Preparação
+	- Condições necessárias
+	- Ataque direto
+	- Gadget chains/POP - Property Oriented Programming
+- Onde estamos errando?
+- Créditos e referência
 
 ## Serialization?
 
@@ -115,7 +115,7 @@ O:4:"User":2:{s:4:"name";s:7:"Rodrigo";s:7:"isAdmin";b:0;}object(User)#3 (2) {
 
 O input do usuário!
 
-Assim como em outras operações no PHP, quando utilizamos a função [unserialize][unserialize-function] alguns métodos mágicos são invocados ([__wakeup][wakeup-method], [__destruct][destruct-method]). Quando o fluxo dessa execução pode ter algum input de usuário, dependendo do contexto é possível abusar desses métodos de várias formas, que é onde entra a injeção de objetos. Iremos ver um pouco como isso é possível a seguir
+Assim como em outras operações no PHP, quando utilizamos a função [unserialize][unserialize-function] alguns métodos mágicos são invocados ([__wakeup][wakeup-method], [__destruct][destruct-method], [__toString][tostring-method]). Quando o fluxo dessa execução pode ter algum input de usuário, dependendo do contexto é possível abusar desses métodos de várias formas, que é onde entra a injeção de objetos. Iremos ver um pouco como isso é possível a seguir
 
 
 ## O que é PHP Object Injection?
