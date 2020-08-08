@@ -31,7 +31,7 @@ TL;DR
 
 A prática/funcionalidade de serialização de dados utilizada em linguagens de programação (Java, php, python, etc) permite que um objeto seja representado em um valor que possa ser armazenado/transferido via rede (Texto). Já o ato de deserializar é oposto disso, trazemos essa representação em texto para a forma do dado original (array, objeto, etc). É possível ver a utiliazação em vários pontos de aplicações: Armazenamento/manipulação de cookies de usuários, adicionar vida longa ao estado de sessões, estratégias de caching entre outras coisas
 
-<div style="text-align:center"><img src="architecture-768432_640.jpg" /></div>
+<div style="text-align:center"><img src="/images/architecture-768432_640.jpg" /></div>
 
 ### Serializando
 
@@ -235,7 +235,7 @@ class User extends Controller {
 
 Criei um arquivo php simples que irá trabalhar com esse dado posteriormente:
 
-<div style="text-align:center"><img src="index1.png" /></div>
+<div style="text-align:center"><img src="/images/index1.png" /></div>
 
 Basicamente um form onde os dados são enviados para o backend.
 
@@ -355,15 +355,15 @@ Voltando a nossa aplicação, vamos lembrar que ela:
 
 Em um cenário de não ataque temos o seguinte conteudo nos cookies:
 
-<div style="text-align:center"><img src="cookie1.png" /></div>
+<div style="text-align:center"><img src="/images/cookie1.png" /></div>
 
 Agora como atacantes enviaremos o payload com conteúdo arbitrário:
 
-<div style="text-align:center"><img src="cookie2.png" /></div>
+<div style="text-align:center"><img src="/images/cookie2.png" /></div>
 
 Atualizamos a página e....
 
-<div style="text-align:center"><img src="index2.png" /></div>
+<div style="text-align:center"><img src="/images/index2.png" /></div>
 
 Booom! **Pwned**. Conseguimos escalar um ataque de [local-file-inclusion](LFD) injetando um objeto nos cookies que como é deserializado e "printado" na página, faz com que o método `__toString` seja executado, com a propriedade alterada e com um valor arbitrário -> `/etc/passwd`. Nesse caso utilizamos como vetor uma classe vetor que utiliza `__toString` mas poderiamos usar classes do sistema/vendor que utilizam `__destruct` ou  `__wakeup` facilmente. O grande trabalho é apenas encontrar classes que nos deem esse tipo de entrada.
 
@@ -371,7 +371,7 @@ Booom! **Pwned**. Conseguimos escalar um ataque de [local-file-inclusion](LFD) i
 
 Uma outra técnica que é utilizada em muitos ataques que ainda ocorrem hoje em dia mesmo após a primeira citação/paper (_Utilizing Code Reuse/ROP in PHP Application Exploits_) dez anos atrás e que é muito poderosa e traz consigo algum trabalho de pesquisa. Basicamente é o cenário mostrado anteriormente com steroids!
 
-<div style="text-align:center"><img src="paper_pop.png" /></div>
+<div style="text-align:center"><img src="/images/paper_pop.png" /></div>
 
 que é muito parecida com o cenário anterior mas que tem uma particularidade.
 Através da técnica de Property Oriented Programming fazemos o reuso de classes para que através de propriedades de classes seja possível um ataque como o anterior, nós literalmente pulamos de classe em classe e formamos um caminho válido até o pote de ouro :).
@@ -452,16 +452,16 @@ class FileReader {
 
 A utilização da propridade `$this->extraThemes` com um valor arbitrário dentro da classe `UserThemes` nos permite "triggar" a vulnerabilidade
 
-<div style="text-align:center"><img src="mindblow.gif" /></div>
+<div style="text-align:center"><img src="/images/mindblow.gif" /></div>
 
 Então essa vulnerabilidade não se limita apenas ao contexto da aplicação, pelo contrário... é possível abusar de bibliotecas instaladas para que outros tipos de ataques sejam alcançados.
 E pensando nisso foi criado a ferramenta ([phpggc][phpggc] que é especializada nesse tipo de payload utilizando pop, que possui diversas bibliotecas/frameworks de mercado mapeadas. É possível obter diversos payloads com estratégias diversas de encoding/bypass via linha de comando (no qual já contribui :))
 A ferramenta hoje possui uma vasta quantidade de bibliotecas já mapeadas:
 
-<div style="text-align:center"><img src="phpggc.png" /></div>
+<div style="text-align:center"><img src="/images/phpggc.png" /></div>
 
 ## Onde estamos errando?
-<div style="text-align:center"><img src="message-unserialize.png" /></div>
+<div style="text-align:center"><img src="/images/message-unserialize.png" /></div>
 
 Essa mensagem quando entramos na documentação da função unserialize nos deixa bem claro que **NUNCA** devemos confiar no input do usuário. Caso seja possível, sempre utilize `json_encode` e funções relacionadas para trabalhar com estado de dados.
 
