@@ -1,7 +1,12 @@
 ---
 title: Serialization e Object injection vulnerability - Uma década de exploração
 date: 2020-08-01 01:02:17
-tags: security php object-injection owasp phpggc
+tags: 
+- security 
+- php 
+- object injection 
+- owasp phpggc
+- phpggc
 ---
 
 TL;DR
