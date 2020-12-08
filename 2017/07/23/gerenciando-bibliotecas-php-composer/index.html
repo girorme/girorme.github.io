@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="O composer é um gerenciador de dependências para o PHP. Podemos utiliza-lo também para gerenciamento de autoloading e outras coisas legais que podemos abordar em outros artigos. Por enquanto vamos ins">
+<meta name="keywords" content="Composer,PHP,Packagist">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gerenciando bibliotecas no PHP com composer">
+<meta property="og:url" content="https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/index.html">
+<meta property="og:site_name" content="Girorme&#39;s blog">
+<meta property="og:description" content="O composer é um gerenciador de dependências para o PHP. Podemos utiliza-lo também para gerenciamento de autoloading e outras coisas legais que podemos abordar em outros artigos. Por enquanto vamos ins">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.ibb.co/pjZtSmh/print-climate.png">
+<meta property="og:updated_time" content="2020-12-08T05:24:15.174Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gerenciando bibliotecas no PHP com composer">
+<meta name="twitter:description" content="O composer é um gerenciador de dependências para o PHP. Podemos utiliza-lo também para gerenciamento de autoloading e outras coisas legais que podemos abordar em outros artigos. Por enquanto vamos ins">
+<meta name="twitter:image" content="https://i.ibb.co/pjZtSmh/print-climate.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Gerenciando bibliotecas no PHP com composer</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/09/01/autoload-php-utilizando-composer/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/07/22/hello-world/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&text=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&is_video=false&description=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Gerenciando bibliotecas no PHP com composer&body=Check out this article: https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&name=Gerenciando bibliotecas no PHP com composer&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&t=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Instalacao-composer"><span class="toc-number">1.</span> <span class="toc-text">Instalação composer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux"><span class="toc-number">1.0.1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Windows"><span class="toc-number">1.0.2.</span> <span class="toc-text">Windows</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Onde-estao-as-bibliotecas-do-composer"><span class="toc-number">2.</span> <span class="toc-text">Onde estão as bibliotecas do composer?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Criando-nosso-hello-world-com-composer"><span class="toc-number">3.</span> <span class="toc-text">Criando nosso hello-world com composer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Instalando-bibliotecas"><span class="toc-number">4.</span> <span class="toc-text">Instalando bibliotecas</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Explicacao-do-codigo"><span class="toc-number">4.0.1.</span> <span class="toc-text">Explicação do código</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusao"><span class="toc-number">5.</span> <span class="toc-text">Conclusão</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Referencias"><span class="toc-number">5.0.1.</span> <span class="toc-text">Referências:</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Gerenciando bibliotecas no PHP com composer
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Girorme</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-07-23T04:02:17.000Z" itemprop="datePublished">2017-07-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Composer/">Composer</a>, <a class="tag-link" href="/tags/PHP/">PHP</a>, <a class="tag-link" href="/tags/Packagist/">Packagist</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>O composer é um gerenciador de dependências para o PHP. Podemos utiliza-lo também para gerenciamento de autoloading e outras coisas legais que podemos abordar em outros artigos. Por enquanto vamos instalar e utilizar bibliotecas no nosso projeto teste</p>
+<h2 id="Instalacao-composer"><a href="#Instalacao-composer" class="headerlink" title="Instalação composer"></a>Instalação composer</h2><h4 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h4><p><a href="https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos" target="_blank" rel="noopener">Composer linux</a></p>
+<h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><p><a href="https://getcomposer.org/doc/00-intro.md#installation-windows" target="_blank" rel="noopener">Composer windows</a></p>
+<p>Se tudo deu certo, você pode executar o comando:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer</span><br></pre></td></tr></table></figure>
+
+<p>E várias opções serão exibidas</p>
+<h2 id="Onde-estao-as-bibliotecas-do-composer"><a href="#Onde-estao-as-bibliotecas-do-composer" class="headerlink" title="Onde estão as bibliotecas do composer?"></a>Onde estão as bibliotecas do composer?</h2><p>Da forma mais simples, quando gerenciamos bibilotecas pelo composer, estamos buscando essas bibliotecas no <a href="https://packagist.org/" target="_blank" rel="noopener">Packagist</a>.</p>
+<h2 id="Criando-nosso-hello-world-com-composer"><a href="#Criando-nosso-hello-world-com-composer" class="headerlink" title="Criando nosso hello-world com composer"></a>Criando nosso hello-world com composer</h2><p>Criação da pasta</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir hello-world-composer</span><br></pre></td></tr></table></figure>
+
+<p> Agora iremos inicializar o composer dentro da nossa pasta</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer init</span><br></pre></td></tr></table></figure>
+
+<p>Ao executar o comando acima seremos questionados sobre, nome do autor, tipo do projeto, licença, etc.</p>
+<p>Preencha todas as informações conforme orientado e quando chegar no momento onde o composer pergunta se quer definir as bibliotecas do projeto, digite N para podermos fazer isso manualmente. Também será perguntado se queremos fazer o require-dev que são as depêndencias utilizadas para desenvolvimento local/testes, etc. Iremos entender em breve :)</p>
+<p>Ao final do processo de gerar o arquivo <code>composer.json</code> ele estará parecido com o abaixo:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"girorme/hello-wolrd-composer"</span>,</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Projeto teste composer"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"project"</span>,</span><br><span class="line">    <span class="attr">"license"</span>: <span class="string">"MIT"</span>,</span><br><span class="line">    <span class="attr">"authors"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Rodrigo"</span>,</span><br><span class="line">            <span class="attr">"email"</span>: <span class="string">"girorme@gmail.com"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"require"</span>: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>A partir desse momento já podemos fazer uma baguncinha com o composer.</p>
+<h2 id="Instalando-bibliotecas"><a href="#Instalando-bibliotecas" class="headerlink" title="Instalando bibliotecas"></a>Instalando bibliotecas</h2><p>Agora podemos instalar bibliotecas, frameworks, inicializar projetos baseados em templates, etc.<br>Por enquanto iremos utilizar um pacote para testar nosso projeto. Escolhi a bibiloteca <a href="https://github.com/thephpleague/climate" target="_blank" rel="noopener">Climate</a> que é muito legal e nos da opções muito legais para cores, formatação e outras coisas no terminal.</p>
+<p>Para usar a biblioteca podemos dar o require de dentro da nossa pasta do projeto conforme a documentação nos orienta:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require league/climate</span><br></pre></td></tr></table></figure>
+
+<p>Ao executar o comando acima teremos algo parecido com:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rodrigo@localhost[~/repositorios/php/hello-world-composer] $ composer require league/climate</span><br><span class="line">Using version ^3.5 <span class="keyword">for</span> league/climate</span><br><span class="line">./composer.json has been updated</span><br><span class="line">Loading composer repositories with package information</span><br><span class="line">Updating dependencies (including require-dev)</span><br><span class="line">Package operations: 3 installs, 0 updates, 0 removals</span><br><span class="line">  - Installing seld/cli-prompt (1.0.3): Downloading (100%)         </span><br><span class="line">  - Installing psr/<span class="built_in">log</span> (1.1.0): Loading from cache</span><br><span class="line">  - Installing league/climate (3.5.0): Downloading (100%)         </span><br><span class="line">Writing lock file</span><br><span class="line">Generating <span class="built_in">autoload</span> files</span><br></pre></td></tr></table></figure>
+
+<p>O composer instala todas as bibliotecas e dependências na pasta vendor/, se entrar nela verá os inúmeros arquivos lá existentes</p>
+<p>Agora podemos utilizar a biblioteca. Irei criar um arquivo chamado <code>main.php</code> e inserir o código a seguir:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">'/vendor/autoload.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">League</span>\<span class="title">CLImate</span>\<span class="title">CLImate</span>;</span><br><span class="line">$climate = <span class="keyword">new</span> CLImate;</span><br><span class="line">$climate-&gt;green(<span class="string">'Commposer!!!'</span>);</span><br><span class="line">$climate-&gt;blue(<span class="string">'Hello world'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Executando normalmente: <strong>$ php main.php</strong>, teremos a saída abaixo:</p>
+<p><img src="https://i.ibb.co/pjZtSmh/print-climate.png" alt="saida climate"></p>
+<h4 id="Explicacao-do-codigo"><a href="#Explicacao-do-codigo" class="headerlink" title="Explicação do código"></a>Explicação do código</h4><p>O código que escrevemos foi bem simples e o que faz a mágica acontecer é o nosso require inicial:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">'/vendor/autoload.php'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Quando incluimos o arquivo <code>autoload.php</code> estamos prontos para utilizar as bibliotecas instaladas. Repare que não precisamos incluir todas as dependências que a biblioteca precisa porque o composer se encarrega disso com um autoload otimizado fazendo toda a mágica por trás. No próximo artigo iremos utilizar o composer para auto carregar classes que estão fora do contexto do composer ou seja, criaremos várias classes que utilizarão as bibliotecas em outros diretórios, estruturando a aplicação.</p>
+<h2 id="Conclusao"><a href="#Conclusao" class="headerlink" title="Conclusão"></a>Conclusão</h2><p>Esse artigo foi uma introdução simples e rápida sobre composer. Se você nunca utilizou o mesmo esse guia é o suficiente para começar a utilizar.</p>
+<p>Obregado e forte abraço!</p>
+<h4 id="Referencias"><a href="#Referencias" class="headerlink" title="Referências:"></a>Referências:</h4><ul>
+<li><a href="https://getcomposer.org/" target="_blank" rel="noopener">Composer</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Instalacao-composer"><span class="toc-number">1.</span> <span class="toc-text">Instalação composer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux"><span class="toc-number">1.0.1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Windows"><span class="toc-number">1.0.2.</span> <span class="toc-text">Windows</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Onde-estao-as-bibliotecas-do-composer"><span class="toc-number">2.</span> <span class="toc-text">Onde estão as bibliotecas do composer?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Criando-nosso-hello-world-com-composer"><span class="toc-number">3.</span> <span class="toc-text">Criando nosso hello-world com composer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Instalando-bibliotecas"><span class="toc-number">4.</span> <span class="toc-text">Instalando bibliotecas</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Explicacao-do-codigo"><span class="toc-number">4.0.1.</span> <span class="toc-text">Explicação do código</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusao"><span class="toc-number">5.</span> <span class="toc-text">Conclusão</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Referencias"><span class="toc-number">5.0.1.</span> <span class="toc-text">Referências:</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&text=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&is_video=false&description=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Gerenciando bibliotecas no PHP com composer&body=Check out this article: https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&title=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&name=Gerenciando bibliotecas no PHP com composer&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/&t=Gerenciando bibliotecas no PHP com composer"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2020
+    Girorme
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
