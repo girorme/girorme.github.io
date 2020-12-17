@@ -25,6 +25,7 @@
   "scripts": {
     "gen": "node_modules/hexo/bin/hexo clean && node_modules/hexo/bin/hexo generate",
     "sv": "npm run gen && node_modules/hexo/bin/hexo serve",
-    "deploy": "npm run gen && node_modules/hexo/bin/hexo deploy"
+    "deploy": "npm run gen && node_modules/hexo/bin/hexo deploy",
+    "new-post": "node_modules/hexo/bin/hexo new post"
   }
 }
