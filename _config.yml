@@ -64,7 +64,8 @@ tag_map:
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 
-theme: apollo
+# theme: apollo
+theme: cactus
 
 # Show all posts in archive page using hexo-generator-archive
 archive_generator:
