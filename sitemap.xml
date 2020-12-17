@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://girorme.github.io/2020/12/17/Elixir-e-Web-Scraping/</loc>
-    
-    <lastmod>2020-12-17T16:34:31.154Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://girorme.github.io/2020/08/01/serialization-php-object-injection/</loc>
     
     <lastmod>2020-12-17T15:01:32.192Z</lastmod>
@@ -23,14 +16,14 @@
   </url>
   
   <url>
-    <loc>https://girorme.github.io/2017/07/22/hello-world/</loc>
+    <loc>https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/</loc>
     
     <lastmod>2020-12-17T15:01:32.188Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/</loc>
+    <loc>https://girorme.github.io/2017/07/22/hello-world/</loc>
     
     <lastmod>2020-12-17T15:01:32.188Z</lastmod>
     

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://girorme.github.io/"/>
-  <updated>2020-12-17T16:34:31.154Z</updated>
+  <updated>2020-12-17T15:01:32.192Z</updated>
   <id>https://girorme.github.io/</id>
   
   <author>
@@ -15,20 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Elixir e Web Scraping</title>
-    <link href="https://girorme.github.io/2020/12/17/Elixir-e-Web-Scraping/"/>
-    <id>https://girorme.github.io/2020/12/17/Elixir-e-Web-Scraping/</id>
-    <published>2020-12-17T16:34:31.000Z</published>
-    <updated>2020-12-17T16:34:31.154Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>Serialization e Object injection vulnerability - Uma década de exploração</title>
