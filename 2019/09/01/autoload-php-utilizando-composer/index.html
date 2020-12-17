@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="TL;DR Iremos criar um projeto utilizando composer e o padrão PSR4 para autoloading  Era tudo matoVocê certamente já viu ou já utilizou as funções require/require_once ou até mesmo include enquanto pro">
+<meta name="keywords" content="Composer,PHP autoload,PSR-4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autoload no PHP utilizando o composer (PSR4)">
+<meta property="og:url" content="https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/index.html">
+<meta property="og:site_name" content="Girorme&#39;s blog">
+<meta property="og:description" content="TL;DR Iremos criar um projeto utilizando composer e o padrão PSR4 para autoloading  Era tudo matoVocê certamente já viu ou já utilizou as funções require/require_once ou até mesmo include enquanto pro">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-12-17T15:01:32.188Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Autoload no PHP utilizando o composer (PSR4)">
+<meta name="twitter:description" content="TL;DR Iremos criar um projeto utilizando composer e o padrão PSR4 para autoloading  Era tudo matoVocê certamente já viu ou já utilizou as funções require/require_once ou até mesmo include enquanto pro">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Autoload no PHP utilizando o composer (PSR4)</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/09/04/psr-12-pt-br/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/07/23/gerenciando-bibliotecas-php-composer/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&text=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&is_video=false&description=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Autoload no PHP utilizando o composer (PSR4)&body=Check out this article: https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&name=Autoload no PHP utilizando o composer (PSR4)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&t=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR"><span class="toc-number">1.</span> <span class="toc-text">TL;DR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Era-tudo-mato"><span class="toc-number">1.1.</span> <span class="toc-text">Era tudo mato</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Criando-o-projeto-com-composer"><span class="toc-number">1.2.</span> <span class="toc-text">Criando o projeto com composer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Referencias"><span class="toc-number">2.</span> <span class="toc-text">Referências</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Autoload no PHP utilizando o composer (PSR4)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Girorme</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-09-01T17:23:03.000Z" itemprop="datePublished">2019-09-01</time>
+        
+        (Updated: <time datetime="2020-12-17T15:01:32.188Z" itemprop="dateModified">2020-12-17</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Composer/">Composer</a>, <a class="tag-link" href="/tags/PHP-autoload/">PHP autoload</a>, <a class="tag-link" href="/tags/PSR-4/">PSR-4</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><blockquote>
+<p>Iremos criar um projeto utilizando composer e o padrão PSR4 para autoloading</p>
+</blockquote>
+<h3 id="Era-tudo-mato"><a href="#Era-tudo-mato" class="headerlink" title="Era tudo mato"></a>Era tudo mato</h3><p>Você certamente já viu ou já utilizou as funções <code>require</code>/<code>require_once</code> ou até mesmo <code>include</code> enquanto programava com PHP.<br>Funções essas que carregam todo o conteúdo do arquivo solicitado em memória, fazendo com que em determinado momento fique inviável a utilização destas de forma descontrolada em projetos de média/larga escala.</p>
+<p>Felizmente com o passar do tempo <em><a href="https://www.php-fig.org/" target="_blank" rel="noopener">especificações foram surgindo</a></em> e a forma que programamos em php (ou deveriamos programar… rs) mudou muito.<br>Padrões foram adotados e ganhamos maturidade/<a href="https://pt.wikipedia.org/wiki/Interoperabilidade" target="_blank" rel="noopener">interoperabilidade</a> no desenvolvimento.</p>
+<p>Dentre essas especificações temos algumas que dizem respeito ao autoloading de classes (PSR-0 e PSR-4). A PSR-0 hoje se encontra depreciada e como substituição temos a ¹<a href="https://www.php-fig.org/psr/psr-4/" target="_blank" rel="noopener">PSR-4</a> que nos da um padrão de como devemos estruturar nosso projeto para ter um autoload “mágico”/eficiente/perfomático e por demanda (Os arquivos só são carregados em memória quando precisamos deles!).<br>Para isso temos algumas regras bem definidas que iremos colocar em prática criando um projeto via composer (<a href="http://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/">Já escrevi brevemente sobre o composer se não souber do que se trata…</a>).</p>
+<h3 id="Criando-o-projeto-com-composer"><a href="#Criando-o-projeto-com-composer" class="headerlink" title="Criando o projeto com composer"></a>Criando o projeto com composer</h3><p>Uma vez que você já possui o composer pronto para uso podemos criar o projeto:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir <span class="built_in">autoload</span>-com-composer &amp;&amp; <span class="built_in">cd</span> <span class="built_in">autoload</span>-com-composer</span><br><span class="line">$ composer init</span><br></pre></td></tr></table></figure>
+
+<p>O comando <code>composer init</code> nos pede algumas informações sobre o projeto, como nome do pacote, versão, licença etc.<br>Deixei da seguinte forma:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Package name (&lt;vendor&gt;/&lt;name&gt;) [rodrigo/autoload-com-composer]: girorme/autoload-com-composer</span><br><span class="line">Description []:</span><br><span class="line">Author [girorme &lt;rodrigo.girorme@gmail.com&gt;, n to skip]:</span><br><span class="line">Minimum Stability []:</span><br><span class="line">Package Type (e.g. library, project, metapackage, composer-plugin) []: project</span><br><span class="line">License []: MIT</span><br><span class="line">Would you like to define your dependencies (require) interactively [yes]? no</span><br><span class="line">Would you like to define your dev dependencies (require-dev) interactively [yes]? no</span><br></pre></td></tr></table></figure>
+
+<p>Feito isso o arquivo <code>composer.json</code> é criado e podemos iniciar nosso experimento.<br>Iremos definir agora a estrutura de pastas/arquivos que a especificação espera.<br>A estrutura fica o seguinte:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- src/</span><br><span class="line">  - App/</span><br><span class="line">- composer.json</span><br><span class="line">- index.php</span><br></pre></td></tr></table></figure>
+
+<p>Dentro de <code>src/</code> criamos a pasta <code>App</code> que atuará como nosso namespace. Essa pasta será nosso “vendor namespace” ou seja, caso criarmos um arquivo <code>Battle.php</code> dentro de <code>src\App</code> chamaremos ele utilizando: <code>use App\Battle</code>, agora se queremos um subnamespace <code>Char</code> precisamos criar uma pasta dentro de app: <code>src/App/Char</code>. E para chamar uma classe dentro de Char que se chama <code>Ryu</code> com nome de arquivo <code>Ryu.php</code> por exemplo? Simples: <code>use App\Char\Ryu</code>.</p>
+<p>Antes disso para que o composer faça o autoload das classes precisamos alterar o arquivo <code>composer.json</code> mapeando esse namespace para que ele faça o trabalho pesado. O arquivo ficará da seguinte forma:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"girorme/autoload-com-composer"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"project"</span>,</span><br><span class="line">    <span class="attr">"license"</span>: <span class="string">"MIT"</span>,</span><br><span class="line">    <span class="attr">"authors"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"girorme"</span>,</span><br><span class="line">            <span class="attr">"email"</span>: <span class="string">"rodrigo.girorme@gmail.com"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"require"</span>: &#123;&#125;,</span><br><span class="line">    <span class="attr">"autoload"</span>: &#123;</span><br><span class="line">        <span class="attr">"psr-4"</span>: &#123;</span><br><span class="line">            <span class="attr">"App\\"</span>: <span class="string">"src/App"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Antes de entrar no código é necessário saber que a especificação exige uma estrutura bem definida como já mencionei e vamos representar isso nos próximos exemplos.</p>
+<p>Após alterar o arquivo <code>composer.json</code> é necessário rodar o comando <code>dump-autoload</code> para que nossa estrutura seja identificada:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer dump-audoload</span><br></pre></td></tr></table></figure>
+
+<p>Agora podemos criar nossas classes e ver o autoloading funcionando na prática. Vamos criar algumas classes para representar personanges do street fighter e outras classes para representar alguns atributos. Vamos antes ver o autoload funcionando.<br>Criaremos inicialmente um arquivo chamado <code>Battle.php</code> dentro de <code>src/App</code>:</p>
+<p>A classe <code>Battle.php</code>:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Battle</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $chars;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($fightTitle)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;fightTitle = $fightTitle;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">addChar</span><span class="params">($char)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;chars[] = $char;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">startBatle</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> sprintf(<span class="string">'%s Fight!'</span> . PHP_EOL, <span class="keyword">$this</span>-&gt;fightTitle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Lembre-se que definimos nosso “vendor namespace” como <code>App</code> então precisamos referenciá-lo no inicio do arquivo.</p>
+<p>Agora vamos criar nosso ponto de inicio dentro do arquivo <code>index.php</code> fazendo com que o composer traga os arquivos/classes solicitados:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># index.php</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">'/vendor/autoload.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Battle</span>;</span><br><span class="line"></span><br><span class="line">$battle = <span class="keyword">new</span> Battle(<span class="string">'Street Fighter!'</span>);</span><br><span class="line">$battle-&gt;start();</span><br></pre></td></tr></table></figure>
+
+<p>Após incluirmos apenas o arquivo <code>/vendor/autoload.php</code> que é gerado pelo composer teremos todas as classes solicitadas por demanda.</p>
+<p>A saída do código acima fica da seguinte forma:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ php index.php</span><br><span class="line">Street Fighter! Fight!</span><br></pre></td></tr></table></figure>
+
+<p>Pronto! Você já tem o autoload funcionando. Podemos agora colocar outros pontos em prática, exemplificando por exemplo como podemos ter sub-diretórios.</p>
+<p>Vamos adicionar alguns personagens e atributos à batalha. Deixarei aqui a versão final do arquivo <code>index.php</code> mas caso queira conferir o código fonte do exemplo -&gt; <a href="https://github.com/girorme/composer-autoload-example" target="_blank" rel="noopener">composer-autoload-example</a>.</p>
+<p>A nossa estrutura final ficará da seguinte forma:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- src</span><br><span class="line">  - App</span><br><span class="line">    - Attributes</span><br><span class="line">      - Hadouken.php</span><br><span class="line">      - Shoryuken.php</span><br><span class="line">    - Char</span><br><span class="line">      - Ken.php</span><br><span class="line">      - Ryu.php</span><br><span class="line">  - Battle.php</span><br><span class="line">- composer.json</span><br><span class="line">- index.php</span><br></pre></td></tr></table></figure>
+
+<p>Nosso objetivo basicamente é:</p>
+<blockquote>
+<p>Criar dois lutadores<br>  |&gt; Adicionar atributos à eles<br>  |&gt; Criar uma batalha<br>  |&gt; Adicionar os lutadores à batalha<br>  |&gt; Mostrar os lutadores e atributos</p>
+</blockquote>
+<p>Versão final do arquivo index.php:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">'/vendor/autoload.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Battle</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Char</span>\&#123;<span class="title">Ryu</span>, <span class="title">Ken</span>&#125;;</span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Attributes</span>\&#123;<span class="title">Hadouken</span>, <span class="title">Shoryuken</span>&#125;;</span><br><span class="line"></span><br><span class="line">$hadouken = <span class="keyword">new</span> Hadouken();</span><br><span class="line">$ryu = <span class="keyword">new</span> Ryu($hadouken);</span><br><span class="line"></span><br><span class="line">$shoryuken = <span class="keyword">new</span> Shoryuken();</span><br><span class="line">$ken = <span class="keyword">new</span> Ken($shoryuken);</span><br><span class="line"></span><br><span class="line">$battle = <span class="keyword">new</span> Battle(<span class="string">'Street Fighter!'</span>);</span><br><span class="line">$battle-&gt;addChar($ryu);</span><br><span class="line">$battle-&gt;addChar($ken);</span><br><span class="line">$battle-&gt;start();</span><br></pre></td></tr></table></figure>
+
+<p>Saída:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ php index.php</span><br><span class="line">Street Fighter! Fight!</span><br><span class="line">Char: Ryu, Power: Hadoooouken</span><br><span class="line">Char: Ken, Power: Shooooooryuken</span><br></pre></td></tr></table></figure>
+
+<p>Veja como é simples a utilização das classes:</p>
+<figure class="highlight php7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Battle</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Char</span>\&#123;<span class="title">Ryu</span>, <span class="title">Ken</span>&#125;;</span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Attributes</span>\&#123;<span class="title">Hadouken</span>, <span class="title">Shoryuken</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>³ * <strong>OBS</strong>: a notação <code>App\Char\{Ryu, Ken};</code> é uma característa do PHP7 que facilita a utilização de múltiplas classes, eu poderia representar o mesmo utilizando:</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Char</span>\<span class="title">Ryu</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Char</span>\<span class="title">Ken</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Agora confira no código fonte que temos tanto uma classe no primeiro nível que é o caso de <code>App\Battle</code> como subnamespaces que é o caso dos chars e dos atributos <code>App\Char\Ryu</code> e <code>App\Attributes\Hadouken</code>. Abra esses arquivos veja como foi feito, mude a estrutura e entenda como funciona a psr-4! :)</p>
+<p>Turma, é isso!</p>
+<h2 id="Referencias"><a href="#Referencias" class="headerlink" title="Referências"></a>Referências</h2><ul>
+<li>[1] <a href="https://www.php-fig.org/psr/psr-4/" target="_blank" rel="noopener">PSR-4</a></li>
+<li>[2] <a href="https://getcomposer.org/" target="_blank" rel="noopener">Composer</a></li>
+<li>[3] <a href="https://www.php.net/manual/pt_BR/language.namespaces.importing.php#language.namespaces.importing.group" target="_blank" rel="noopener">PHP Group use declarations</a></li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR"><span class="toc-number">1.</span> <span class="toc-text">TL;DR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Era-tudo-mato"><span class="toc-number">1.1.</span> <span class="toc-text">Era tudo mato</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Criando-o-projeto-com-composer"><span class="toc-number">1.2.</span> <span class="toc-text">Criando o projeto com composer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Referencias"><span class="toc-number">2.</span> <span class="toc-text">Referências</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&text=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&is_video=false&description=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Autoload no PHP utilizando o composer (PSR4)&body=Check out this article: https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&name=Autoload no PHP utilizando o composer (PSR4)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&t=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2020
+    Girorme
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146888718-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-146888718-1');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'girorme';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
