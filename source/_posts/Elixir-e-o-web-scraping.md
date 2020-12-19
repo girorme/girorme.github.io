@@ -258,11 +258,12 @@ A função `scrap` agora evolui:
 if opts[:extract_links] do
   links = request(url)
   |> extract_links
-  |> Enum.map(&IO.puts/1)
+
+  IO.puts("#{Enum.join(links, "\n")}")
 end
 ```
 
-Estamos expressando que iremos fazer a requisição via a função `request/1` passaremos o resultado para `extract_links/1` que retorna uma lista e em seguida para cada elemento dessa lista executamos a função `IO.puts/1`
+Estamos expressando que iremos fazer a requisição via a função `request/1` passaremos o resultado para `extract_links/1` que retorna uma lista, logo após isso imprimos nossa lista quebrando linha
 
 Implementação da função `extract_links/1`:
 
@@ -326,7 +327,8 @@ defmodule Elscrap.Cli do
     if opts[:extract_links] do
       links = request(url)
       |> extract_links
-      |> Enum.map(&IO.puts/1)
+
+      IO.puts("#{Enum.join(links, "\n")}")
     end
   end
 
@@ -410,7 +412,8 @@ Dentro da nossa função `scrap/1` podemos adicionar um `if` checando se o parâ
 if opts[:extract_links] do
   links = request(url)
   |> extract_links
-  |> Enum.map(&IO.puts/1)
+
+  IO.puts("#{Enum.join(links, "\n")}")
 
   if opts[:save], do: save_links(url, links)
 end
@@ -449,6 +452,8 @@ Saving links
 ## Conclusão
 
 Assim como outras linguagens é muito simples criar uma ferramenta de web scraping em elixir, temos a vantagem também de implementar funcionalidades assíncronas e perfomáticas de forma eficaz e simples além da expressividade da linguagem. É isso...
+
+O repo da ferramenta está disponível no github: [Elscrap](https://github.com/girorme/elscrap)
 
 ## Créditos e referência
 
