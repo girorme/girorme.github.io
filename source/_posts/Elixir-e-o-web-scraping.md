@@ -263,7 +263,7 @@ if opts[:extract_links] do
 end
 ```
 
-Estamos expressando que iremos fazer a requisição via a função `request/1` passaremos o resultado para `extract_links/1` que retorna uma lista, logo após isso imprimos nossa lista quebrando linha
+Estamos expressando que iremos fazer a requisição via a função `request/1` passaremos o resultado para `extract_links/1` que retorna uma lista, logo após isso printamos nossa lista quebrando linha
 
 Implementação da função `extract_links/1`:
 
