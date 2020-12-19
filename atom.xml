@@ -133,9 +133,9 @@
     </summary>
     
     
-      <category term="PHP autoload" scheme="https://girorme.github.io/tags/PHP-autoload/"/>
-    
       <category term="Composer" scheme="https://girorme.github.io/tags/Composer/"/>
+    
+      <category term="PHP autoload" scheme="https://girorme.github.io/tags/PHP-autoload/"/>
     
       <category term="PSR-4" scheme="https://girorme.github.io/tags/PSR-4/"/>
     
