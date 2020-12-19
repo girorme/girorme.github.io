@@ -2,14 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://girorme.github.io/2020/08/01/serialization-php-object-injection/</loc>
+    <loc>https://girorme.github.io/2020/12/17/Elixir-e-o-web-scraping/</loc>
     
-    <lastmod>2020-12-17T15:01:32.192Z</lastmod>
+    <lastmod>2020-12-19T21:34:19.430Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://girorme.github.io/2017/07/22/hello-world/</loc>
+    <loc>https://girorme.github.io/2020/08/01/serialization-php-object-injection/</loc>
+    
+    <lastmod>2020-12-19T21:34:11.918Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/</loc>
     
     <lastmod>2020-12-17T15:01:32.188Z</lastmod>
     
@@ -23,7 +30,7 @@
   </url>
   
   <url>
-    <loc>https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/</loc>
+    <loc>https://girorme.github.io/2017/07/22/hello-world/</loc>
     
     <lastmod>2020-12-17T15:01:32.188Z</lastmod>
     

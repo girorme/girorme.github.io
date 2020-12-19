@@ -436,6 +436,7 @@ body td {
 }
 @font-face {
   font-style: normal;
+  font-size: 60%;
   font-family: "Meslo LG";
   src: local("Meslo LG S"), url("../lib/meslo-LG/MesloLGS-Regular.ttf") format("truetype");
 }
