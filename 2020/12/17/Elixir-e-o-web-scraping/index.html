@@ -15,7 +15,7 @@
 <meta property="og:description" content="Esse artigo é o primeiro de alguns onde quero mostrar algumas técnicas de web scraping em diversas linguagens. Já virou mania criar ferramentas desse tipo para experimentar uma nova tecnologia/lingua">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://girorme.github.io/images/spider.jpg">
-<meta property="og:updated_time" content="2020-12-19T22:57:20.388Z">
+<meta property="og:updated_time" content="2020-12-19T23:01:19.991Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elixir e o web scraping">
 <meta name="twitter:description" content="Esse artigo é o primeiro de alguns onde quero mostrar algumas técnicas de web scraping em diversas linguagens. Já virou mania criar ferramentas desse tipo para experimentar uma nova tecnologia/lingua">
@@ -130,7 +130,7 @@
       
         <time datetime="2020-12-17T16:43:55.000Z" itemprop="datePublished">2020-12-17</time>
         
-        (Updated: <time datetime="2020-12-19T22:57:20.388Z" itemprop="dateModified">2020-12-19</time>)
+        (Updated: <time datetime="2020-12-19T23:01:19.991Z" itemprop="dateModified">2020-12-19</time>)
         
       
     </div>
@@ -247,7 +247,7 @@
 <h3 id="Extracao-de-links"><a href="#Extracao-de-links" class="headerlink" title="Extração de links"></a>Extração de links</h3><p>A função <code>scrap</code> agora evolui:</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if opts[<span class="symbol">:extract_links</span>] <span class="keyword">do</span></span><br><span class="line">  links = request(url)</span><br><span class="line">  |&gt; extract_links</span><br><span class="line"></span><br><span class="line">  IO.puts(<span class="string">"<span class="subst">#&#123;Enum.join(links, <span class="string">"\n"</span>)&#125;</span>"</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 
-<p>Estamos expressando que iremos fazer a requisição via a função <code>request/1</code> passaremos o resultado para <code>extract_links/1</code> que retorna uma lista, logo após isso imprimos nossa lista quebrando linha</p>
+<p>Estamos expressando que iremos fazer a requisição via a função <code>request/1</code> passaremos o resultado para <code>extract_links/1</code> que retorna uma lista, logo após isso printamos nossa lista quebrando linha</p>
 <p>Implementação da função <code>extract_links/1</code>:</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">defp</span> <span class="title">extract_links</span></span>(response_body) <span class="keyword">do</span></span><br><span class="line">  &#123;<span class="symbol">:ok</span>, document&#125; = Floki.parse_document(response_body)</span><br><span class="line"></span><br><span class="line">  links = document</span><br><span class="line">  |&gt; Floki.find(<span class="string">"a"</span>)</span><br><span class="line">  |&gt; Floki.attribute(<span class="string">"href"</span>)</span><br><span class="line">  |&gt; Enum.filter(<span class="keyword">fn</span> href -&gt; String.trim(href) != <span class="string">""</span> <span class="keyword">end</span>)</span><br><span class="line">  |&gt; Enum.filter(<span class="keyword">fn</span> href -&gt; String.starts_with?(href, <span class="string">"http"</span>) <span class="keyword">end</span>)</span><br><span class="line">  |&gt; Enum.uniq</span><br><span class="line"></span><br><span class="line">  links</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 
