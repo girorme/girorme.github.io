@@ -37,7 +37,8 @@ Nossa "stack" do projeto:
 	- Tesla -> Client http
 	- Floki -> Parser html
 
-_caso não tenha elixir instalado: https://elixir-lang.org/install.html_
+
+Caso não tenha elixir instalado: [Install elixir](https://elixir-lang.org/install.html)
 
 ### Criação via mix
 
