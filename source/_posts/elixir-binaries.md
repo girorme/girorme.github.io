@@ -13,7 +13,7 @@ Similar ao que temos em outras linguagens como GOlang, com o bakeware conseguimo
 
 Dentro do repo do bakeware, existem alguns [exemplos](https://github.com/bake-bake-bake/bakeware/tree/main/examples) de como criar binários considerando alguns cenários (Cli apps, phoenix, etc)
 
-Para demonstrar a ferramenta irei criar o binário de uma aplicação que desenvolvi para bannergrab chamada [binoculo](https://github.com/girorme/binoculo). Utilizamos a ferramenta via cli então a distribuição de um binário para esse tipo de aplicação se torna muito interessante.
+Para demonstrar a ferramenta irei criar o binário de uma aplicação que desenvolvi para bannergrab chamada [binoculo](https://github.com/girorme/binoculo). Utilizamos a ferramenta via cli então a distribuição/releases de um binário para esse tipo de aplicação se torna muito interessante.
 
 
 ## Preparando o terreno
@@ -52,6 +52,8 @@ Para demonstrar a ferramenta irei criar o binário de uma aplicação que desenv
   - overwrite: para substituir um binário pré-existente
   - steps: Steps de compilação utilizando a função `assemble/1` do módulo Bakeware
   - strip_beams: remove info de debug relacionado à beam
+
+- e em deps basicamente incluímos a biblioteca especificando o diretório. A opção `runtime: false` remove depedências de compilação então é importante ser false conforme recomenda a documentação
 
 E por último dentro do módulo de fato que no caso é `Binoculo.CLI` devemos alterar a funçaõ `main` para receber os argumentos da linha de comando:
 
