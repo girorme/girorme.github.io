@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Girorme&#39;s blog">
 <meta property="og:description" content="Já dizia o rei:  Bakeware extends Mix releases with the ability to turn Elixir projects into single binaries that can be copied and directly run. No need to install Erlang or untar files. The binaries">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2021-02-06T20:25:56.823Z">
+<meta property="og:updated_time" content="2021-02-06T21:20:38.210Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Criando binários de aplicações Elixir utilizando bakeware">
 <meta name="twitter:description" content="Já dizia o rei:  Bakeware extends Mix releases with the ability to turn Elixir projects into single binaries that can be copied and directly run. No need to install Erlang or untar files. The binaries">
@@ -150,7 +150,7 @@
 </blockquote>
 <p>Similar ao que temos em outras linguagens como GOlang, com o bakeware conseguimos compilar uma aplicação elixir em um único binário. Criado nos ombros da feature excelente de <a href="https://elixir-lang.org/getting-started/mix-otp/config-and-releases.html#releases" target="_blank" rel="noopener">releases</a> do elixir nas últimas versoes, o bakeware oferece até estratégias de compressão utilizando <a href="https://en.wikipedia.org/wiki/Zstandard" target="_blank" rel="noopener">Zstandard</a>.</p>
 <p>Dentro do repo do bakeware, existem alguns <a href="https://github.com/bake-bake-bake/bakeware/tree/main/examples" target="_blank" rel="noopener">exemplos</a> de como criar binários considerando alguns cenários (Cli apps, phoenix, etc)</p>
-<p>Para demonstrar a ferramenta irei criar o binário de uma aplicação que desenvolvi para bannergrab chamada <a href="https://github.com/girorme/binoculo" target="_blank" rel="noopener">binoculo</a>. Utilizamos a ferramenta via cli então a distribuição de um binário para esse tipo de aplicação se torna muito interessante.</p>
+<p>Para demonstrar a ferramenta irei criar o binário de uma aplicação que desenvolvi para bannergrab chamada <a href="https://github.com/girorme/binoculo" target="_blank" rel="noopener">binoculo</a>. Utilizamos a ferramenta via cli então a distribuição/releases de um binário para esse tipo de aplicação se torna muito interessante.</p>
 <h2 id="Preparando-o-terreno"><a href="#Preparando-o-terreno" class="headerlink" title="Preparando o terreno"></a>Preparando o terreno</h2><ul>
 <li>É necessáro clonar o bakeware fora do diretório que queremos compilar</li>
 <li>Em seguida é necessário algumas modificações no arquivo <code>mix.exs</code> da aplicação:</li>
@@ -166,6 +166,8 @@
 <li>steps: Steps de compilação utilizando a função <code>assemble/1</code> do módulo Bakeware</li>
 <li>strip_beams: remove info de debug relacionado à beam</li>
 </ul>
+</li>
+<li><p>e em deps basicamente incluímos a biblioteca especificando o diretório. A opção <code>runtime: false</code> remove depedências de compilação então é importante ser false conforme recomenda a documentação</p>
 </li>
 </ul>
 <p>E por último dentro do módulo de fato que no caso é <code>Binoculo.CLI</code> devemos alterar a funçaõ <code>main</code> para receber os argumentos da linha de comando:</p>
