@@ -9,6 +9,8 @@ Já dizia o rei:
 
 > Bakeware extends Mix releases with the ability to turn Elixir projects into single binaries that can be copied and directly run. No need to install Erlang or untar files. The binaries look and feel like the build-products from other languages.
 
+<div style="text-align:center"><img src="/images/cat-box.jpg" /></div>
+
 Similar ao que temos em outras linguagens como GOlang, com o bakeware conseguimos compilar uma aplicação elixir em um único binário. Criado nos ombros da feature excelente de [releases](https://elixir-lang.org/getting-started/mix-otp/config-and-releases.html#releases) do elixir nas últimas versoes, o bakeware oferece até estratégias de compressão utilizando [Zstandard](https://en.wikipedia.org/wiki/Zstandard).
 
 Dentro do repo do bakeware, existem alguns [exemplos](https://github.com/bake-bake-bake/bakeware/tree/main/examples) de como criar binários considerando alguns cenários (Cli apps, phoenix, etc)
