@@ -36,9 +36,9 @@
     </summary>
     
     
-      <category term="PHP" scheme="https://girorme.github.io/tags/PHP/"/>
-    
       <category term="GO" scheme="https://girorme.github.io/tags/GO/"/>
+    
+      <category term="PHP" scheme="https://girorme.github.io/tags/PHP/"/>
     
   </entry>
   
@@ -211,9 +211,9 @@
     </summary>
     
     
-      <category term="Composer" scheme="https://girorme.github.io/tags/Composer/"/>
-    
       <category term="PHP" scheme="https://girorme.github.io/tags/PHP/"/>
+    
+      <category term="Composer" scheme="https://girorme.github.io/tags/Composer/"/>
     
       <category term="Packagist" scheme="https://girorme.github.io/tags/Packagist/"/>
     
