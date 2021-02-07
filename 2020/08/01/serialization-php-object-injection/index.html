@@ -32,17 +32,17 @@
     
       
         
-          <link rel="shortcut icon" href="/images/192x192.png">
+          <link rel="shortcut icon" href="/images/favicon.ico">
         
       
       
         
-          <link rel="icon" type="image/png" href="/images/192x192.png" sizes="192x192">
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
         
       
       
         
-          <link rel="apple-touch-icon" sizes="180x180" href="/images/192x192.png">
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
         
       
     
@@ -74,6 +74,8 @@
           <li><a href="/about/">About</a></li>
          
           <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
         
       </ul>
     </span>
@@ -138,6 +140,8 @@
       
         <time datetime="2020-08-01T04:02:17.000Z" itemprop="datePublished">2020-08-01</time>
         
+        (Updated: <time datetime="2021-02-06T20:25:56.828Z" itemprop="dateModified">2021-02-06</time>)
+        
       
     </div>
 
@@ -181,7 +185,7 @@
 <div style="text-align:center"><img src="/images/architecture-768432_640.jpg"></div>
 
 <h3 id="Serializando"><a href="#Serializando" class="headerlink" title="Serializando"></a>Serializando</h3><p>Para armazenar ou transferir um objeto pela rede utilizamos a função <a href="https://www.php.net/manual/en/function.serialize.php" target="_blank" rel="noopener">serialize</a></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $name;</span><br><span class="line">	<span class="keyword">public</span> $isAdmin;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$user = <span class="keyword">new</span> User();</span><br><span class="line">$user-&gt;name = <span class="string">'Rodrigo'</span>;</span><br><span class="line">$user-&gt;isAdmin = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> serialize($user);</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $name;</span><br><span class="line">true<span class="keyword">public</span> $isAdmin;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$user = <span class="keyword">new</span> User();</span><br><span class="line">$user-&gt;name = <span class="string">'Rodrigo'</span>;</span><br><span class="line">$user-&gt;isAdmin = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> serialize($user);</span><br></pre></td></tr></table></figure>
 
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;User&quot;:2:&#123;s:4:&quot;name&quot;;s:7:&quot;Rodrigo&quot;;s:7:&quot;isAdmin&quot;;b:0;&#125;</span><br></pre></td></tr></table></figure>
@@ -220,10 +224,10 @@
 </li>
 </ul>
 <p>Então vamos começar por um cenário onde uma possível exploração pode ser feita…<br>Imagine uma seguinte classe que recebe o input do usuário com as informações de tema preferido, ordem de colunas de uma tabela específica, etc. A classe serializa esses dados e armazena:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">savePreferences</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// op, op, op</span></span><br><span class="line">        $userInput = $request-&gt;data();</span><br><span class="line">        $preference = serialize($userInput);</span><br><span class="line">        <span class="comment">// ... Logic to save to db, cookies, etc</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">savePreferences</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// op, op, op</span></span><br><span class="line">        $userInput = $request-&gt;data();</span><br><span class="line">        $preference = serialize($userInput);</span><br><span class="line">        <span class="comment">// ... Logic to save to db, cookies, etc</span></span><br><span class="line">true&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Agora essas informações dos cookies serão reutilizadas em algum momento (Aqui estamos citando os cookies como ponto de partida mas lembre-se que um dado serializado pode ter um ponto de entrada em qualquer lugar da aplicação e esse dado serializado pode conter input de usuário).</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeOtherPage</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">isset</span>($_COOKIE[<span class="string">'extra_theme'</span>])) &#123;</span><br><span class="line">			$preferences = unserialize($_COOKIE[<span class="string">'extra_theme'</span>]);</span><br><span class="line">			<span class="comment">// ... op, op, op</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// OR</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">settings</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$user = User::getUserFromDb(<span class="string">'foo'</span>);</span><br><span class="line">		$preferences = unserialize($user-&gt;getUserPreferences());</span><br><span class="line">		<span class="comment">// op, op, op</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeOtherPage</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">true<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">truetrue<span class="keyword">if</span> (<span class="keyword">isset</span>($_COOKIE[<span class="string">'extra_theme'</span>])) &#123;</span><br><span class="line">truetruetrue$preferences = unserialize($_COOKIE[<span class="string">'extra_theme'</span>]);</span><br><span class="line">truetruetrue<span class="comment">// ... op, op, op</span></span><br><span class="line">truetrue&#125;</span><br><span class="line">true&#125;</span><br><span class="line"></span><br><span class="line">true<span class="comment">// OR</span></span><br><span class="line"></span><br><span class="line">true<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">settings</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">truetrue$user = User::getUserFromDb(<span class="string">'foo'</span>);</span><br><span class="line">truetrue$preferences = unserialize($user-&gt;getUserPreferences());</span><br><span class="line">truetrue<span class="comment">// op, op, op</span></span><br><span class="line">true&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>O que acontece agora? Caso a string esteja higienizada/sanitizada, etc, tudo ocorrerá bem. Afinal de contas nossa classe que pega dados serializados que possui input de usuário trata campo por campo, faz validações pesadas, se certifica que tudo que estava ali era permitido, certo ( ͡° ͜ʖ ͡°)? Lembrando sempre que o perigo está no que o usuário nos manda. Nas preferências que foram salvas anteriormente, um atacante/usuário malicioso tem a oportunidade de fazer isso.</p>
 <p>Em um cenário OK, teremos as informações processadas e passadas para os lugares necessários, seja para o front de uma aplicação, um email marketing de acordo com as preferências ou algo nesse sentido.</p>
@@ -242,7 +246,7 @@
 <p>A segunda condição nos remete à um cenário muito comum hoje em aplicações de média/grande escala, até mesmo de pequeno porte. Quem programa sabe o quão é comum a utilização de autoloading dinâmico (<em>principalmente em frameworks</em>) nas aplicações de hoje, seja via composer (Nosso projeto que criamos no começo do artigo…) ou até mesmo um autoload personalizado. De fato essas aplicações possuem na maioria dos casos bibliotecas comuns instaladas, seja para gerenciamento de logs (Monolog), clients http (Guzzle) e outras.</p>
 <p>Tendo esse fato em mãos, atacantes abusam disso para que através de outras bibliotecas seja possível executar os mais diversos tipos de ataques, que como dito acima podem ser desde um “simples” denial of service ou até mesmo um RCE comprometendo de forma rigorosa a aplicação/infraestrutura.</p>
 <h3 id="Ataque-direto"><a href="#Ataque-direto" class="headerlink" title="Ataque direto"></a>Ataque direto</h3><p>Vamos à um ataque onde uma classe está muito vulnerável, de vetor simples. Como dito anteriormente nosso cookie é salvo da seguinte forma:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">savePreferences</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// op, op, op, save data etc</span></span><br><span class="line">        $extraThemes = serialize($_POST[<span class="string">'extra_themes'</span>]);</span><br><span class="line">		setcookie(<span class="string">'extra_themes'</span>, $extraThemes);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">savePreferences</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// op, op, op, save data etc</span></span><br><span class="line">        $extraThemes = serialize($_POST[<span class="string">'extra_themes'</span>]);</span><br><span class="line">truetruesetcookie(<span class="string">'extra_themes'</span>, $extraThemes);</span><br><span class="line">true&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Criei um arquivo php simples que irá trabalhar com esse dado posteriormente:</p>
 <div style="text-align:center"><img src="/images/index1.png"></div>
@@ -255,7 +259,7 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span>= <span class="keyword">isset</span>($_COOKIE[<span class="string">'extra_themes'</span>]) ? <span class="string">'&lt;p&gt;Extra themes: '</span> . unserialize($_COOKIE[<span class="string">'extra_themes'</span>]) . <span class="string">'&lt;/p&gt;'</span> : <span class="string">''</span> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>Com essa informação em mãos, que nosso dado é serializado e passa por <code>unserialize</code>, agora basta achar um vetor de entrada.<br>Então procuramos no sistema algumas classes que fazem sentido, que podem ser utilizadas como vetor e achamos a seguinte classe:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileReader</span> </span>&#123;</span><br><span class="line">	<span class="keyword">protected</span> $fileName;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!file_exists(<span class="keyword">$this</span>-&gt;filename)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="string">"File don't exists"</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> file_get_contents(<span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileReader</span> </span>&#123;</span><br><span class="line">true<span class="keyword">protected</span> $fileName;</span><br><span class="line"></span><br><span class="line">true<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">truetrue<span class="keyword">if</span> (!file_exists(<span class="keyword">$this</span>-&gt;filename)) &#123;</span><br><span class="line">truetruetrue<span class="keyword">return</span> <span class="string">"File don't exists"</span>;</span><br><span class="line">truetrue&#125;</span><br><span class="line"></span><br><span class="line">truetrue<span class="keyword">return</span> file_get_contents(<span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">true&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>A classe basicamente le o conteúdo do arquivo presente na propriedade <code>$this-&gt;filename</code>.</p>
 <p>Tendo conhecimento da classe acima, poderiamos criar um simples script dentro do projeto para passar valores arbitrários que serão lidos durante o ato de deserialization:</p>
@@ -306,7 +310,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">O:13:&quot;App\UserTheme&quot;:1:&#123;s:11:&quot;extraThemes&quot;%3BO:14:&quot;App\FileReader&quot;:1:&#123;s:8:&quot;fileN</span><br><span class="line">ame&quot;%3Bs:11:&quot;/etc/passwd&quot;%3B&#125;&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Então conseguimos executar o código que está dentro de <code>App\UserTheme::__toString</code>, alcançando a injeção de objeto via via um gadget.</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileReader</span> </span>&#123;</span><br><span class="line">	<span class="keyword">protected</span> $fileName;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!file_exists(<span class="keyword">$this</span>-&gt;filename)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="string">"File don't exists"</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> file_get_contents(<span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileReader</span> </span>&#123;</span><br><span class="line">true<span class="keyword">protected</span> $fileName;</span><br><span class="line"></span><br><span class="line">true<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">truetrue<span class="keyword">if</span> (!file_exists(<span class="keyword">$this</span>-&gt;filename)) &#123;</span><br><span class="line">truetruetrue<span class="keyword">return</span> <span class="string">"File don't exists"</span>;</span><br><span class="line">truetrue&#125;</span><br><span class="line"></span><br><span class="line">truetrue<span class="keyword">return</span> file_get_contents(<span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">true&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>A utilização da propridade <code>$this-&gt;extraThemes</code> com um valor arbitrário dentro da classe <code>UserThemes</code> nos permite “triggar” a vulnerabilidade</p>
 <div style="text-align:center"><img src="/images/mindblow.gif"></div>
@@ -327,6 +331,12 @@
   </div>
 </article>
 
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
 
 
         
@@ -341,6 +351,8 @@
           <li><a href="/about/">About</a></li>
          
           <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
         
       </ul>
     </div>
@@ -394,6 +406,8 @@
           <li><a href="/about/">About</a></li>
          
           <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
         
       </ul>
     </nav>
@@ -436,11 +450,31 @@
 
 <!-- Google Analytics -->
 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146888718-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-146888718-1');
+    </script>
+
 <!-- Baidu Analytics -->
 
 <!-- Umami Analytics -->
 
 <!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'girorme';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
 
 
 </body>

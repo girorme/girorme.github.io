@@ -436,6 +436,7 @@ body td {
 }
 @font-face {
   font-style: normal;
+  font-size: 80%;
   font-family: "Meslo LG";
   src: local("Meslo LG S"), url("../lib/meslo-LG/MesloLGS-Regular.ttf") format("truetype");
 }
@@ -447,7 +448,6 @@ body td {
 html {
   margin: 0;
   padding: 0;
-  height: 100%;
   border-top: 2px solid #c9cacc;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -459,7 +459,7 @@ body {
   color: #c9cacc;
   font-display: swap;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 111%;
   font-family: "Menlo", "Meslo LG", monospace;
   line-height: 1.725;
   text-rendering: geometricPrecision;
@@ -612,6 +612,7 @@ body {
   padding: 0;
   list-style-type: none;
   line-height: 15px;
+  font-size: 20px;
 }
 #header #nav ul a {
   margin-right: 15px;
@@ -1618,6 +1619,7 @@ code {
   padding: 0;
   border: none;
   background: none;
+  font-size: 16px;
 }
 .highlight table {
   width: auto;
