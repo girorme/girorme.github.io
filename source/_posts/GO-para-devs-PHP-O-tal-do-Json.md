@@ -415,7 +415,7 @@ myStack := &Tech{
 }
 ```
 
-- Para "pretty prints" podemos utilizar a função json. Veja o exemplo no json de country:
+- Para "pretty prints" podemos utilizar a função `json.MarshalIndent` Veja o exemplo no json de country:
 
 ```go
 dataCountry, _ := json.MarshalIndent(brazil, "", "  ")
