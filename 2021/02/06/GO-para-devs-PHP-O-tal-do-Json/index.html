@@ -7,7 +7,7 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="Se você está estudando GO e ficou frustrado porque não achou os galãs json_encode e json_decode esse artigo é pra você!   Index Intro Iniciando o projeto Decoding Json (Unmarshal) Encoding Json (Marsh">
-<meta name="keywords" content="GO,PHP">
+<meta name="keywords" content="PHP,GO">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GO para devs PHP: O tal do Json">
 <meta property="og:url" content="https://girorme.github.io/2021/02/06/GO-para-devs-PHP-O-tal-do-Json/index.html">
@@ -15,7 +15,7 @@
 <meta property="og:description" content="Se você está estudando GO e ficou frustrado porque não achou os galãs json_encode e json_decode esse artigo é pra você!   Index Intro Iniciando o projeto Decoding Json (Unmarshal) Encoding Json (Marsh">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://girorme.github.io/images/jason.jpg">
-<meta property="og:updated_time" content="2021-02-07T18:29:17.994Z">
+<meta property="og:updated_time" content="2021-02-07T18:33:57.559Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GO para devs PHP: O tal do Json">
 <meta name="twitter:description" content="Se você está estudando GO e ficou frustrado porque não achou os galãs json_encode e json_decode esse artigo é pra você!   Index Intro Iniciando o projeto Decoding Json (Unmarshal) Encoding Json (Marsh">
@@ -130,7 +130,7 @@
       
         <time datetime="2021-02-06T21:37:15.000Z" itemprop="datePublished">2021-02-06</time>
         
-        (Updated: <time datetime="2021-02-07T18:29:17.994Z" itemprop="dateModified">2021-02-07</time>)
+        (Updated: <time datetime="2021-02-07T18:33:57.559Z" itemprop="dateModified">2021-02-07</time>)
         
       
     </div>
@@ -166,7 +166,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir jsonbyexample; cd $_</span><br><span class="line">$ go mod init jsonbyexample</span><br></pre></td></tr></table></figure>
 
 <p>Com isso podemos criar um arquivo <code>main.go</code> com algumas coisas:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">truejsonPerson  = <span class="string">`&#123;"name": "Rodrigo", "age": 28&#125;`</span></span><br><span class="line"></span><br><span class="line">truejsonTech    = <span class="string">`&#123;"project": "foo/bar", "stack": ["go", "elk", "elixir"]&#125;`</span></span><br><span class="line"></span><br><span class="line">truejsonCountry = <span class="string">`&#123;</span></span><br><span class="line"><span class="string">		"location": "Brazil", </span></span><br><span class="line"><span class="string">		"goods" :[</span></span><br><span class="line"><span class="string">			&#123;"day": "Wednesday", "food": "Feijoada e caipirinha"&#125;,</span></span><br><span class="line"><span class="string">			&#123;"day": "Monday", "food": "Virado à paulista"&#125;,</span></span><br><span class="line"><span class="string">			&#123;"day": "Friday", "food": "Arroz com molho de camarão e Merluza"&#125;</span></span><br><span class="line"><span class="string">		]</span></span><br><span class="line"><span class="string">	&#125;`</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    jsonPerson  = <span class="string">`&#123;"name": "Rodrigo", "age": 28&#125;`</span></span><br><span class="line">    jsonTech    = <span class="string">`&#123;"project": "foo/bar", "stack": ["go", "elk", "elixir"]&#125;`</span></span><br><span class="line">    jsonCountry = <span class="string">`&#123;</span></span><br><span class="line"><span class="string">        "location": "Brazil", </span></span><br><span class="line"><span class="string">        "goods" :[</span></span><br><span class="line"><span class="string">            &#123;"day": "Wednesday", "food": "Feijoada e caipirinha"&#125;,</span></span><br><span class="line"><span class="string">            &#123;"day": "Monday", "food": "Virado à paulista"&#125;,</span></span><br><span class="line"><span class="string">            &#123;"day": "Friday", "food": "Arroz com molho de camarão e Merluza"&#125;</span></span><br><span class="line"><span class="string">        ]</span></span><br><span class="line"><span class="string">    &#125;`</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <p>Criamos alguns formatos jsons para explorar:</p>
 <ul>
