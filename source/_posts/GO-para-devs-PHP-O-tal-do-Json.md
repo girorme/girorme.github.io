@@ -6,9 +6,7 @@ tags:
 - PHP
 ---
 
-Se você está estudando GO e ficou frustrado porque não achou os galãs `json_encode` e `json_decode` esse artigo é pra você!
-
-<div style="text-align:center"><img src="/images/jason.jpg" /></div>
+> Se você está estudando GO e não achou os galãs `json_encode` e `json_decode` esse artigo é pra você!
 
 ### Index
 - [Intro](#)
@@ -20,6 +18,8 @@ Se você está estudando GO e ficou frustrado porque não achou os galãs `json_
     
 ## Intro
 O pacote `encoding/json` da biblioteca padrão do go possui todas as funcionalidades necessárias para encodar/decodar json. Quando lidamos com json dentro do go por se tratar de uma linguagem com tipagem forte precisamos "mapear" os campos de um json para uma estrutura que faça sentido
+
+<div style="text-align:center"><img src="/images/jason.jpg" /></div>
 
 ## Iniciando o projeto
 Vamos criar um projeto simples:
