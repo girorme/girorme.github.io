@@ -35,18 +35,16 @@ Com isso podemos criar um arquivo `main.go` com algumas coisas:
 package main
 
 var (
-	jsonPerson  = `{"name": "Rodrigo", "age": 28}`
-
-	jsonTech    = `{"project": "foo/bar", "stack": ["go", "elk", "elixir"]}`
-
-	jsonCountry = `{
-		"location": "Brazil", 
-		"goods" :[
-			{"day": "Wednesday", "food": "Feijoada e caipirinha"},
-			{"day": "Monday", "food": "Virado à paulista"},
-			{"day": "Friday", "food": "Arroz com molho de camarão e Merluza"}
-		]
-	}`
+    jsonPerson  = `{"name": "Rodrigo", "age": 28}`
+    jsonTech    = `{"project": "foo/bar", "stack": ["go", "elk", "elixir"]}`
+    jsonCountry = `{
+        "location": "Brazil", 
+        "goods" :[
+            {"day": "Wednesday", "food": "Feijoada e caipirinha"},
+            {"day": "Monday", "food": "Virado à paulista"},
+            {"day": "Friday", "food": "Arroz com molho de camarão e Merluza"}
+        ]
+    }`
 )
 
 ```
