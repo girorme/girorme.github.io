@@ -13,6 +13,7 @@ tags:
 - [Iniciando o projeto](#)
 - [Decoding Json (Unmarshal)](#)
 - [Encoding Json (Marshal)](#)
+- [Struct tags](#)
 - [Considerações](#)
 - [Ref](#)
     
@@ -443,6 +444,72 @@ resultado:
   ]
 }
 ```
+
+## Struct tags
+Podemos também utilizar tags de structs para aperfeiçoar a exibição/parsing de json. Muitas bibliotecas fazem o uso extensivo da feature para consolidar comportamentos diversos.
+
+Para json podemos usar a tag: `json:field,options`
+
+Com as tags podemos: mapear campos de struct para campos específicos do json, exibir um campo com nome diferente e ainda definir alguns comportamentos como omissão de chave/valor, considere o exemplo abaixo:
+
+```go
+type Tech struct {
+    Project string `json:"projeto"`
+    Stack   []string
+}
+
+myStack := &Tech{
+    Project: "Foo/Bar",
+    Stack:   []string{"Elk", "Elixir", "Go"},
+}
+
+dataStack, _ := json.Marshal(myStack)
+	fmt.Println(string(dataStack))
+```
+
+a expressão acima faz tanto com que o output do campo Project seja exibido como projeto ou até msm o mapeamento inverso, onde o campo projeto irá ser exibido no campo food:
+
+```
+{"projeto":"Foo/Bar","Stack":["Elk","Elixir","Go"]}
+```
+
+E o contrário:
+
+```go
+var jsonTech = `{"projeto": "foo/bar", "stack": ["go", "elk", "elixir"]}`
+
+type Tech struct {
+    Project string `json:"projeto"`
+    Stack   []string
+}
+
+var tech Tech
+json.Unmarshal([]byte(jsonTech), &tech)
+fmt.Printf("[Tech] Project: %s - Stack: %s\n", tech.Project, tech.Stack)
+```
+
+```
+[Tech] Project: foo/bar - Stack: [go elk elixir]
+```
+
+Fora o mapeamento básico temos algumas opções interessantes como:
+
+- `omitempty`: Que não exibi saída desse campo quando ele estiver definido para o valor zero
+
+- `-` : Que não traz o campo
+
+ex:
+
+```go
+type Person struct {
+    Name string `json:"projeto,omitempty"`
+    Password string `json:"-"`
+}
+```
+
+Para mais informações:
+
+- https://www.digitalocean.com/community/tutorials/how-to-use-struct-tags-in-go-pt
 
 ## Considerações
 
