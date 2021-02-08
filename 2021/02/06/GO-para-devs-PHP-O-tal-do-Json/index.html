@@ -6,19 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Se você está estudando GO e não achou os galãs json_encode e json_decode esse artigo é pra você!  Index Intro Iniciando o projeto Decoding Json (Unmarshal) Encoding Json (Marshal) Considerações Ref">
-<meta name="keywords" content="GO,PHP">
+    <meta name="description" content="Se você está estudando GO e não achou os galãs json_encode e json_decode esse artigo é pra você!  Index Intro Iniciando o projeto Decoding Json (Unmarshal) Encoding Json (Marshal) Struct tags Conside">
+<meta name="keywords" content="PHP,GO">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GO para devs PHP: O tal do Json">
 <meta property="og:url" content="https://girorme.github.io/2021/02/06/GO-para-devs-PHP-O-tal-do-Json/index.html">
 <meta property="og:site_name" content="Girorme&#39;s blog">
-<meta property="og:description" content="Se você está estudando GO e não achou os galãs json_encode e json_decode esse artigo é pra você!  Index Intro Iniciando o projeto Decoding Json (Unmarshal) Encoding Json (Marshal) Considerações Ref">
+<meta property="og:description" content="Se você está estudando GO e não achou os galãs json_encode e json_decode esse artigo é pra você!  Index Intro Iniciando o projeto Decoding Json (Unmarshal) Encoding Json (Marshal) Struct tags Conside">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://girorme.github.io/images/jason.jpg">
-<meta property="og:updated_time" content="2021-02-07T19:06:04.223Z">
+<meta property="og:updated_time" content="2021-02-08T02:54:32.388Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GO para devs PHP: O tal do Json">
-<meta name="twitter:description" content="Se você está estudando GO e não achou os galãs json_encode e json_decode esse artigo é pra você!  Index Intro Iniciando o projeto Decoding Json (Unmarshal) Encoding Json (Marshal) Considerações Ref">
+<meta name="twitter:description" content="Se você está estudando GO e não achou os galãs json_encode e json_decode esse artigo é pra você!  Index Intro Iniciando o projeto Decoding Json (Unmarshal) Encoding Json (Marshal) Struct tags Conside">
 <meta name="twitter:image" content="https://girorme.github.io/images/jason.jpg">
     
     
@@ -104,7 +104,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Index"><span class="toc-number">1.</span> <span class="toc-text">Index</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intro"><span class="toc-number"></span> <span class="toc-text">Intro</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Iniciando-o-projeto"><span class="toc-number"></span> <span class="toc-text">Iniciando o projeto</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decoding-json-Unmarshal"><span class="toc-number"></span> <span class="toc-text">Decoding json (Unmarshal)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encoding-Json-Marshal"><span class="toc-number"></span> <span class="toc-text">Encoding Json (Marshal)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Observacoes"><span class="toc-number">1.</span> <span class="toc-text">Observações</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consideracoes"><span class="toc-number"></span> <span class="toc-text">Considerações</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ref"><span class="toc-number"></span> <span class="toc-text">Ref</span></a>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Index"><span class="toc-number">1.</span> <span class="toc-text">Index</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intro"><span class="toc-number"></span> <span class="toc-text">Intro</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Iniciando-o-projeto"><span class="toc-number"></span> <span class="toc-text">Iniciando o projeto</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decoding-json-Unmarshal"><span class="toc-number"></span> <span class="toc-text">Decoding json (Unmarshal)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encoding-Json-Marshal"><span class="toc-number"></span> <span class="toc-text">Encoding Json (Marshal)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Observacoes"><span class="toc-number">1.</span> <span class="toc-text">Observações</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Struct-tags"><span class="toc-number"></span> <span class="toc-text">Struct tags</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consideracoes"><span class="toc-number"></span> <span class="toc-text">Considerações</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ref"><span class="toc-number"></span> <span class="toc-text">Ref</span></a>
     </div>
   </span>
 </div>
@@ -130,7 +130,7 @@
       
         <time datetime="2021-02-06T21:37:15.000Z" itemprop="datePublished">2021-02-06</time>
         
-        (Updated: <time datetime="2021-02-07T19:06:04.223Z" itemprop="dateModified">2021-02-07</time>)
+        (Updated: <time datetime="2021-02-08T02:54:32.388Z" itemprop="dateModified">2021-02-07</time>)
         
       
     </div>
@@ -158,6 +158,7 @@
 <li><a href="#">Iniciando o projeto</a></li>
 <li><a href="#">Decoding Json (Unmarshal)</a></li>
 <li><a href="#">Encoding Json (Marshal)</a></li>
+<li><a href="#">Struct tags</a></li>
 <li><a href="#">Considerações</a></li>
 <li><a href="#">Ref</a></li>
 </ul>
@@ -237,6 +238,33 @@
 <p>resultado:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;Location&quot;: &quot;Brazil&quot;,</span><br><span class="line">  &quot;Goods&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;Day&quot;: &quot;Wednesday&quot;,</span><br><span class="line">      &quot;Food&quot;: &quot;Feijoada e caipirinha&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;Day&quot;: &quot;Monday&quot;,</span><br><span class="line">      &quot;Food&quot;: &quot;Virado à paulista&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;Day&quot;: &quot;Friday&quot;,</span><br><span class="line">      &quot;Food&quot;: &quot;Arroz com molho de camarão e Merluza&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="Struct-tags"><a href="#Struct-tags" class="headerlink" title="Struct tags"></a>Struct tags</h2><p>Podemos também utilizar tags de structs para aperfeiçoar a exibição/parsing de json. Muitas bibliotecas fazem o uso extensivo da feature para consolidar comportamentos diversos.</p>
+<p>Para json podemos usar a tag: <code>json:field,options</code></p>
+<p>Com as tags podemos: mapear campos de struct para campos específicos do json, exibir um campo com nome diferente e ainda definir alguns comportamentos como omissão de chave/valor, considere o exemplo abaixo:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Tech <span class="keyword">struct</span> &#123;</span><br><span class="line">    Project <span class="keyword">string</span> <span class="string">`json:"projeto"`</span></span><br><span class="line">    Stack   []<span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">myStack := &amp;Tech&#123;</span><br><span class="line">    Project: <span class="string">"Foo/Bar"</span>,</span><br><span class="line">    Stack:   []<span class="keyword">string</span>&#123;<span class="string">"Elk"</span>, <span class="string">"Elixir"</span>, <span class="string">"Go"</span>&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dataStack, _ := json.Marshal(myStack)</span><br><span class="line">truefmt.Println(<span class="keyword">string</span>(dataStack))</span><br></pre></td></tr></table></figure>
+
+<p>a expressão acima faz tanto com que o output do campo Project seja exibido como projeto ou até msm o mapeamento inverso, onde o campo projeto irá ser exibido no campo food:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;projeto&quot;:&quot;Foo/Bar&quot;,&quot;Stack&quot;:[&quot;Elk&quot;,&quot;Elixir&quot;,&quot;Go&quot;]&#125;</span><br></pre></td></tr></table></figure>
+
+<p>E o contrário:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> jsonTech = <span class="string">`&#123;"projeto": "foo/bar", "stack": ["go", "elk", "elixir"]&#125;`</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Tech <span class="keyword">struct</span> &#123;</span><br><span class="line">    Project <span class="keyword">string</span> <span class="string">`json:"projeto"`</span></span><br><span class="line">    Stack   []<span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tech Tech</span><br><span class="line">json.Unmarshal([]<span class="keyword">byte</span>(jsonTech), &amp;tech)</span><br><span class="line">fmt.Printf(<span class="string">"[Tech] Project: %s - Stack: %s\n"</span>, tech.Project, tech.Stack)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Tech] Project: foo/bar - Stack: [go elk elixir]</span><br></pre></td></tr></table></figure>
+
+<p>Fora o mapeamento básico temos algumas opções interessantes como:</p>
+<ul>
+<li><p><code>omitempty</code>: Que não exibi saída desse campo quando ele estiver definido para o valor zero</p>
+</li>
+<li><p><code>-</code> : Que não traz o campo</p>
+</li>
+</ul>
+<p>ex:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="keyword">string</span> <span class="string">`json:"projeto,omitempty"`</span></span><br><span class="line">    Password <span class="keyword">string</span> <span class="string">`json:"-"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Para mais informações:</p>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-use-struct-tags-in-go-pt" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-use-struct-tags-in-go-pt</a></li>
+</ul>
 <h2 id="Consideracoes"><a href="#Consideracoes" class="headerlink" title="Considerações"></a>Considerações</h2><p>Existem casos onde não sabemos o json que está chegando e não queremos mapear isso via struct, para isso podemos resolver de algumas formas utilizando mapping para <code>map[T]interface{}</code> ou até msm com a estrutura <code>json.RawMessage</code> mas prefiro deixar para outro artigo já que esse já está um pouco “pesado” para quem está iniciando em GO xD</p>
 <h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><ul>
 <li><a href="https://www.sohamkamani.com/golang/parsing-json/" target="_blank" rel="noopener">https://www.sohamkamani.com/golang/parsing-json/</a></li>
@@ -274,7 +302,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Index"><span class="toc-number">1.</span> <span class="toc-text">Index</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intro"><span class="toc-number"></span> <span class="toc-text">Intro</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Iniciando-o-projeto"><span class="toc-number"></span> <span class="toc-text">Iniciando o projeto</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decoding-json-Unmarshal"><span class="toc-number"></span> <span class="toc-text">Decoding json (Unmarshal)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encoding-Json-Marshal"><span class="toc-number"></span> <span class="toc-text">Encoding Json (Marshal)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Observacoes"><span class="toc-number">1.</span> <span class="toc-text">Observações</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consideracoes"><span class="toc-number"></span> <span class="toc-text">Considerações</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ref"><span class="toc-number"></span> <span class="toc-text">Ref</span></a>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Index"><span class="toc-number">1.</span> <span class="toc-text">Index</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intro"><span class="toc-number"></span> <span class="toc-text">Intro</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Iniciando-o-projeto"><span class="toc-number"></span> <span class="toc-text">Iniciando o projeto</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decoding-json-Unmarshal"><span class="toc-number"></span> <span class="toc-text">Decoding json (Unmarshal)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encoding-Json-Marshal"><span class="toc-number"></span> <span class="toc-text">Encoding Json (Marshal)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Observacoes"><span class="toc-number">1.</span> <span class="toc-text">Observações</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Struct-tags"><span class="toc-number"></span> <span class="toc-text">Struct tags</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consideracoes"><span class="toc-number"></span> <span class="toc-text">Considerações</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ref"><span class="toc-number"></span> <span class="toc-text">Ref</span></a>
     </div>
 
     <div id="share-footer" style="display: none">
