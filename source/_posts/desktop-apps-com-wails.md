@@ -327,6 +327,8 @@ Para compilar a aplicação é simples: `wails build -d`, feito isso será criad
 ## Conclusão
 Deixo aqui o ponta pé para você iniciar seu próximo projeto em wails! Um mundo de possibilidade te aguarda! (:
 
+Caso queira dar uma olhada no repo exemplo: https://github.com/girorme/scraper
+
 ## Créditos
 - https://wails.app/
 - https://www.avantica.com/blog/wails-building-desktop-apps-in-go
