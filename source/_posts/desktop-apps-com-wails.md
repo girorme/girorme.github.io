@@ -19,7 +19,7 @@ A instalação é simples e requer apenas alguns requisitos: [wails-getting-star
 
 ## Inicio projeto
 
-Para inicializar um projeto wails é bem simples, seguido do comando: `wails init`, algumas informação são solicitadas e ao final escolhemos qual tecnologia usaremos no front, usarei Vue 3:
+Para inicializar um projeto wails é bem simples, seguido do comando: `wails init`, algumas informações são solicitadas e ao final escolhemos qual tecnologia usaremos no front, usarei Vue 3:
 
 <div style="text-align:center"><img src="/images/go-wails-1.png" /></div>
 
@@ -37,7 +37,7 @@ O wails também da ao desenvolvedor uma forma muito simples de emitir eventos, t
 Vamos por etapas adicionando as dependências e codando features no backend e frontend
 
 ### Backend
-O esqueleto do backend que é gerado é muito simples e tem apenas uma função bindada, vamos codar nosso scraper no arqivo `scraper.go`, antes disso irei utilizar a lib [goquery](https://github.com/PuerkitoBio/goquery), que é um parser html muito simples de se utilizar:
+O esqueleto do backend que é gerado é muito simples e tem apenas uma função bindada no arquivo `main.go`, vamos codar nosso scraper no arqivo `scraper.go`, antes disso irei instalar a lib [goquery](https://github.com/PuerkitoBio/goquery), que é um parser html muito simples de se utilizar:
 
 ```
 $ go get github.com/PuerkitoBio/goquery
