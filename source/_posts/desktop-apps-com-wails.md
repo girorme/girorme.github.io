@@ -51,48 +51,48 @@ Feito isso podemos codar nossa funcionalidade de extrair links, abaixo deixo mai
 package main
 
 import (
-	"net/http"
+  "net/http"
 
-	"github.com/PuerkitoBio/goquery"
-	"github.com/wailsapp/wails"
+  "github.com/PuerkitoBio/goquery"
+  "github.com/wailsapp/wails"
 )
 
 type Scraper struct {
-	log     *wails.CustomLogger
-	runtime *wails.Runtime
+  log     *wails.CustomLogger
+  runtime *wails.Runtime
 }
 
 func (s *Scraper) WailsInit(runtime *wails.Runtime) error {
-	s.log = runtime.Log.New("Scraper")
-	s.runtime = runtime
-	return nil
+  s.log = runtime.Log.New("Scraper")
+  s.runtime = runtime
+  return nil
 }
 
 func (s *Scraper) GetLinks(url string) (urls []string) {
-	res, err := http.Get(url)
+  res, err := http.Get(url)
 
-	if err != nil {
-		s.runtime.Events.Emit("error", err.Error())
-		s.log.Error(err.Error())
-		return nil
-	}
+  if err != nil {
+    s.runtime.Events.Emit("error", err.Error())
+    s.log.Error(err.Error())
+    return nil
+  }
 
-	defer res.Body.Close()
+  defer res.Body.Close()
 
-	doc, err := goquery.NewDocumentFromReader(res.Body)
-	if err != nil {
-		s.runtime.Events.Emit("error", err.Error())
-		s.log.Error(err.Error())
-		return nil
-	}
+  doc, err := goquery.NewDocumentFromReader(res.Body)
+  if err != nil {
+    s.runtime.Events.Emit("error", err.Error())
+    s.log.Error(err.Error())
+    return nil
+  }
 
-	doc.Find("a").Each(func(i int, s *goquery.Selection) {
-		if href, exists := s.Attr("href"); exists != false {
-			urls = append(urls, href)
-		}
-	})
+  doc.Find("a").Each(func(i int, s *goquery.Selection) {
+    if href, exists := s.Attr("href"); exists != false {
+      urls = append(urls, href)
+    }
+  })
 
-	return urls
+  return urls
 }
 ```
 
@@ -100,14 +100,14 @@ func (s *Scraper) GetLinks(url string) (urls []string) {
 
 ```go
 type Scraper struct {
-	log     *wails.CustomLogger
-	runtime *wails.Runtime
+  log     *wails.CustomLogger
+  runtime *wails.Runtime
 }
 
 func (s *Scraper) WailsInit(runtime *wails.Runtime) error {
-	s.log = runtime.Log.New("Scraper")
-	s.runtime = runtime
-	return nil
+  s.log = runtime.Log.New("Scraper")
+  s.runtime = runtime
+  return nil
 }
 ```
 
@@ -119,9 +119,9 @@ Logo abaixo temos o método `GetLinks(url string)` que acessa a url informada e 
 
 ```go
 if err != nil {
-    s.runtime.Events.Emit("error", err.Error())
-    s.log.Error(err.Error())
-    return nil
+  s.runtime.Events.Emit("error", err.Error())
+  s.log.Error(err.Error())
+  return nil
 }
 ```
 
@@ -133,24 +133,24 @@ Criado o arquivo podemos bindar o mesmo no arquivo `main.go`:
 package main
 
 import (
-	"github.com/leaanthony/mewn"
-	"github.com/wailsapp/wails"
+  "github.com/leaanthony/mewn"
+  "github.com/wailsapp/wails"
 )
 
 func main() {
-	js := mewn.String("./frontend/dist/app.js")
-	css := mewn.String("./frontend/dist/app.css")
-	scraper := &Scraper{}
-	app := wails.CreateApp(&wails.AppConfig{
-		Width:  1024,
-		Height: 768,
-		Title:  "scraper",
-		JS:     js,
-		CSS:    css,
-		Colour: "#131313",
-	})
-	app.Bind(scraper)
-	app.Run()
+  js := mewn.String("./frontend/dist/app.js")
+  css := mewn.String("./frontend/dist/app.css")
+  scraper := &Scraper{}
+  app := wails.CreateApp(&wails.AppConfig{
+    Width:  1024,
+    Height: 768,
+    Title:  "scraper",
+    JS:     js,
+    CSS:    css,
+    Colour: "#131313",
+  })
+  app.Bind(scraper)
+  app.Run()
 }
 ```
 
