@@ -180,19 +180,21 @@ Vue.use(IconsPlugin)
 import * as Wails from '@wailsapp/runtime';
 
 Wails.Init(() => {
-	new Vue({
-		render: h => h(App)
-	}).$mount('#app');
+  new Vue({
+    render: h => h(App)
+  }).$mount('#app');
 });
 ```
 
 Adicionando as linhas:
 
-- import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-- import 'bootstrap/dist/css/bootstrap.css'
-- import 'bootstrap-vue/dist/bootstrap-vue.css'
-- Vue.use(BootstrapVue)
-- Vue.use(IconsPlugin)
+```javascript
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
+```
 
 Feito isso criamos um componente para a feature `frontend/src/components/Scraper.vue`:
 
