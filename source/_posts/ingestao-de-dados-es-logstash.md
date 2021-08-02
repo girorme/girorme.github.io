@@ -24,7 +24,7 @@ O objetivo é mostrar a facilidade e alguns exemplos posteriores de busca, agreg
 - [É isso](#é-isso)
 - [Referências](#Referências)
 
-Antes de qualquer mão na massa vale introdução aos protagonistas:
+Antes de qualquer mão na massa vale uma introdução aos protagonistas:
 
 ### Quem é elasticsearch?
 > Elasticsearch fornece pesquisa e análise quase em tempo real para todos os tipos de dados. Quer você tenha texto estruturado ou não estruturado, dados numéricos ou dados geoespaciais, o Elasticsearch pode armazená-los e indexá-los com eficiência de uma forma que suporte pesquisas rápidas. Você pode ir muito além da simples recuperação de dados e agregar informações para descobrir tendências e padrões em seus dados. E à medida que seu volume de dados e consultas cresce, a natureza distribuída do Elasticsearch permite que sua implantação cresça perfeitamente junto com ela.
