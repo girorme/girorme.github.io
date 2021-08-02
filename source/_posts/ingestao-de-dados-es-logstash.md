@@ -46,7 +46,7 @@ Para usar/configurar o plugin é simples, aqui um exemplo do arquivo `pipeline/p
 
 ```
 input {
-	imap {
+  imap {
     host => "imap.gmail.com"
     user => "mymail@gmail.com"
     password => "SECRET"
@@ -288,7 +288,7 @@ content-type: application/json
         "field": "from.keyword"
       }
     }
-	}
+  }
 }
 ```
 
