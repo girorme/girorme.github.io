@@ -89,7 +89,7 @@ Com o índice criado podemos executar buscas de várias formas (artigo em breve)
 
 Entre os campos indexados iremos retornar apenas subject, from e date que foram gerados automaticamente:
 ```
-GET http://localhost:9200/emails/_search?pretty
+GET http://localhost:9200/gmail_inbox/_search?pretty
 content-type: application/json
 
 {
@@ -155,7 +155,7 @@ podemos filtrar algumas palavras chaves com busca simples caso seja necessário 
 
 request
 ```
-GET http://localhost:9200/emails/_search?pretty
+GET http://localhost:9200/gmail_inbox/_search?pretty
 content-type: application/json
 
 {
@@ -274,7 +274,7 @@ Abaixo um exemplo de count_aggregation, trazendo quantos emails tenho de cada "f
 
 request
 ```
-GET http://localhost:9200/emails/_search?pretty
+GET http://localhost:9200/gmail_inbox/_search?pretty
 content-type: application/json
 
 {
