@@ -11,8 +11,6 @@ tags:
 Nesse artigo iremos explorar um pouco desse poder criando um pipeline que consome emails via imap.
 O objetivo é mostrar a facilidade e alguns exemplos posteriores de busca, agregações e filtros.
 
-<div style="text-align:center"><img src="/images/searching.jpg" /></div>
-
 ### Agenda
 - [Quem é elasticsearch?](#quem-é-elasticsearch?)
 - [Quem é logstash?](#quem-é-logstash?)
@@ -23,6 +21,8 @@ O objetivo é mostrar a facilidade e alguns exemplos posteriores de busca, agreg
 - [Um gostinho de filtros e agregações](#um-gostinho-de-filtros-e-agregações)
 - [É isso](#é-isso)
 - [Referências](#Referências)
+
+<div style="text-align:center"><img src="/images/searching.jpg" /></div>
 
 Antes de qualquer mão na massa vale uma introdução aos protagonistas:
 
