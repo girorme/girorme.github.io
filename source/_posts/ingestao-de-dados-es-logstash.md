@@ -126,7 +126,7 @@ content-length: 1470
     "max_score": 1.0,
     "hits": [
       {
-        "_index": "emails",
+        "_index": "gmail_inbox",
         "_type": "_doc",
         "_id": "9LsOBXsBqoHsgYJoYeW4",
         "_score": 1.0,
@@ -137,7 +137,7 @@ content-length: 1470
         }
       },
       {
-        "_index": "emails",
+        "_index": "gmail_inbox",
         "_type": "_doc",
         "_id": "w7sOBXsBqoHsgYJoJuXH",
         "_score": 1.0,
@@ -196,7 +196,7 @@ content-length: 897
     "max_score": 4.115555,
     "hits": [
       {
-        "_index": "emails",
+        "_index": "gmail_inbox",
         "_type": "_doc",
         "_id": "FLsOBXsBqoHsgYJokeaE",
         "_score": 4.115555,
@@ -207,7 +207,7 @@ content-length: 897
         }
       },
       {
-        "_index": "emails",
+        "_index": "gmail_inbox",
         "_type": "_doc",
         "_id": "EbsOBXsBqoHsgYJoi-a5",
         "_score": 3.6633658,
@@ -218,7 +218,7 @@ content-length: 897
         }
       },
       {
-        "_index": "emails",
+        "_index": "gmail_inbox",
         "_type": "_doc",
         "_id": "G7sOBXsBqoHsgYJonuap",
         "_score": 3.3366938,
@@ -229,7 +229,7 @@ content-length: 897
         }
       },
       {
-        "_index": "emails",
+        "_index": "gmail_inbox",
         "_type": "_doc",
         "_id": "xLsOBXsBqoHsgYJoKOXR",
         "_score": 2.7797134,
@@ -240,7 +240,7 @@ content-length: 897
         }
       },
       {
-        "_index": "emails",
+        "_index": "gmail_inbox",
         "_type": "_doc",
         "_id": "L7sOBXsBqoHsgYJosubh",
         "_score": 1.3502045,
@@ -251,7 +251,7 @@ content-length: 897
         }
       },
       {
-        "_index": "emails",
+        "_index": "gmail_inbox",
         "_type": "_doc",
         "_id": "57sOBXsBqoHsgYJoWOUs",
         "_score": 0.60980225,
