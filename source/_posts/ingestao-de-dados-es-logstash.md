@@ -11,16 +11,18 @@ tags:
 Nesse artigo iremos explorar um pouco desse poder criando um pipeline que consome emails via imap.
 O objetivo é mostrar a facilidade e alguns exemplos posteriores de busca, agragações e filtros.
 
-### Index
-- [Quem é elasticsearch?](#o-go-to-do-webscraping)
-- [Quem é logstash?](#configurando-o-projeto)
-- [Setup](#features)
-- [Criando um pipeline](#features)
-- [Ingestão de dados](#features)
-- [Executando buscas](#features)
-- [Um gostinho de filtros e agregações](#features)
-- [É isso](#features)
-- [Referências](#features)
+### Agenda
+- [Quem é elasticsearch?](#quem-é-elasticsearch?)
+- [Quem é logstash?](#quem-é-logstash?)
+- [Setup](#setup)
+- [Criando um pipeline](#criando-um-pipeline)
+- [Ingestão de dados](#ingestão-de-dados)
+- [Executando buscas](#executando-buscas)
+- [Um gostinho de filtros e agregações](#um-gostinho-de-filtros-e-agregações)
+- [É isso](#é-isso)
+- [Referências](#Referências)
+
+<div style="text-align:center"><img src="/images/searching.jpg" /></div>
 
 Antes de qualquer mão na massa vale introdução aos protagonistas:
 
