@@ -23,9 +23,9 @@
     "hexo-server": "^0.3.3"
   },
   "scripts": {
-    "gen": "npx hexo clean && npx hexo generate",
-    "sv": "npm run gen && npx hexo serve",
-    "deploy": "npm run gen && npx hexo deploy",
-    "new-post": "npx hexo new post"
+    "gen": "hexo clean && hexo generate",
+    "sv": "npm run gen && hexo serve",
+    "deploy": "npm run gen && hexo deploy",
+    "new-post": "hexo new post"
   }
 }

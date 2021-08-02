@@ -9,7 +9,7 @@ tags:
 
 > Ao longo do tempo o elasticsearch tem se mostrado uma solução excelente para indexação de dados em alta perfomance e a ingestão de dados é um tema muito interessante que nos traz muitas possibilidades.
 Nesse artigo iremos explorar um pouco desse poder criando um pipeline que consome emails via imap.
-O objetivo é mostrar a facilidade e alguns exemplos posteriores de busca, agragações e filtros.
+O objetivo é mostrar a facilidade e alguns exemplos posteriores de busca, agregações e filtros.
 
 ### Agenda
 - [Quem é elasticsearch?](#quem-é-elasticsearch?)
