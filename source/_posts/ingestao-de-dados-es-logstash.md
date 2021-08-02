@@ -235,7 +235,7 @@ content-length: 897
         "_score": 2.7797134,
         "_source": {
           "date": "Sun, 12 Jul 2020 16:22:11 +0100",
-          "subject": "girorme, vá para glória na Stadium Series ",
+          "subject": "hey vá para glória na Stadium Series ",
           "from": "PokerStars <events@starsaccount.com>"
         }
       },
