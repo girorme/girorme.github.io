@@ -76,6 +76,6 @@ archive_generator:
 
 deploy:
   type: git
-  repo: https://github.com/girorme/girorme.github.io
+  repo: git@github.com:girorme/girorme.github.io.git
   branch: [master]
   message:
