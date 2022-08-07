@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Ao longo do tempo o elasticsearch tem se mostrado uma solução excelente para indexação de dados em alta perfomance e a ingestão de dados é um tema muito interessante que nos traz muitas possibilidade">
+<meta name="keywords" content="ES,LOGSTASH,IMAP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch - Ingestão de dados com logstash">
+<meta property="og:url" content="https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/index.html">
+<meta property="og:site_name" content="Girorme&#39;s blog">
+<meta property="og:description" content="Ao longo do tempo o elasticsearch tem se mostrado uma solução excelente para indexação de dados em alta perfomance e a ingestão de dados é um tema muito interessante que nos traz muitas possibilidade">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://girorme.github.io/images/searching.jpg">
+<meta property="og:updated_time" content="2021-08-02T05:39:43.179Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch - Ingestão de dados com logstash">
+<meta name="twitter:description" content="Ao longo do tempo o elasticsearch tem se mostrado uma solução excelente para indexação de dados em alta perfomance e a ingestão de dados é um tema muito interessante que nos traz muitas possibilidade">
+<meta name="twitter:image" content="https://girorme.github.io/images/searching.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Elasticsearch - Ingestão de dados com logstash</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2022/03/15/elixir-dia-a-dia-p-matching/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/03/desktop-apps-com-wails/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&text=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&is_video=false&description=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Elasticsearch - Ingestão de dados com logstash&body=Check out this article: https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&name=Elasticsearch - Ingestão de dados com logstash&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&t=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Agenda"><span class="toc-number">1.</span> <span class="toc-text">Agenda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quem-e-elasticsearch"><span class="toc-number">2.</span> <span class="toc-text">Quem é elasticsearch?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quem-e-logstash"><span class="toc-number">3.</span> <span class="toc-text">Quem é logstash?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setup"><span class="toc-number">4.</span> <span class="toc-text">Setup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Criando-um-pipeline"><span class="toc-number">5.</span> <span class="toc-text">Criando um pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ingestao-de-dados"><span class="toc-number">6.</span> <span class="toc-text">Ingestão de dados</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Executando-buscas"><span class="toc-number">7.</span> <span class="toc-text">Executando buscas</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Um-gostinho-de-filtros-e-agregacoes"><span class="toc-number">8.</span> <span class="toc-text">Um gostinho de filtros e agregações</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#E-isso"><span class="toc-number">9.</span> <span class="toc-text">É isso</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Referencias"><span class="toc-number">10.</span> <span class="toc-text">Referências</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Elasticsearch - Ingestão de dados com logstash
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Girorme</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-08-01T22:28:15.000Z" itemprop="datePublished">2021-08-01</time>
+        
+        (Updated: <time datetime="2021-08-02T05:39:43.179Z" itemprop="dateModified">2021-08-02</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/ES/">ES</a>, <a class="tag-link" href="/tags/IMAP/">IMAP</a>, <a class="tag-link" href="/tags/LOGSTASH/">LOGSTASH</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>Ao longo do tempo o elasticsearch tem se mostrado uma solução excelente para indexação de dados em alta perfomance e a ingestão de dados é um tema muito interessante que nos traz muitas possibilidades.<br>Nesse artigo iremos explorar um pouco desse poder criando um pipeline que consome emails via imap.<br>O objetivo é mostrar a facilidade e alguns exemplos posteriores de busca, agregações e filtros.</p>
+</blockquote>
+<h3 id="Agenda"><a href="#Agenda" class="headerlink" title="Agenda"></a>Agenda</h3><ul>
+<li><a href="#quem-é-elasticsearch?">Quem é elasticsearch?</a></li>
+<li><a href="#quem-é-logstash?">Quem é logstash?</a></li>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#criando-um-pipeline">Criando um pipeline</a></li>
+<li><a href="#ingestão-de-dados">Ingestão de dados</a></li>
+<li><a href="#executando-buscas">Executando buscas</a></li>
+<li><a href="#um-gostinho-de-filtros-e-agregações">Um gostinho de filtros e agregações</a></li>
+<li><a href="#é-isso">É isso</a></li>
+<li><a href="#Referências">Referências</a></li>
+</ul>
+<div style="text-align:center"><img src="/images/searching.jpg"></div>
+
+<p>Antes de qualquer mão na massa vale uma introdução aos protagonistas:</p>
+<h3 id="Quem-e-elasticsearch"><a href="#Quem-e-elasticsearch" class="headerlink" title="Quem é elasticsearch?"></a>Quem é elasticsearch?</h3><blockquote>
+<p>Elasticsearch fornece pesquisa e análise quase em tempo real para todos os tipos de dados. Quer você tenha texto estruturado ou não estruturado, dados numéricos ou dados geoespaciais, o Elasticsearch pode armazená-los e indexá-los com eficiência de uma forma que suporte pesquisas rápidas. Você pode ir muito além da simples recuperação de dados e agregar informações para descobrir tendências e padrões em seus dados. E à medida que seu volume de dados e consultas cresce, a natureza distribuída do Elasticsearch permite que sua implantação cresça perfeitamente junto com ela.</p>
+</blockquote>
+<p>fonte: <a href="https://www.elastic.co/" target="_blank" rel="noopener">https://www.elastic.co/</a></p>
+<h3 id="Quem-e-logstash"><a href="#Quem-e-logstash" class="headerlink" title="Quem é logstash?"></a>Quem é logstash?</h3><blockquote>
+<p>Logstash é um mecanismo de coleta de dados de código aberto com recursos de pipelining em tempo real. O Logstash pode unificar dinamicamente os dados de fontes distintas e normalizar os dados nos destinos de sua escolha. Limpe e democratize todos os seus dados para diversos casos de uso de visualização e análise downstream avançada. Embora o Logstash originalmente tenha impulsionado a inovação na coleta de logs, seus recursos se estendem muito além desse caso de uso. Qualquer tipo de evento pode ser enriquecido e transformado com uma ampla gama de plug-ins de entrada, filtro e saída, com muitos codecs nativos simplificando ainda mais o processo de ingestão. O Logstash acelera seus insights ao aproveitar um maior volume e variedade de dados.</p>
+</blockquote>
+<p>fonte: <a href="https://www.elastic.co/" target="_blank" rel="noopener">https://www.elastic.co/</a></p>
+<h3 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h3><p>Para facilitar a execução iremos utilizar um docker-compose que sobe uma estância de elasticsearch + logstash. Nele fazemos uso de alguns arquivos de configuração. Criei um repositório caso queira testar: <a href="https://github.com/girorme/elastic-logstash-ingestion" target="_blank" rel="noopener">https://github.com/girorme/elastic-logstash-ingestion</a></p>
+<h3 id="Criando-um-pipeline"><a href="#Criando-um-pipeline" class="headerlink" title="Criando um pipeline"></a>Criando um pipeline</h3><p>Para definirmos como os dados entram ou saem do logstash utilizamos pipelines, que são basicamente instruções de <a href="https://www.elastic.co/guide/en/logstash/current/input-plugins.html" target="_blank" rel="noopener">entrada</a>, <a href="https://www.elastic.co/guide/en/logstash/current/filter-plugins.html" target="_blank" rel="noopener">filtro</a> e <a href="https://www.elastic.co/guide/en/logstash/current/output-plugins.html" target="_blank" rel="noopener">saida</a>. Como comentamos na introdução existem diversas formas de ingestão e output de dados, para exemplicar no artigo vamos utilizar o plugin de input de <a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-imap.html" target="_blank" rel="noopener">imap</a>, que basicament lê emails e indexa no elasticsearch</p>
+<p>Para usar/configurar o plugin é simples, aqui um exemplo do arquivo <code>pipeline/pipeline.conf</code> que está no repositório, no meu caso configurado com minhas credenciais:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  imap &#123;</span><br><span class="line">    host =&gt; &quot;imap.gmail.com&quot;</span><br><span class="line">    user =&gt; &quot;mymail@gmail.com&quot;</span><br><span class="line">    password =&gt; &quot;SECRET&quot;</span><br><span class="line">    port =&gt; 993</span><br><span class="line">    secure =&gt; true</span><br><span class="line">    strip_attachments =&gt; true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    hosts =&gt; &quot;elasticsearch:9200&quot;</span><br><span class="line">    index =&gt; &quot;gmail_inbox&quot;</span><br><span class="line">    ecs_compatibility =&gt; disabled</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>No arquivo de configuração acima estamos utilizando uma configuração de <code>input</code> que diz como o dado é obtido pelo logstash e no final uma configuração de <code>output</code> onde utilizamos elasticsearch. Defiminos o host que foi configurado no docker e setamos qual index será alimentado com as informações de email obtidas</p>
+<h3 id="Ingestao-de-dados"><a href="#Ingestao-de-dados" class="headerlink" title="Ingestão de dados"></a>Ingestão de dados</h3><p>Para finalizar, basta executar o comando <code>docker-compose up</code> que irá consumir por padrão a caixa de entrada (flag INBOX dentro do imap) e alimentar o índice gmail_inbox. Após alguns segundos de execução já é possível ver que o índice foi criado:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XGET http://localhost:9200/_cat/indices</span><br><span class="line"></span><br><span class="line">green  open .monitoring-es-7-2021.08.02       XKIlhw_vQdGKsTgRv4ENmg 1 0   44 8   2.6mb   2.6mb</span><br><span class="line">green  open .monitoring-es-7-2021.08.01       vAattcxgQWm4OekHsNNBbw 1 0 7146 0   2.4mb   2.4mb</span><br><span class="line">yellow open logstash-2021.08.01-000001        80Qtu9I6SDiofQEI7gMOQA 1 1    0 0    208b    208b</span><br><span class="line">green  open .monitoring-logstash-7-2021.08.01 R18bWi3SSPWym3vHAEchmA 1 0  139 0   235kb   235kb</span><br><span class="line">---&gt; yellow open gmail_inbox                       oNjxxicBR4WqZRwHSVpbEA 1 1   13 0 444.1kb 444.1kb</span><br></pre></td></tr></table></figure>
+
+<h3 id="Executando-buscas"><a href="#Executando-buscas" class="headerlink" title="Executando buscas"></a>Executando buscas</h3><p>Com o índice criado podemos executar buscas de várias formas (artigo em breve).</p>
+<p>Entre os campos indexados iremos retornar apenas subject, from e date que foram gerados automaticamente:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET http://localhost:9200/gmail_inbox/_search?pretty</span><br><span class="line">content-type: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;_source&quot;: [</span><br><span class="line">        &quot;subject&quot;,</span><br><span class="line">        &quot;from&quot;,</span><br><span class="line">        &quot;date&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Response:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">content-type: application/json; charset=UTF-8</span><br><span class="line">content-encoding: gzip</span><br><span class="line">content-length: 1470</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"took"</span>: <span class="number">157</span>,</span><br><span class="line">  <span class="attr">"timed_out"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"_shards"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"successful"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"skipped"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"failed"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"hits"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: &#123;</span><br><span class="line">      <span class="attr">"value"</span>: <span class="number">83</span>,</span><br><span class="line">      <span class="attr">"relation"</span>: <span class="string">"eq"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"max_score"</span>: <span class="number">1.0</span>,</span><br><span class="line">    <span class="attr">"hits"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"_index"</span>: <span class="string">"gmail_inbox"</span>,</span><br><span class="line">        <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"9LsOBXsBqoHsgYJoYeW4"</span>,</span><br><span class="line">        <span class="attr">"_score"</span>: <span class="number">1.0</span>,</span><br><span class="line">        <span class="attr">"_source"</span>: &#123;</span><br><span class="line">          <span class="attr">"date"</span>: <span class="string">"Mon, 13 Jul 2020 23:26:53 -0700"</span>,</span><br><span class="line">          <span class="attr">"subject"</span>: <span class="string">"Os principais cursos estão em oferta agora!"</span>,</span><br><span class="line">          <span class="attr">"from"</span>: <span class="string">"Udemy &lt;udemy@email.udemy.com&gt;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"_index"</span>: <span class="string">"gmail_inbox"</span>,</span><br><span class="line">        <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"w7sOBXsBqoHsgYJoJuXH"</span>,</span><br><span class="line">        <span class="attr">"_score"</span>: <span class="number">1.0</span>,</span><br><span class="line">        <span class="attr">"_source"</span>: &#123;</span><br><span class="line">          <span class="attr">"date"</span>: <span class="string">"Sun, 12 Jul 2020 08:24:42 -0600"</span>,</span><br><span class="line">          <span class="attr">"subject"</span>: <span class="string">"5  motivos pra você voltar pro Guiabolso"</span>,</span><br><span class="line">          <span class="attr">"from"</span>: <span class="string">"Guiabolso &lt;noreply@mailing.guiabolso.com.br&gt;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      </span><br><span class="line">      ...</span><br></pre></td></tr></table></figure>
+
+<p>podemos filtrar algumas palavras chaves com busca simples caso seja necessário (<em>nesse caso todos os emails onde o campo message possuir a palavra news</em>):</p>
+<p>request</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">GET http://localhost:9200/gmail_inbox/_search?pretty</span><br><span class="line">content-type: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">            &quot;message&quot;: &#123;&quot;query&quot;: &quot;news&quot;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;_source&quot;: [</span><br><span class="line">        &quot;subject&quot;,</span><br><span class="line">        &quot;from&quot;,</span><br><span class="line">        &quot;date&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>response:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">content-type: application/json; charset=UTF-8</span><br><span class="line">content-encoding: gzip</span><br><span class="line">content-length: 897</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"took"</span>: <span class="number">12</span>,</span><br><span class="line">  <span class="attr">"timed_out"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"_shards"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"successful"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"skipped"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"failed"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"hits"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: &#123;</span><br><span class="line">      <span class="attr">"value"</span>: <span class="number">7</span>,</span><br><span class="line">      <span class="attr">"relation"</span>: <span class="string">"eq"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"max_score"</span>: <span class="number">4.115555</span>,</span><br><span class="line">    <span class="attr">"hits"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"_index"</span>: <span class="string">"gmail_inbox"</span>,</span><br><span class="line">        <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"FLsOBXsBqoHsgYJokeaE"</span>,</span><br><span class="line">        <span class="attr">"_score"</span>: <span class="number">4.115555</span>,</span><br><span class="line">        <span class="attr">"_source"</span>: &#123;</span><br><span class="line">          <span class="attr">"date"</span>: <span class="string">"Tue, 14 Jul 2020 23:28:35 +0000"</span>,</span><br><span class="line">          <span class="attr">"subject"</span>: <span class="string">"Introducing our first-ever newsletter"</span>,</span><br><span class="line">          <span class="attr">"from"</span>: <span class="string">"Codecademy &lt;learn@codecademy.com&gt;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"_index"</span>: <span class="string">"gmail_inbox"</span>,</span><br><span class="line">        <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"EbsOBXsBqoHsgYJoi-a5"</span>,</span><br><span class="line">        <span class="attr">"_score"</span>: <span class="number">3.6633658</span>,</span><br><span class="line">        <span class="attr">"_source"</span>: &#123;</span><br><span class="line">          <span class="attr">"date"</span>: <span class="string">"Tue, 14 Jul 2020 22:39:31 +0000"</span>,</span><br><span class="line">          <span class="attr">"subject"</span>: <span class="string">"How top businesses succeed in the work from home economy [Webinar]"</span>,</span><br><span class="line">          <span class="attr">"from"</span>: <span class="string">"IFTTT &lt;mail@ifttt.com&gt;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"_index"</span>: <span class="string">"gmail_inbox"</span>,</span><br><span class="line">        <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"G7sOBXsBqoHsgYJonuap"</span>,</span><br><span class="line">        <span class="attr">"_score"</span>: <span class="number">3.3366938</span>,</span><br><span class="line">        <span class="attr">"_source"</span>: &#123;</span><br><span class="line">          <span class="attr">"date"</span>: <span class="string">"Wed, 15 Jul 2020 11:17:20 +0000"</span>,</span><br><span class="line">          <span class="attr">"subject"</span>: <span class="string">"[PHP Classes] Weekly PHP Classes newsletter of Wednesday - 2020-07-15"</span>,</span><br><span class="line">          <span class="attr">"from"</span>: <span class="string">"PHP Classes Newsletter &lt;list-newsletter@phpclasses.org&gt;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"_index"</span>: <span class="string">"gmail_inbox"</span>,</span><br><span class="line">        <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"xLsOBXsBqoHsgYJoKOXR"</span>,</span><br><span class="line">        <span class="attr">"_score"</span>: <span class="number">2.7797134</span>,</span><br><span class="line">        <span class="attr">"_source"</span>: &#123;</span><br><span class="line">          <span class="attr">"date"</span>: <span class="string">"Sun, 12 Jul 2020 16:22:11 +0100"</span>,</span><br><span class="line">          <span class="attr">"subject"</span>: <span class="string">"hey vá para glória na Stadium Series "</span>,</span><br><span class="line">          <span class="attr">"from"</span>: <span class="string">"PokerStars &lt;events@starsaccount.com&gt;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"_index"</span>: <span class="string">"gmail_inbox"</span>,</span><br><span class="line">        <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"L7sOBXsBqoHsgYJosubh"</span>,</span><br><span class="line">        <span class="attr">"_score"</span>: <span class="number">1.3502045</span>,</span><br><span class="line">        <span class="attr">"_source"</span>: &#123;</span><br><span class="line">          <span class="attr">"date"</span>: <span class="string">"Wed, 15 Jul 2020 14:25:24 +0000"</span>,</span><br><span class="line">          <span class="attr">"subject"</span>: <span class="string">"Elixir Radar 247"</span>,</span><br><span class="line">          <span class="attr">"from"</span>: <span class="string">"\"Hugo @ Elixir Radar\" &lt;hugo@elixir-radar.com&gt;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"_index"</span>: <span class="string">"gmail_inbox"</span>,</span><br><span class="line">        <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"57sOBXsBqoHsgYJoWOUs"</span>,</span><br><span class="line">        <span class="attr">"_score"</span>: <span class="number">0.60980225</span>,</span><br><span class="line">        <span class="attr">"_source"</span>: &#123;</span><br><span class="line">          <span class="attr">"date"</span>: <span class="string">"Mon, 13 Jul 2020 22:31:10 +0000"</span>,</span><br><span class="line">          <span class="attr">"subject"</span>: <span class="string">"Sua viagem de segunda-feira à noite com a Uber"</span>,</span><br><span class="line">          <span class="attr">"from"</span>: <span class="string">"Recibos da Uber &lt;uber.brasil@uber.com&gt;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Um-gostinho-de-filtros-e-agregacoes"><a href="#Um-gostinho-de-filtros-e-agregacoes" class="headerlink" title="Um gostinho de filtros e agregações"></a>Um gostinho de filtros e agregações</h3><p>Com os dados indexados podemos fazer muitas coisas legais com o elastic, como por exemplo utilizar filtros diversos e agregações.</p>
+<p>Abaixo um exemplo de count_aggregation, trazendo quantos emails tenho de cada “from” (repare que utilizamos <code>from.keyword</code> que é um campo gerado pela indexação do tipo keyword que é utilizado em operações de sorting, agregações, etc), armezenando o resultado na chave <code>senders_count</code>:</p>
+<p>request</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">GET http://localhost:9200/gmail_inbox/_search?pretty</span><br><span class="line">content-type: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;size&quot;: 0,</span><br><span class="line">    &quot;_source&quot;: [</span><br><span class="line">        &quot;subject&quot;,</span><br><span class="line">        &quot;from&quot;,</span><br><span class="line">        &quot;date&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;aggs&quot; : &#123;</span><br><span class="line">    &quot;senders_count&quot;: &#123;</span><br><span class="line">      &quot;terms&quot;: &#123;</span><br><span class="line">        &quot;field&quot;: &quot;from.keyword&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>response:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">content-type: application/json; charset=UTF-8</span><br><span class="line">content-encoding: gzip</span><br><span class="line">content-length: 560</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"took"</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">"timed_out"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"_shards"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"successful"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"skipped"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"failed"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"hits"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: &#123;</span><br><span class="line">      <span class="attr">"value"</span>: <span class="number">83</span>,</span><br><span class="line">      <span class="attr">"relation"</span>: <span class="string">"eq"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"max_score"</span>: <span class="literal">null</span>,</span><br><span class="line">    <span class="attr">"hits"</span>: []</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"aggregations"</span>: &#123;</span><br><span class="line">    <span class="attr">"senders_count"</span>: &#123;</span><br><span class="line">      <span class="attr">"doc_count_error_upper_bound"</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">"sum_other_doc_count"</span>: <span class="number">49</span>,</span><br><span class="line">      <span class="attr">"buckets"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"\"Comunidade .NET SP (Meetup)\" &lt;meetup-group-NSGNPppH-announce@meetup.com&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">8</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"Alertas de vaga do LinkedIn &lt;jobalerts-noreply@linkedin.com&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">5</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"\".NET São Paulo\" &lt;info@meetup.com&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">3</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"Medium Daily Digest &lt;noreply@medium.com&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">3</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"The Hacker News &lt;news@news.nl00.net&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">3</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"Todoist &lt;daily-digest@todoist.com&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">3</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"Vagas do Glassdoor &lt;noreply@glassdoor.com&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">3</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"\"stale[bot]\" &lt;notifications@github.com&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">2</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"GitHub &lt;noreply@github.com&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">2</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"Guiabolso &lt;noreply@mailing.guiabolso.com.br&gt;"</span>,</span><br><span class="line">          <span class="attr">"doc_count"</span>: <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>O resultado pode ficar mpuito mais interessante juntando visualizações e gráficos no kibana que podemos discutir em outro artigo :) !!!</p>
+<h3 id="E-isso"><a href="#E-isso" class="headerlink" title="É isso"></a>É isso</h3><p>Essa é uma introdução rápida que mostra o poder e flexibilidade do logstash em conjunto com elasticsearch. No exemplo de ingestão de dados poderíamos ter utilizado um filtro para pegar mensagens específicas ou com flags específicas também mesclando com saídas diferente que a do elasticsearch o que atende à varias necessidades</p>
+<p>Te convido a explorar os plugins sensacionais de input, filter e output que são oferecidos pela elastic:</p>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/logstash/current/input-plugins.html" target="_blank" rel="noopener">Input plugins</a></li>
+<li><a href="https://www.elastic.co/guide/en/logstash/current/output-plugins.html" target="_blank" rel="noopener">Output plugins</a></li>
+<li><a href="https://www.elastic.co/guide/en/logstash/current/filter-plugins.html" target="_blank" rel="noopener">Filter plugins</a></li>
+</ul>
+<h3 id="Referencias"><a href="#Referencias" class="headerlink" title="Referências"></a>Referências</h3><ul>
+<li><a href="https://www.elastic.co/guide/en/logstash/current/introduction.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/logstash/current/introduction.html</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html</a> </li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html</a></li>
+<li><a href="https://www.elastic.co/guide/en/logstash/current/docker.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/logstash/current/docker.html</a></li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Agenda"><span class="toc-number">1.</span> <span class="toc-text">Agenda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quem-e-elasticsearch"><span class="toc-number">2.</span> <span class="toc-text">Quem é elasticsearch?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quem-e-logstash"><span class="toc-number">3.</span> <span class="toc-text">Quem é logstash?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setup"><span class="toc-number">4.</span> <span class="toc-text">Setup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Criando-um-pipeline"><span class="toc-number">5.</span> <span class="toc-text">Criando um pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ingestao-de-dados"><span class="toc-number">6.</span> <span class="toc-text">Ingestão de dados</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Executando-buscas"><span class="toc-number">7.</span> <span class="toc-text">Executando buscas</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Um-gostinho-de-filtros-e-agregacoes"><span class="toc-number">8.</span> <span class="toc-text">Um gostinho de filtros e agregações</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#E-isso"><span class="toc-number">9.</span> <span class="toc-text">É isso</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Referencias"><span class="toc-number">10.</span> <span class="toc-text">Referências</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&text=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&is_video=false&description=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Elasticsearch - Ingestão de dados com logstash&body=Check out this article: https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&title=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&name=Elasticsearch - Ingestão de dados com logstash&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/&t=Elasticsearch - Ingestão de dados com logstash"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2022
+    Girorme
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146888718-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-146888718-1');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'girorme';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

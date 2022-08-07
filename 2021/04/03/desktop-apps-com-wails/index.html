@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Já conhecemos go pela sua perfomance e produtividade. Temos também bibliotecas incríveis que são muito utilizadas diariamente. Uma que tem chamado minha atenção é a incrível wails que nos permite escr">
+<meta name="keywords" content="golang,vue,react,angular,wails">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Criando aplicações desktop com GO e Vue&#x2F;React&#x2F;Angular&#x2F;Foo&#x2F;Bar">
+<meta property="og:url" content="https://girorme.github.io/2021/04/03/desktop-apps-com-wails/index.html">
+<meta property="og:site_name" content="Girorme&#39;s blog">
+<meta property="og:description" content="Já conhecemos go pela sua perfomance e produtividade. Temos também bibliotecas incríveis que são muito utilizadas diariamente. Uma que tem chamado minha atenção é a incrível wails que nos permite escr">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://girorme.github.io/images/tech.png">
+<meta property="og:image" content="https://girorme.github.io/images/go-wails-1.png">
+<meta property="og:image" content="https://girorme.github.io/images/go-wails-2.png">
+<meta property="og:image" content="https://girorme.github.io/images/video-scraper.gif">
+<meta property="og:updated_time" content="2021-08-01T22:27:43.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Criando aplicações desktop com GO e Vue&#x2F;React&#x2F;Angular&#x2F;Foo&#x2F;Bar">
+<meta name="twitter:description" content="Já conhecemos go pela sua perfomance e produtividade. Temos também bibliotecas incríveis que são muito utilizadas diariamente. Uma que tem chamado minha atenção é a incrível wails que nos permite escr">
+<meta name="twitter:image" content="https://girorme.github.io/images/tech.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/08/01/ingestao-de-dados-es-logstash/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/02/06/GO-para-devs-PHP-O-tal-do-Json/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&text=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&is_video=false&description=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar&body=Check out this article: https://girorme.github.io/2021/04/03/desktop-apps-com-wails/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&name=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&t=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Instalacao-wails"><span class="toc-number">1.</span> <span class="toc-text">Instalação wails</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Inicio-projeto"><span class="toc-number">2.</span> <span class="toc-text">Inicio projeto</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conceitos-importantes"><span class="toc-number">3.</span> <span class="toc-text">Conceitos importantes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bindings"><span class="toc-number">3.1.</span> <span class="toc-text">Bindings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eventos"><span class="toc-number">3.2.</span> <span class="toc-text">Eventos</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Desenvolvendo-a-ferramenta"><span class="toc-number">4.</span> <span class="toc-text">Desenvolvendo a ferramenta</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Backend"><span class="toc-number">4.1.</span> <span class="toc-text">Backend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logs-e-Runtime"><span class="toc-number">4.2.</span> <span class="toc-text">Logs e Runtime</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Frontend"><span class="toc-number">4.3.</span> <span class="toc-text">Frontend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Trechos-importantes"><span class="toc-number">4.4.</span> <span class="toc-text">Trechos importantes</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build"><span class="toc-number">5.</span> <span class="toc-text">Build</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demo"><span class="toc-number">6.</span> <span class="toc-text">Demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusao"><span class="toc-number">7.</span> <span class="toc-text">Conclusão</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Creditos"><span class="toc-number">8.</span> <span class="toc-text">Créditos</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Girorme</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-03T23:32:31.000Z" itemprop="datePublished">2021-04-03</time>
+        
+        (Updated: <time datetime="2021-08-01T22:27:43.682Z" itemprop="dateModified">2021-08-01</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/angular/">angular</a>, <a class="tag-link" href="/tags/golang/">golang</a>, <a class="tag-link" href="/tags/react/">react</a>, <a class="tag-link" href="/tags/vue/">vue</a>, <a class="tag-link" href="/tags/wails/">wails</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Já conhecemos go pela sua perfomance e produtividade. Temos também bibliotecas incríveis que são muito utilizadas diariamente. Uma que tem chamado minha atenção é a incrível <a href="https://wails.app/" target="_blank" rel="noopener">wails</a> que nos permite escrever aplicações desktop utilizando GO no backend e tecnologias web, como (React, Vue, Angular, etc) para prover o front. Isso nos da muitas possibilidades (o showcase inclusive é incrível (<a href="https://wails.app/showcase/" target="_blank" rel="noopener">wails-showcase</a>)) e minha proposta é explorar o wails brevemente escrendo uma aplicação que faz scrap de links, então pegue sua cerveja!</p>
+<div style="text-align:center"><img width="500px" height="500px" src="/images/tech.png"></div>
+
+<h2 id="Instalacao-wails"><a href="#Instalacao-wails" class="headerlink" title="Instalação wails"></a>Instalação wails</h2><p>A instalação é simples e requer apenas alguns requisitos: <a href="https://wails.app/gettingstarted/" target="_blank" rel="noopener">wails-getting-started</a></p>
+<h2 id="Inicio-projeto"><a href="#Inicio-projeto" class="headerlink" title="Inicio projeto"></a>Inicio projeto</h2><p>Para inicializar um projeto wails é bem simples, seguido do comando: <code>wails init</code>, algumas informações são solicitadas e ao final escolhemos qual tecnologia usaremos no front, usarei Vue 3:</p>
+<div style="text-align:center"><img src="/images/go-wails-1.png"></div>
+
+
+<h2 id="Conceitos-importantes"><a href="#Conceitos-importantes" class="headerlink" title="Conceitos importantes"></a>Conceitos importantes</h2><p>O binding de dados e comunicação entre o frontend -&gt; backend no wails são obtidos através de dois grandes atores: Bindings e Eventos.</p>
+<h3 id="Bindings"><a href="#Bindings" class="headerlink" title="Bindings"></a>Bindings</h3><p>No backend é possível bindar uma única função ou uma série de métodos de uma struct para que o frontend acesse facilmente esses métodos. O wails disponibiliza esses dados através de promises o que aumenta a facilidade de desenvolvimento / manutenção</p>
+<h3 id="Eventos"><a href="#Eventos" class="headerlink" title="Eventos"></a>Eventos</h3><p>O wails também da ao desenvolvedor uma forma muito simples de emitir eventos, tanto no backend quanto no frontend. Dessa forma é possível alcançar muitas features legais como notificações realtime (Juntando isso com um framework/lib como o vue ou react da pra fazer muita coisa mara!)</p>
+<h2 id="Desenvolvendo-a-ferramenta"><a href="#Desenvolvendo-a-ferramenta" class="headerlink" title="Desenvolvendo a ferramenta"></a>Desenvolvendo a ferramenta</h2><p>Vamos por etapas adicionando as dependências e codando features no backend e frontend</p>
+<h3 id="Backend"><a href="#Backend" class="headerlink" title="Backend"></a>Backend</h3><p>O esqueleto do backend que é gerado é muito simples e tem apenas uma função bindada no arquivo <code>main.go</code>, vamos codar nosso scraper no arqivo <code>scraper.go</code>, antes disso irei instalar a lib <a href="https://github.com/PuerkitoBio/goquery" target="_blank" rel="noopener">goquery</a>, que é um parser html muito simples de se utilizar:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go get github.com/PuerkitoBio/goquery</span><br></pre></td></tr></table></figure>
+
+<p>Feito isso podemos codar nossa funcionalidade de extrair links, abaixo deixo mais detalhes importantes sobre cada trecho</p>
+<p><code>scraper.go</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">"net/http"</span></span><br><span class="line"></span><br><span class="line">  <span class="string">"github.com/PuerkitoBio/goquery"</span></span><br><span class="line">  <span class="string">"github.com/wailsapp/wails"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Scraper <span class="keyword">struct</span> &#123;</span><br><span class="line">  log     *wails.CustomLogger</span><br><span class="line">  runtime *wails.Runtime</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Scraper)</span> <span class="title">WailsInit</span><span class="params">(runtime *wails.Runtime)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">  s.log = runtime.Log.New(<span class="string">"Scraper"</span>)</span><br><span class="line">  s.runtime = runtime</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Scraper)</span> <span class="title">GetLinks</span><span class="params">(url <span class="keyword">string</span>)</span> <span class="params">(urls []<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">  res, err := http.Get(url)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    s.runtime.Events.Emit(<span class="string">"error"</span>, err.Error())</span><br><span class="line">    s.log.Error(err.Error())</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">defer</span> res.Body.Close()</span><br><span class="line"></span><br><span class="line">  doc, err := goquery.NewDocumentFromReader(res.Body)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    s.runtime.Events.Emit(<span class="string">"error"</span>, err.Error())</span><br><span class="line">    s.log.Error(err.Error())</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  doc.Find(<span class="string">"a"</span>).Each(<span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>, s *goquery.Selection)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> href, exists := s.Attr(<span class="string">"href"</span>); exists != <span class="literal">false</span> &#123;</span><br><span class="line">      urls = <span class="built_in">append</span>(urls, href)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> urls</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Logs-e-Runtime"><a href="#Logs-e-Runtime" class="headerlink" title="Logs e Runtime"></a>Logs e Runtime</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Scraper <span class="keyword">struct</span> &#123;</span><br><span class="line">  log     *wails.CustomLogger</span><br><span class="line">  runtime *wails.Runtime</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Scraper)</span> <span class="title">WailsInit</span><span class="params">(runtime *wails.Runtime)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">  s.log = runtime.Log.New(<span class="string">"Scraper"</span>)</span><br><span class="line">  s.runtime = runtime</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Nos campos da struct <code>Scraper</code> utilizamos dois elementos importantes do Wails: <code>CustomLogger</code> e o <code>Runtime</code>, o primeiro nos permite emitir logs personalizados e o segundo nos da capacidade de emitir eventos com facilidade, como mencionado no inicio do artigo.</p>
+<p>O método <code>WailsInit(runtime *wails.Runtime)</code> é nosso construtor que pode ser utilizado para algumas operações importantes antes de qualquer procedimento de fato nos métodos que são chamados pelo frontend.</p>
+<p>Logo abaixo temos o método <code>GetLinks(url string)</code> que acessa a url informada e extrai alguns links. Nesse método temos algumas operações do wails acontecendo que são importantes de mencionar, ex:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">  s.runtime.Events.Emit(<span class="string">"error"</span>, err.Error())</span><br><span class="line">  s.log.Error(err.Error())</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Quando temos um erro, emitimos o mesmo via o canal “error” e logamos o erro. Iremos escutar esse evento em breve no frontend. Emitir um evento do backend para o frontend é realmente simples!</p>
+<p>Criado o arquivo podemos bindar o mesmo no arquivo <code>main.go</code>:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">"github.com/leaanthony/mewn"</span></span><br><span class="line">  <span class="string">"github.com/wailsapp/wails"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  js := mewn.String(<span class="string">"./frontend/dist/app.js"</span>)</span><br><span class="line">  css := mewn.String(<span class="string">"./frontend/dist/app.css"</span>)</span><br><span class="line">  scraper := &amp;Scraper&#123;&#125;</span><br><span class="line">  app := wails.CreateApp(&amp;wails.AppConfig&#123;</span><br><span class="line">    Width:  <span class="number">1024</span>,</span><br><span class="line">    Height: <span class="number">768</span>,</span><br><span class="line">    Title:  <span class="string">"scraper"</span>,</span><br><span class="line">    JS:     js,</span><br><span class="line">    CSS:    css,</span><br><span class="line">    Colour: <span class="string">"#131313"</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">  app.Bind(scraper)</span><br><span class="line">  app.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Frontend"><a href="#Frontend" class="headerlink" title="Frontend"></a>Frontend</h3><p>Agora para o front, podemos fazer tudo o que fariamos em um projeto front normal: Instalar dependências, estilizar aplicação e no final das contas fazer a comunicação com o backend.</p>
+<p>Para estilizar utilizei as deps <code>bootstrap</code> e <code>bootstrap-vue</code>, para isso basta acessar a pasta frontend e utilizar o já conhecido: <code>npm install x y z</code>.</p>
+<p>Feito isso foi necessário uma modificação no arquivo <code>frontend/src/main.js</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'core-js/stable'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'regenerator-runtime/runtime'</span>;</span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App.vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; BootstrapVue, IconsPlugin &#125; <span class="keyword">from</span> <span class="string">'bootstrap-vue'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'bootstrap/dist/css/bootstrap.css'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'bootstrap-vue/dist/bootstrap-vue.css'</span></span><br><span class="line"></span><br><span class="line">Vue.config.productionTip = <span class="literal">false</span>;</span><br><span class="line">Vue.config.devtools = <span class="literal">true</span>;</span><br><span class="line"><span class="comment">// Make BootstrapVue available throughout your project</span></span><br><span class="line">Vue.use(BootstrapVue)</span><br><span class="line"><span class="comment">// Optionally install the BootstrapVue icon components plugin</span></span><br><span class="line">Vue.use(IconsPlugin)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> Wails <span class="keyword">from</span> <span class="string">'@wailsapp/runtime'</span>;</span><br><span class="line"></span><br><span class="line">Wails.Init(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">  &#125;).$mount(<span class="string">'#app'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Adicionando as linhas:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BootstrapVue, IconsPlugin &#125; <span class="keyword">from</span> <span class="string">'bootstrap-vue'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'bootstrap/dist/css/bootstrap.css'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'bootstrap-vue/dist/bootstrap-vue.css'</span></span><br><span class="line">Vue.use(BootstrapVue)</span><br><span class="line">Vue.use(IconsPlugin)</span><br></pre></td></tr></table></figure>
+
+<p>Feito isso criamos um componente para a feature <code>frontend/src/components/Scraper.vue</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;Link Scraper&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;b-alert</span></span><br><span class="line"><span class="regexp">      :show="dismissCountDown"</span></span><br><span class="line"><span class="regexp">      dismissible</span></span><br><span class="line"><span class="regexp">      fade</span></span><br><span class="line"><span class="regexp">      variant="danger"</span></span><br><span class="line"><span class="regexp">      @dismissed="dismissCountDown=0"</span></span><br><span class="line"><span class="regexp">      @dismiss-count-down="countDownChanged"</span></span><br><span class="line"><span class="regexp">      &gt;</span></span><br><span class="line"><span class="regexp">      Error: &#123;&#123; error &#125;&#125;. Closing in &#123;&#123; dismissCountDown &#125;&#125; seconds...</span></span><br><span class="line"><span class="regexp">      &lt;/</span>b-alert&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;b-form @submit="onSubmit"&gt;</span></span><br><span class="line"><span class="regexp">      &lt;b-form-group</span></span><br><span class="line"><span class="regexp">        id="input-group-1"</span></span><br><span class="line"><span class="regexp">        label="Url:"</span></span><br><span class="line"><span class="regexp">        label-for="input-1"</span></span><br><span class="line"><span class="regexp">        description="Url to scrap links"</span></span><br><span class="line"><span class="regexp">      &gt;</span></span><br><span class="line"><span class="regexp">        &lt;b-form-input</span></span><br><span class="line"><span class="regexp">          id="input-1"</span></span><br><span class="line"><span class="regexp">          v-model="form.url"</span></span><br><span class="line"><span class="regexp">          placeholder="Enter url"</span></span><br><span class="line"><span class="regexp">          required</span></span><br><span class="line"><span class="regexp">        &gt;&lt;/</span>b-form-input&gt;</span><br><span class="line">      &lt;<span class="regexp">/b-form-group&gt;</span></span><br><span class="line"><span class="regexp">      &lt;b-button type="submit" variant="primary"&gt;Scraaap!&lt;/</span>b-button&gt;</span><br><span class="line">    &lt;<span class="regexp">/b-form&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div v-if="working"&gt;</span></span><br><span class="line"><span class="regexp">      &lt;h4&gt;Scraping... &lt;b-spinner type="grow"&gt;&lt;/</span>b-spinner&gt;&lt;/h4&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;b-card class="mt-3" header="Urls"&gt;</span></span><br><span class="line"><span class="regexp">      &lt;pre class="m-0"&gt;&#123;&#123; result &#125;&#125;&lt;/</span>pre&gt;</span><br><span class="line">    &lt;<span class="regexp">/b-card&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/template&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp">  import Wails from '@wailsapp/</span>runtime<span class="string">';</span></span><br><span class="line"><span class="string">  export default &#123;</span></span><br><span class="line"><span class="string">    data() &#123;</span></span><br><span class="line"><span class="string">      return &#123;</span></span><br><span class="line"><span class="string">        form: &#123;</span></span><br><span class="line"><span class="string">          url: '</span><span class="string">'</span></span><br><span class="line"><span class="string">        &#125;,</span></span><br><span class="line"><span class="string">        result: [],</span></span><br><span class="line"><span class="string">        error: '</span><span class="string">',</span></span><br><span class="line"><span class="string">        dismissSecs: 5,</span></span><br><span class="line"><span class="string">        dismissCountDown: 0,</span></span><br><span class="line"><span class="string">        working: false</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    &#125;,</span></span><br><span class="line"><span class="string">    methods: &#123;</span></span><br><span class="line"><span class="string">      onSubmit(event) &#123;</span></span><br><span class="line"><span class="string">        event.preventDefault()</span></span><br><span class="line"><span class="string">        this.working = true</span></span><br><span class="line"><span class="string">        window.backend.Scraper.GetLinks(this.form.url).then(res =&gt; &#123;</span></span><br><span class="line"><span class="string">          this.result = res</span></span><br><span class="line"><span class="string">        &#125;).finally(() =&gt; &#123;</span></span><br><span class="line"><span class="string">          this.working = false</span></span><br><span class="line"><span class="string">        &#125;)</span></span><br><span class="line"><span class="string">      &#125;,</span></span><br><span class="line"><span class="string">      countDownChanged(dismissCountDown) &#123;</span></span><br><span class="line"><span class="string">        this.dismissCountDown = dismissCountDown</span></span><br><span class="line"><span class="string">      &#125;,</span></span><br><span class="line"><span class="string">      showAlert() &#123;</span></span><br><span class="line"><span class="string">        this.dismissCountDown = this.dismissSecs</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    &#125;,</span></span><br><span class="line"><span class="string">    mounted: function() &#123;</span></span><br><span class="line"><span class="string">      Wails.Events.On("error", errorMsg =&gt; &#123;</span></span><br><span class="line"><span class="string">        this.error = errorMsg</span></span><br><span class="line"><span class="string">        this.showAlert()</span></span><br><span class="line"><span class="string">      &#125;);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Um componente muito simples. Que resulta no seguinte:</p>
+<div style="text-align:center"><img src="/images/go-wails-2.png"></div>
+
+<h3 id="Trechos-importantes"><a href="#Trechos-importantes" class="headerlink" title="Trechos importantes"></a>Trechos importantes</h3><p>1 - Ao clicar no botão scrap, fazemos a chamada para o backend, para que isso seja possível, precisamos apenas desse trecho:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">onSubmit(event) &#123;</span><br><span class="line">    event.preventDefault()</span><br><span class="line">    <span class="keyword">this</span>.working = <span class="literal">true</span></span><br><span class="line">    <span class="built_in">window</span>.backend.Scraper.GetLinks(<span class="keyword">this</span>.form.url).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.result = res</span><br><span class="line">    &#125;).finally(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.working = <span class="literal">false</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>O método é acessado via <code>window.backend.Struct.Method</code>, o retorno é obtido via promise. Ali é setado algumas variáveis para controle de loading, etc.</p>
+<p>2 - Para receber os eventos de erro que podem acontecer no método <code>GetLinks</code> lá do backend, fazemos o seuginte:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mounted: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    Wails.Events.On(<span class="string">"error"</span>, errorMsg =&gt; &#123;</span><br><span class="line">        <span class="keyword">this</span>.error = errorMsg</span><br><span class="line">        <span class="keyword">this</span>.showAlert()</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Utilizamos a função <code>mounted</code> do vue para iniciar o componente escutando esses eventos e como tudo ocorre de forma async não corremos o perigo do freezing de GUI (Programadores java/c# sabem bem como é isso quando não abrimos aquela threadzinha separada da main hehe)</p>
+<p>Feito isso podemos ir ao build!</p>
+<h2 id="Build"><a href="#Build" class="headerlink" title="Build"></a>Build</h2><p>Para compilar a aplicação é simples: <code>wails build -d</code>, feito isso será criado um binário em <code>build/nome-app</code></p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><div style="text-align:center"><img src="/images/video-scraper.gif"></div>
+
+<h2 id="Conclusao"><a href="#Conclusao" class="headerlink" title="Conclusão"></a>Conclusão</h2><p>Deixo aqui o ponta pé para você iniciar seu próximo projeto em wails! Um mundo de possibilidade te aguarda! (:</p>
+<p>Caso queira dar uma olhada no repo exemplo: <a href="https://github.com/girorme/scraper" target="_blank" rel="noopener">https://github.com/girorme/scraper</a></p>
+<h2 id="Creditos"><a href="#Creditos" class="headerlink" title="Créditos"></a>Créditos</h2><ul>
+<li><a href="https://wails.app/" target="_blank" rel="noopener">https://wails.app/</a></li>
+<li><a href="https://www.avantica.com/blog/wails-building-desktop-apps-in-go" target="_blank" rel="noopener">https://www.avantica.com/blog/wails-building-desktop-apps-in-go</a></li>
+<li><a href="https://medium.com/@pliutau/building-a-desktop-app-in-go-using-wails-756c1f31f75" target="_blank" rel="noopener">https://medium.com/@pliutau/building-a-desktop-app-in-go-using-wails-756c1f31f75</a></li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Instalacao-wails"><span class="toc-number">1.</span> <span class="toc-text">Instalação wails</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Inicio-projeto"><span class="toc-number">2.</span> <span class="toc-text">Inicio projeto</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conceitos-importantes"><span class="toc-number">3.</span> <span class="toc-text">Conceitos importantes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bindings"><span class="toc-number">3.1.</span> <span class="toc-text">Bindings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eventos"><span class="toc-number">3.2.</span> <span class="toc-text">Eventos</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Desenvolvendo-a-ferramenta"><span class="toc-number">4.</span> <span class="toc-text">Desenvolvendo a ferramenta</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Backend"><span class="toc-number">4.1.</span> <span class="toc-text">Backend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logs-e-Runtime"><span class="toc-number">4.2.</span> <span class="toc-text">Logs e Runtime</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Frontend"><span class="toc-number">4.3.</span> <span class="toc-text">Frontend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Trechos-importantes"><span class="toc-number">4.4.</span> <span class="toc-text">Trechos importantes</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build"><span class="toc-number">5.</span> <span class="toc-text">Build</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demo"><span class="toc-number">6.</span> <span class="toc-text">Demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusao"><span class="toc-number">7.</span> <span class="toc-text">Conclusão</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Creditos"><span class="toc-number">8.</span> <span class="toc-text">Créditos</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&text=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&is_video=false&description=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar&body=Check out this article: https://girorme.github.io/2021/04/03/desktop-apps-com-wails/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&title=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&name=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2021/04/03/desktop-apps-com-wails/&t=Criando aplicações desktop com GO e Vue/React/Angular/Foo/Bar"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2022
+    Girorme
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146888718-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-146888718-1');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'girorme';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

@@ -2,65 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://girorme.github.io/2021/02/06/GO-para-devs-PHP-O-tal-do-Json/</loc>
+    <loc>https://girorme.github.io/2022/03/15/elixir-dia-a-dia-p-matching/</loc>
     
-    <lastmod>2021-02-08T02:54:32.388Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://girorme.github.io/2020/12/17/Elixir-e-o-web-scraping/</loc>
-    
-    <lastmod>2021-02-07T19:05:32.384Z</lastmod>
+    <lastmod>2022-08-07T17:48:24.728Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://girorme.github.io/2021/01/25/elixir-binaries/</loc>
+    <loc>https://girorme.github.io/2021/08/01/ingestao-de-dados-es-logstash/</loc>
     
-    <lastmod>2021-02-06T21:27:33.300Z</lastmod>
+    <lastmod>2021-08-02T05:39:43.179Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://girorme.github.io/about/index.html</loc>
+    <loc>https://girorme.github.io/2021/04/03/desktop-apps-com-wails/</loc>
     
-    <lastmod>2021-02-06T20:25:56.829Z</lastmod>
+    <lastmod>2021-08-01T22:27:43.682Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://girorme.github.io/2020/08/01/serialization-php-object-injection/</loc>
     
-    <lastmod>2021-02-06T20:25:56.828Z</lastmod>
+    <lastmod>2021-04-02T05:35:01.438Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://girorme.github.io/2019/09/04/psr-12-pt-br/</loc>
+    <loc>https://girorme.github.io/about/index.html</loc>
     
-    <lastmod>2021-02-06T20:25:56.827Z</lastmod>
+    <lastmod>2021-04-02T05:35:01.438Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://girorme.github.io/2017/07/22/hello-world/</loc>
     
-    <lastmod>2021-02-06T20:25:56.825Z</lastmod>
+    <lastmod>2021-04-02T05:35:01.437Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://girorme.github.io/2019/09/04/psr-12-pt-br/</loc>
+    
+    <lastmod>2021-04-02T05:35:01.437Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://girorme.github.io/2017/07/23/gerenciando-bibliotecas-php-composer/</loc>
     
-    <lastmod>2021-02-06T20:25:56.824Z</lastmod>
+    <lastmod>2021-04-02T05:35:01.436Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/</loc>
     
-    <lastmod>2021-02-06T20:25:56.822Z</lastmod>
+    <lastmod>2021-04-02T05:35:01.436Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://girorme.github.io/2021/01/25/elixir-binaries/</loc>
+    
+    <lastmod>2021-04-02T05:35:01.436Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://girorme.github.io/2020/12/17/Elixir-e-o-web-scraping/</loc>
+    
+    <lastmod>2021-04-02T05:35:01.435Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://girorme.github.io/2021/02/06/GO-para-devs-PHP-O-tal-do-Json/</loc>
+    
+    <lastmod>2021-04-02T05:35:01.435Z</lastmod>
     
   </url>
   
