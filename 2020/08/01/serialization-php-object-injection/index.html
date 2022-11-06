@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://girorme.github.io/images/mindblow.gif">
 <meta property="og:image" content="https://girorme.github.io/images/phpggc.png">
 <meta property="og:image" content="https://girorme.github.io/images/message-unserialize.png">
-<meta property="og:updated_time" content="2022-11-06T16:48:06.683Z">
+<meta property="og:updated_time" content="2022-11-06T17:06:27.078Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Serialization e Object injection vulnerability - Uma década de exploração">
 <meta name="twitter:description" content="TL;DR  Esse artigo introduz e explora brevemente a vulnerabilidade object injection, especificamente na linguagem PHP, através de algumas técnicas conhecidas, mostrando como a simples utilização de um">
@@ -140,7 +140,7 @@
       
         <time datetime="2020-08-01T04:02:17.000Z" itemprop="datePublished">2020-08-01</time>
         
-        (Updated: <time datetime="2022-11-06T16:48:06.683Z" itemprop="dateModified">2022-11-06</time>)
+        (Updated: <time datetime="2022-11-06T17:06:27.078Z" itemprop="dateModified">2022-11-06</time>)
         
       
     </div>
@@ -246,7 +246,7 @@
 <p>A segunda condição nos remete à um cenário muito comum hoje em aplicações de média/grande escala, até mesmo de pequeno porte. Quem programa sabe o quão é comum a utilização de autoloading dinâmico (<em>principalmente em frameworks</em>) nas aplicações de hoje, seja via composer (Nosso projeto que criamos no começo do artigo…) ou até mesmo um autoload personalizado. De fato essas aplicações possuem na maioria dos casos bibliotecas comuns instaladas, seja para gerenciamento de logs (Monolog), clients http (Guzzle) e outras.</p>
 <p>Tendo esse fato em mãos, atacantes abusam disso para que através de outras bibliotecas seja possível executar os mais diversos tipos de ataques, que como dito acima podem ser desde um “simples” denial of service ou até mesmo um RCE comprometendo de forma rigorosa a aplicação/infraestrutura.</p>
 <h3 id="Ataque-direto"><a href="#Ataque-direto" class="headerlink" title="Ataque direto"></a>Ataque direto</h3><p>Vamos à um ataque onde uma classe está muito vulnerável, de vetor simples. Como dito anteriormente nosso cookie é salvo da seguinte forma:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">savePreferences</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// op, op, op, save data etc</span></span><br><span class="line">        $extraThemes = serialize($_POST[<span class="string">'extra_themes'</span>]);</span><br><span class="line">truetruesetcookie(<span class="string">'extra_themes'</span>, $extraThemes);</span><br><span class="line">true&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">savePreferences</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// op, op, op, save data etc</span></span><br><span class="line">        $extraThemes = serialize($_POST[<span class="string">'extra_themes'</span>]);</span><br><span class="line">        setcookie(<span class="string">'extra_themes'</span>, $extraThemes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Criei um arquivo php simples que irá trabalhar com esse dado posteriormente:</p>
 <div style="text-align:center"><img src="/images/index1.png"></div>
