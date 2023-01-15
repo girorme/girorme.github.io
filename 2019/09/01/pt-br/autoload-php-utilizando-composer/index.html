@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=en>
+<html lang=pt>
 <head><meta name="generator" content="Hexo 3.9.0">
     <!-- so meta -->
     <meta charset="utf-8">
@@ -10,10 +10,10 @@
 <meta name="keywords" content="PHP autoload,Composer,PSR-4">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Autoload no PHP utilizando o composer (PSR4)">
-<meta property="og:url" content="https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/index.html">
+<meta property="og:url" content="https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/index.html">
 <meta property="og:site_name" content="Girorme&#39;s blog">
 <meta property="og:description" content="TL;DR Iremos criar um projeto utilizando composer e o padrão PSR4 para autoloading  Era tudo matoVocê certamente já viu ou já utilizou as funções require/require_once ou até mesmo include enquanto pro">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="pt-br">
 <meta property="og:updated_time" content="2021-04-02T05:35:01.436Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Autoload no PHP utilizando o composer (PSR4)">
@@ -59,13 +59,13 @@
     <span id="nav">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Início</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">Sobre</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Artigos</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="/projects_url">Projetos</a></li>
         
       </ul>
     </span>
@@ -73,33 +73,33 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2019/09/04/psr-12-pt-br/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2019/09/04/pt-br/psr-12-pt-br/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/2017/07/23/gerenciando-bibliotecas-php-composer/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2017/07/23/pt-br/gerenciando-bibliotecas-php-composer/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
+      <span id="i-prev" class="info" style="display:none;">Post Anterior</span>
+      <span id="i-next" class="info" style="display:none;">Post Seguinte</span>
+      <span id="i-top" class="info" style="display:none;">Acima</span>
+      <span id="i-share" class="info" style="display:none;">Compartihar Post</span>
     </span>
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&text=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&is_video=false&description=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Autoload no PHP utilizando o composer (PSR4)&body=Check out this article: https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&name=Autoload no PHP utilizando o composer (PSR4)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&t=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&text=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&is_video=false&description=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Autoload no PHP utilizando o composer (PSR4)&body=Check out this article: https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&name=Autoload no PHP utilizando o composer (PSR4)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&t=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -114,7 +114,15 @@
         
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
-    
+    <style>
+    a {color:#2bbc8a;}         /* Unvisited link  */
+    a:visited {color:#2bbc8a;} /* Visited link    */
+    a:hover {color:#2bbc8a;}   /* Mouse over link */
+    a:active {color:#2bbc8a;}  /* Selected link   */
+    a:hover { text-decoration: none !important }
+</style>
+
+
     <h1 class="posttitle" itemprop="name headline">
         Autoload no PHP utilizando o composer (PSR4)
     </h1>
@@ -221,7 +229,7 @@
 
     <div class="blog-post-comments">
         <div id="disqus_thread">
-            <noscript>Please enable JavaScript to view the comments.</noscript>
+            <noscript>Por favor, ative o JavaScript para visualizar o conteúdo.</noscript>
         </div>
     </div>
 
@@ -234,13 +242,13 @@
     <div id="nav-footer" style="display: none">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Início</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">Sobre</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Artigos</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="/projects_url">Projetos</a></li>
         
       </ul>
     </div>
@@ -251,17 +259,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&text=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&is_video=false&description=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Autoload no PHP utilizando o composer (PSR4)&body=Check out this article: https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&name=Autoload no PHP utilizando o composer (PSR4)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2019/09/01/autoload-php-utilizando-composer/&t=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&text=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&is_video=false&description=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Autoload no PHP utilizando o composer (PSR4)&body=Check out this article: https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&title=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&name=Autoload no PHP utilizando o composer (PSR4)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://girorme.github.io/2019/09/01/pt-br/autoload-php-utilizando-composer/&t=Autoload no PHP utilizando o composer (PSR4)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -269,7 +277,7 @@
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
         <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Compartilhar</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
     </div>
 
@@ -282,20 +290,20 @@
     Copyright &copy;
     
     
-    2017-2022
+    2017-2023
     Girorme
   </div>
   <div class="footer-right">
     <nav>
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Início</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">Sobre</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Artigos</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="/projects_url">Projetos</a></li>
         
       </ul>
     </nav>
@@ -316,7 +324,7 @@
   <script type="text/javascript">
   $(function() {
     // copy-btn HTML
-    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"In die Zwischenablage kopiert!\">";
     btn += '<i class="far fa-clone"></i>';
     btn += '</span>'; 
     // mount it!
@@ -327,7 +335,7 @@
       }
     });
     clip.on('success', function(e) {
-      e.trigger.setAttribute('aria-label', "Copied!");
+      e.trigger.setAttribute('aria-label', "Kopiert!");
       e.clearSelection();
     })
   })
