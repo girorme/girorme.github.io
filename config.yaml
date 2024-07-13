@@ -1,0 +1,67 @@
+baseURL: "https://girorme.github.io/"
+theme: "writeonlyhugo-theme"
+languageCode: "en-us"
+
+title: "Girorme's blog"
+
+# googleAnalytics: ""
+
+summaryLength: 20
+
+params:
+  contentDir: "content"
+  title: "Girorme's blog"
+  description: "We specialize in providing services to desing websites, applications, build and maintain business for customers."
+  images: 
+    - "images/hero-image.png"
+
+  logo: "arrow-up.png"
+
+  favicons:
+    themeColor: "#FFFFFF"
+    backgroundColor: "#FFFFFF"
+    faviconColor: "#000000"
+
+  social:
+    dribbble: "#"
+    instagram: "#"
+    facebook: "#"
+    twitter: "#"
+
+  location:
+    - "3891 Ranchview Dr. Richardson, California 62639"
+    - "4517 Washington Ave. Manchester, Kentucky 39495"
+
+  contact:
+    - "g1r0rm3@gmail.com"
+
+  copyright: "© 2024 Girorme - All Rights Reserved"
+
+menus:
+  main:
+    - name: "Home"
+      url: "/#hero"
+      weight: 1
+
+    - name: "About"
+      url: "/#"
+      weight: 2
+
+  buttons:
+    - name: "Book a call"
+      url: "/#"
+      weight: 5
+      pre: "btn btn-primary text-light"
+
+  footer:
+    - name: "Home"
+      url: "/#hero"
+      weight: 1
+
+    - name: "About"
+      url: "/#"
+      weight: 2
+      
+taxonomies:
+  series: "series"
+  tags: "tags"
