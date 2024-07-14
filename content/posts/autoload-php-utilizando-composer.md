@@ -1,7 +1,7 @@
 +++
 author = "Girorme"
 title = "Autoload no php Utilizando Composer"
-date = "2022-03-15"
+date = "2019-09-01"
 description = "Aprenda como criar um projeto utilizando composer e o padrão PSR4 para autoloading"
 tags = [
     "php",
