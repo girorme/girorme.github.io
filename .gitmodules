@@ -1,3 +1,3 @@
-[submodule "themes/risotto"]
-	path = themes/risotto
-	url = https://github.com/joeroe/risotto
+[submodule "themes/writeonlyhugo-theme"]
+	path = themes/writeonlyhugo-theme
+	url = git@github.com:girorme/writeonlyhugo-theme.git
