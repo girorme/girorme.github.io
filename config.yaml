@@ -65,3 +65,8 @@ menus:
 taxonomies:
   series: "series"
   tags: "tags"
+
+module:
+  mounts:
+    - source: 'images'
+      target: 'static/images'
