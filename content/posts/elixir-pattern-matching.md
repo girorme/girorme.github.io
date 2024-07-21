@@ -27,7 +27,7 @@ Pattern matching é uma poderosa parte de Elixir que nos permite procurar padrõ
 - [Conclusão](#conclusão)
 - [Ref](#ref)
 
-<div style="text-align:center"><img src="/images/leafs.jpg" /></div>
+![leafs](/images/leafs.jpg)
 
 ref: https://elixirschool.com/pt/lessons/basics/pattern_matching
 
@@ -36,7 +36,7 @@ O operador `=` no elixir é tratado de forma difente comparado a outras linguage
 
 Então tenha em mente que quando usamos o operador, estamos fazendo um match: se a operação do lado esquerdo dá match com a do lado direito, nós temos uma operação válida.
 
-<div style="text-align:center"><img src="/images/tom-confuse.png" /></div>
+![tom-confuse](/images/tom-confuse.png)
 
 pra descomplicar... ~~ou complicar mais~~
 
