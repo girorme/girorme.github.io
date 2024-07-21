@@ -333,7 +333,7 @@ Feito isso podemos ir ao build!
 Para compilar a aplicação é simples: `wails build -d`, feito isso será criado um binário em `build/nome-app`
 
 ## Demo
-<div style="text-align:center"><img src="/images/video-scraper.gif" /></div>
+![video-scraper](/images/video-scraper.gif)
 
 ## Conclusão
 Deixo aqui o ponta pé para você iniciar seu próximo projeto em wails! Um mundo de possibilidade te aguarda! (:
