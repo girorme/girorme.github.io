@@ -13,7 +13,7 @@ params:
   title: "Girorme's blog"
   description: "Misc blog! Writing about a lot of topics, including: programming, sec, psicology and more"
   images: 
-    - "images/hero-image.png"
+    - "images/avatar.png"
 
   logo: "arrow-up.png"
 
@@ -27,10 +27,6 @@ params:
     instagram: "#"
     facebook: "#"
     twitter: "#"
-
-  location:
-    - "3891 Ranchview Dr. Richardson, California 62639"
-    - "4517 Washington Ave. Manchester, Kentucky 39495"
 
   contact:
     - "g1r0rm3@gmail.com"
