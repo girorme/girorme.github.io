@@ -18,7 +18,7 @@ categories = [
 aliases = ["migrate-from-jekyl"]
 +++
 
-Sem dúvidas golang pode ser utilizado também para criar aplicações performáticas. Conheça o wails!
+Sem dúvidas golang pode ser utilizado para criar aplicações performáticas. Algo que pode ser muito interessante é desenvolver aplicações desktop com a linguagem
 
 Já conhecemos go pela sua perfomance e produtividade. Temos também bibliotecas incríveis que são muito utilizadas diariamente. Uma que tem chamado minha atenção é a incrível [wails](https://wails.app/) que nos permite escrever aplicações desktop utilizando GO no backend e tecnologias web, como (React, Vue, Angular, etc) para prover o front. Isso nos da muitas possibilidades (o showcase inclusive é incrível ([wails-showcase](https://wails.app/showcase/))) e minha proposta é explorar o wails brevemente escrendo uma aplicação que faz scrap de links, então pegue sua cerveja!
 

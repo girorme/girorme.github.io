@@ -16,7 +16,8 @@ categories = [
 +++
 
 
-Para quem está sendo introduzido ao assunto, o conceito em grandes linhas é basicamente fazer requisições para uma ou mais urls e trabalhar em cima do resultado, traduzindo o conteúdo obtido para estruturas da linguagem, dessa forma fica fácil a manipulação de várias formas, permitindo envio das informações para outro serviço, armazenamento local entra outras coisas
+Para quem está sendo introduzido ao assunto, o conceito em grandes linhas é basicamente fazer requisições para uma ou mais urls e trabalhar em cima do resultado, 
+traduzindo o conteúdo obtido para estruturas da linguagem
 
 ### Agenda
 - [O Go-to do webscraping](#o-go-to-do-webscraping)
