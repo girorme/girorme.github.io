@@ -4,14 +4,14 @@ languageCode: "en-us"
 
 title: "Girorme's blog"
 
-# googleAnalytics: ""
+googleAnalytics: "G-SHV963YSF5"
 
 summaryLength: 20
 
 params:
   contentDir: "content"
   title: "Girorme's blog"
-  description: "We specialize in providing services to desing websites, applications, build and maintain business for customers."
+  description: "Misc blog! Writing about a lot of topics, including: programming, sec, psicology and more"
   images: 
     - "images/hero-image.png"
 
