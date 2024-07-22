@@ -61,6 +61,7 @@ menus:
 taxonomies:
   series: "series"
   tags: "tags"
+  categories: "categories"
 
 module:
   mounts:
