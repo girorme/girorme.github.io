@@ -1,6 +1,29 @@
 baseURL: "https://girorme.github.io/"
 theme: "writeonlyhugo-theme"
-languageCode: "en-us"
+
+defaultContentLanguage: pt
+defaultContentLanguageInSubdir: false
+languages:
+  pt:
+    contentDir: content
+    disabled: false
+    languageCode: pt-BR
+    languageDirection: ltr
+    languageName: Portugues
+    params:
+      subtitle: Teste1, Teste2 e Teste3
+    title: Girorme's blog
+    weight: 1
+  en:
+    contentDir: content/en
+    disabled: false
+    languageCode: en-US
+    languageDirection: ltr
+    languageName: English
+    params:
+      subtitle: Test1, Test2, and Test3
+    title: Girorme's blog
+    weight: 2
 
 title: "Girorme's blog"
 
@@ -35,13 +58,21 @@ params:
 
 menus:
   main:
-    - name: "Home"
-      url: "/#hero"
+    - name: EN
+      url: "/en"
       weight: 1
+
+    - name: PT
+      url: "/"
+      weight: 2
+
+    - name: "Home"
+      url: "/"
+      weight: 3
 
     - name: "About"
       url: "/about"
-      weight: 2
+      weight: 4
 
   buttons:
     - name: "Book a call"
