@@ -1,5 +1,5 @@
 +++
-author = "Girorme"
+author = "girorme"
 title = "Elixir e o webscraping"
 date = "2021-04-03"
 description = "Webscraping nunca sai da moda! xD"

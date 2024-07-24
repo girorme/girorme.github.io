@@ -1,5 +1,5 @@
 +++
-author = "Girorme"
+author = "girorme"
 title = "Desktop Apps with GO and Your Favorite Frontend Framework/Lib"
 date = "2021-04-03"
 description = "Golang is also a great option for desktop applications"

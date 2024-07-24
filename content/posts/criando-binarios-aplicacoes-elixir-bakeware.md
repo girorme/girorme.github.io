@@ -1,5 +1,5 @@
 +++
-author = "Girorme"
+author = "girorme"
 title = "Criando binários de aplicações Elixir utilizando bakeware"
 date = "2021-01-25"
 description = "Bakeware é uma das alternativas para gerar binários distribuíveis no ecossistema elixir"

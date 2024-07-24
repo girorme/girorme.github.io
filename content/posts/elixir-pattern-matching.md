@@ -1,5 +1,5 @@
 +++
-author = "Girorme"
+author = "girorme"
 title = "Elixir no dia a dia - Pattern Matching"
 date = "2022-03-15"
 description = "Pattern matching é uma poderosa parte de Elixir que nos permite procurar padrões simples em valores, estruturas de dados, e até funções"

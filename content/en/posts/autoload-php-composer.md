@@ -1,5 +1,5 @@
 +++
-author = "Girorme"
+author = "girorme"
 title = "Autoloading in PHP Using Composer"
 date = "2019-09-01"
 description = "Learn how to create a project using Composer and the PSR-4 standard for autoloading"
