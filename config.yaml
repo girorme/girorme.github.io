@@ -35,7 +35,7 @@ params:
   contentDir: "content"
   title: "Girorme's blog"
   description: "Misc blog! Writing about a lot of topics, including: programming, sec, psicology and more"
-  images: 
+  images:
     - "images/avatar.png"
 
   logo: "arrow-up.png"
@@ -88,7 +88,7 @@ menus:
     - name: "About"
       url: "/#"
       weight: 2
-      
+
 taxonomies:
   series: "series"
   tags: "tags"
@@ -96,5 +96,9 @@ taxonomies:
 
 module:
   mounts:
-    - source: 'images'
-      target: 'static/images'
+    - source: "images"
+      target: "static/images"
+
+services:
+  disqus:
+    shortname: girorme
