@@ -27,12 +27,7 @@ languages:
 
 title: "Girorme's blog"
 
-# googleAnalytics: "G-SHV963YSF5"
-
-config:
-  services:
-    googleAnalytics:
-      id: "G-SHV963YSF5"
+googleAnalytics: "G-SHV963YSF5"
 
 summaryLength: 20
 
