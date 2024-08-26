@@ -86,7 +86,7 @@ Poderíamos ter também critérios de aceite parecidos com:
 Existem vários formas de implementar as funcionalidades descritas. Utilizando tdd, poderíamos simplesmente começar com o seguinte trecho de testes (*O teste poderia ser muito menor mas vale a pena ver esse caso que a gente "injeta" o personagem no game*):
 
 *pseudo-oop-code:*
-```
+```python
 import my_test_framework
 
 fun test_choose_character():
@@ -123,7 +123,7 @@ Por mais que o código não exista, você já está expressando a ideia.
 Dito isso, já da pra escrever as implementações na sua forma mais simples, apenas para os testes começarem a passar. Imagine que os números abaixo são etapas e a cada momento que eu executar novamente os testes, terei versões mais "maduras" e atendo as necessidades do teste etapa a etapa:
 
 1.
-```
+```python
 class Game:
    fun add_character(character):
       pass
@@ -135,7 +135,7 @@ class Game:
 *rodo o teste novamente, passa em partes, continua...*
 
 2.
-```
+```python
 class Character:
    fun add_power(power):
       pass
