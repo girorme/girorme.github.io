@@ -42,7 +42,7 @@ And if you find that strange or just plain annoying, hahaha, it’s probably bec
 
 As weird as it might seem, it works... and there’s a famous image to explain it, which is everywhere (I made my version on [excalidraw](https://excalidraw.com/)):
 
-![tdd-helps-a-lot-2](/images/tdd-ajuda-muito-2.png)
+![tdd-helps-a-lot-2](/images/tdd-ajuda-muito-2-en.png)
 
 Soon enough, we’ll dive into the methodology in practice here in the article. Even though it's cool, we won’t go into the history of TDD, but it’s worth understanding the motivations:
 
