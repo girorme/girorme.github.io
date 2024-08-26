@@ -133,7 +133,7 @@ class Game:
 *I run the test again, it partially passes, continues...*
 
 2.
-```
+```python
 class Character: 
     fun add_power(power): 
         pass
