@@ -103,12 +103,10 @@ fun test_choose_character():
 
 We’ve created four test scenarios:
 
-```
 - We check if `new game()` is indeed a valid instance of `Game`.
 - We check if `new character('Ryu')` is indeed a valid instance of `Character`.
 - We check if our character has a power called `hadouken`.
 - We check if we have 1 character inside the game after adding the character above.
-```
 
 > At this point, regardless of the language, if you run the test, it’ll fail. It’ll complain that `Game` and `Character` don’t exist and have never heard of the functions/methods `add_character`/`get_powers`/`get_characters_count`.
 
