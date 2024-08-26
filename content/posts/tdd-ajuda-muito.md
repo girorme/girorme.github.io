@@ -60,7 +60,7 @@ Em resumo a técnica nasce de uma reflexão: Se testes são tão bons e proporci
 
 Por mais que você aplique vários padrões, uma hora ou outra (as vezes muito mais que uma hora outra xD) não escrevemos o código na sua melhor forma. E é muito comum essas "falhas" de design serem detectadas durante a escrita de um teste.
 
-Você já deve ter passado por isso... na hora de escrever um teste e tentar mockar alguma resposta, sentiu dificuldade em deixar o comportamento flexível, fácil de testar. Geralmente o resultado dessa dificuldade é refatorar o código (ou simplesmente criar uma tarefa no backlog :p)
+Você já deve ter passado por isso... na hora de escrever um teste e tentar mockar alguma resposta, sentiu dificuldade em deixar o comportamento flexível, fácil de testar. Geralmente o resultado dessa dificuldade é refatorar o código (ou simplesmente criar uma tarefa no backlog :p). Você poderia diminuir muito essa sensação adotando TDD...
 
 ### TDD na Prática
 
