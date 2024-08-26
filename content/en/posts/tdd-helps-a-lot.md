@@ -87,9 +87,9 @@ There are many ways to implement the described features. Using TDD, we could sim
 import my_test_framework
 
 fun test_choose_character(): 
-    game = new game()
+    game = new Game()
 
-    character = new character('Ryu') 
+    character = new Character('Ryu') 
     character->add_power('hadouken')
 
     game->add_character(character)

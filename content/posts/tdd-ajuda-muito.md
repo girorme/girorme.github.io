@@ -90,9 +90,9 @@ Existem vários formas de implementar as funcionalidades descritas. Utilizando t
 import my_test_framework
 
 fun test_choose_character():
-   game = new game()
+   game = new Game()
 
-   character = new character('Ryu')
+   character = new Character('Ryu')
    character->add_power('hadouken')
 
    game->add_character(character)
