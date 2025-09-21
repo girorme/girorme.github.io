@@ -17,6 +17,8 @@ categories = [
 ]
 +++
 
+![fyne-site-img.png](/images/fyne-site-img.png)
+
 Even after years of coding for the web, I can't let go of my love for desktop and terminal applications xD.
 
 A long time ago, I spent a few days deciding which language would be best to dedicate myself to and master: Java or C#? The ideas I had in mind were exclusively focused on visual apps, with progress bars, real-time interface updates, and other things that were very popular at the time.
@@ -98,7 +100,7 @@ The structure I used for the example considers the `cmd/` folder as the entry po
 
 To validate the installation and understand the simplest possible structure of a Fyne app, we can test this code from the "first app" docs:
 
-{{< highlight go "linenos=table" >}}
+```go
 package main
 
 import (
@@ -113,7 +115,7 @@ func main() {
     w.SetContent(widget.NewLabel("Hello World!"))
     w.ShowAndRun()
 }
-{{< / highlight >}}
+```
 
 To run the application:
 
@@ -140,7 +142,7 @@ Usually, a Fyne application like the one in the code above can be represented as
 
 This is an example you could probably do in other ways; I followed a simple organization that allows us to update and perform actions more easily. Let's go piece by piece:
 
-{{< highlight go "linenos=table" >}}
+```go
 package main
 
 import (
@@ -171,13 +173,13 @@ type DownloadIt struct {
     downloadBtn        *widget.Button
     downloadSpeedLabel *widget.Label
 }
-{{< / highlight >}}
+```
 
 Like any other application, when working with GUIs, sooner or later we reuse values. I left some constants for this purpose in lines `14~20`.
 
 Below, I created a struct to simplify access to our application's components, so we don't have to keep passing components as arguments to functions all the time, reducing complexity:
 
-{{< highlight go "linenos=table" >}}
+```go
 type DownloadIt struct {
     app                fyne.App
     window             fyne.Window
@@ -187,7 +189,7 @@ type DownloadIt struct {
     downloadBtn        *widget.Button
     downloadSpeedLabel *widget.Label
 }
-{{< / highlight >}}
+```
 
 A brief explanation of why each component is used:
 
@@ -205,18 +207,18 @@ A brief explanation of why each component is used:
 
 The `main()` function in this application will serve as the entry point for setup and running the app:
 
-{{< highlight go "linenos=table" >}}
+```go
 func main() {
     app := NewApp()
 
     app.setupContent()
     app.run()
 }
-{{< / highlight >}}
+```
 
 As a good practice in Go applications, it's recommended and works very well to have a function that initializes our struct, here we'll do it through the `NewApp()` function:
 
-{{< highlight go "linenos=table" >}}
+```go
 func NewApp() *DownloadIt {
     app := app.New()
     window := app.NewWindow(APP_LABEL)
@@ -240,7 +242,7 @@ func NewApp() *DownloadIt {
         downloadSpeedLabel: downloadSpeedLabel,
     }
 }
-{{< / highlight >}}
+```
 
 Here we create our first composition:
 
@@ -261,7 +263,7 @@ Once the components are established, let's organize them in the layout and also 
 
 Now that we have the struct with the available components, let's create methods for this struct. Starting with `setupContent()`:
 
-{{< highlight go "linenos=table" >}}
+```go
 func (app *DownloadIt) setupContent() {
     app.resizeWindow(DEFAULT_SIZE)
     app.setupDownload()
@@ -273,15 +275,15 @@ func (app *DownloadIt) setupContent() {
         app.downloadBtn,
     ))
 }
-{{< / highlight >}}
+```
 
 The default window behavior in Fyne is to grow as components are added. To create a predefined size, we'll use the `app.resizeWindow()` function:
 
-{{< highlight go "linenos=table" >}}
+```go
 func (app *DownloadIt) resizeWindow(size fyne.Size) {
     app.window.Resize(fyne.NewSize(size.Width, size.Height))
 }
-{{< / highlight >}}
+```
 
 - To make it easier to change the size when needed!
 
@@ -289,17 +291,17 @@ func (app *DownloadIt) resizeWindow(size fyne.Size) {
 
 Here we create the button and associate a click event function:
 
-{{< highlight go "linenos=table" >}}
+```go
 func (app *DownloadIt) setupDownload() {
     app.downloadBtn = widget.NewButton("Download", func() {
         app.downloadFile()
     })
 }
-{{< / highlight >}}
+```
 
 Here we populate our struct with the download button defined earlier. We associate the string "Download" with it. Going one level deeper, let's look at the `app.downloadFile()` function, which is the main one in the program. Here, basically, the most interesting things happen:
 
-{{< highlight go "linenos=table" >}}
+```go
 func (app *DownloadIt) downloadFile() {
     if app.urlEntry.Text == "" {
         dialog.ShowInformation(
@@ -373,13 +375,13 @@ func (app *DownloadIt) downloadFile() {
         }()
     }, app.window)
 }
-{{< / highlight >}}
+```
 
 Let's break it down so it's not overwhelming:
 
 #### Download URL validation
 
-{{< highlight go "linenos=table" >}}
+```go
 if app.urlEntry.Text == "" {
     dialog.ShowInformation(
         "URL required", 
@@ -388,7 +390,7 @@ if app.urlEntry.Text == "" {
     )
     return
 }
-{{< / highlight >}}
+```
 
 Our program has a URL input; if it's empty, we use the `dialog.ShowInformation()` function to display a message box.
 
@@ -398,7 +400,7 @@ Our program has a URL input; if it's empty, we use the `dialog.ShowInformation()
 
 The `app.updateStartAndFinishedState(bool)` function that follows is a "helper" to update some strings and behaviors when we start and finish a download. This practice helps you perform repetitive tasks where you need to update multiple components at a certain moment:
 
-{{< highlight go "linenos=table" >}}
+```go
 func (app *DownloadIt) updateStartAndFinishedState(
     starting bool
 ) {
@@ -420,11 +422,11 @@ func (app *DownloadIt) updateStartAndFinishedState(
         DEFAULT_DOWNLOAD_SPEED_LABEL
     )
 }
-{{< / highlight >}}
+```
 
 Here we have things we've seen before except for a new way to update components, which is present in the `updateStartAndFinishedState(bool)` function:
 
-{{< highlight go "linenos=table" >}}
+```go
 func (app *DownloadIt) updateDownloadBtnText(
     text string, 
     disable bool
@@ -440,7 +442,7 @@ func (app *DownloadIt) updateDownloadBtnText(
         app.downloadBtn.Enable()
     })
 }
-{{< / highlight >}}
+```
 
 This function is called at a point in our program where the operation will be inside a goroutine, so here the use of `fyne.Do()` is necessary. It will ensure our UI is updated correctly. Here is a very nice explanation generated with an LLM:
 
@@ -461,7 +463,7 @@ Everything inside `dialog.ShowFileSave()` happens as soon as the file selection 
 
 Right away, we can validate in case of error/cancellation:
 
-{{< highlight go "linenos=table" >}}
+```go
 defer app.resizeWindow(DEFAULT_SIZE)
 
 if err != nil || writer == nil {
@@ -469,7 +471,7 @@ if err != nil || writer == nil {
     return
 }
 defer writer.Close()
-{{< / highlight >}}
+```
 
 In this case, we return the window to its default size and set the text for when there is no download in progress. And `writer.Close()` closes the file handle at the end of the function.
 
@@ -477,7 +479,7 @@ In this case, we return the window to its default size and set the text for when
 
 From now on, we set the download speed label (default always 0 (zero)) and also update the label as the speed varies:
 
-{{< highlight go "linenos=table" >}}
+```go
 downloadSpeedStr := DEFAULT_DOWNLOAD_SPEED_LABEL
 
 go func() {
@@ -503,7 +505,7 @@ go func() {
     }
 
     ...
-{{< / highlight >}}
+```
 
 Details:
 
@@ -512,7 +514,7 @@ Details:
 
 Continuing the code, we use the callback the library gives us to track the download progress, so we can update our progress bar and display the download speed:
 
-{{< highlight go "linenos=table" >}}
+```go
 g.ProgressFunc = func(d *got.Download) {
     progress := 
         float64(d.Size()) / 
@@ -532,7 +534,7 @@ g.ProgressFunc = func(d *got.Download) {
         )
     })
 }
-{{< / highlight >}}
+```
 
 The important thing to mention again is the use of the `fyne.Do()` function, which allows us to update the GUI without errors.
 
