@@ -461,7 +461,7 @@ Alteramos o tamanho da janela uma vez durante o setup da aplicação. Vamos prec
 
 Tudo que ficar englobado em `dialog.ShowFileSave()` acontecerá logo que a janela para seleção de arquivo aparecer e selecionarmos um arquivo ou cancelar a operação. Essa função nos da dois parametros
 
-- `writer fyne.URIWriteCloser` - Aqui um handler apontando para o arquivo selecionado para o usuário, com esse write nós mandamos o dado de fato para dentro do arquivo
+- `writer fyne.URIWriteCloser` - Aqui um handler apontando para o arquivo selecionado para o usuário, com esse writer nós mandamos o dado de fato para dentro do arquivo
 - `err error` - Que indica se tivemos algum problema na hora de criar / fazer overwrite do arquivo
 
 De cara podemos fazer a validação em caso de erro / cancelamento:
@@ -513,4 +513,54 @@ go func() {
 Os detalhes
 
 - `g := got.New()` - Aqui estamos utilizando a lib [Got](https://github.com/melbahja/got) que nos permite baixar com facilidade arquivos. É possível utilizar o got como programa ou módulo. Aqui ela foi instalada da seguinte forma:
-  - 
+	- go get github.com/melbahja/got/cmd/got@latest
+
+Na continuação do código utilizamos o callback que a lib nos da para tracker o progresso do download, dessa forma conseguimos atualizar nossa progressbar e exibir a velocidade do download:
+
+{{< highlight go "linenos=table" >}}
+g.ProgressFunc = func(d *got.Download) {
+	progress := 
+		float64(d.Size()) / 
+		float64(d.TotalSize()) * 100
+	fyne.Do(func() {
+
+		if d.Speed() > 0 {
+			downloadSpeedStr = fmt.Sprintf(
+				"Avg speed: %s", 
+				formatDownloadSpeed(d.Speed())
+			)
+		}
+
+		app.pBar.SetValue(progress)
+		app.downloadSpeedLabel.SetText(
+			downloadSpeedStr
+		)
+	})
+}
+{{< / highlight >}}
+
+O importante aqui para comentar novamente é o uso da função `fyne.Do()`, que nos permite atualizar a gui sem erros.
+
+#### Run
+Aqui se tudo estiver correto o comando:
+
+```
+$ go run cmd/godownloadit/main.go
+```
+
+Deve mostrar a interface final do programa :)
+
+Para testar, vc pode usar os arquivos de teste nessa url: https://ash-speed.hetzner.com/.
+
+Link do repo com código final:
+
+- https://github.com/girorme/downloadit
+
+### Considerações
+
+Com o fyne você pode criar apps mobile, desktop e web sem depender de outros frameworks como o js! Com uma api simples e intuitiva não existe segredo para update de ui ou tarefas que serão demoradas e concorrentes, é só usar :)
+
+### Ref
+- https://fyne.io/
+- https://github.com/melbahja/got
+- https://github.com/girorme/downloadit
