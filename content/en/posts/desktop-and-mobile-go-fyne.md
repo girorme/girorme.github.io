@@ -1,7 +1,7 @@
 +++
 author = "girorme"
 title = "Desktop and Mobile Apps with Go using Fyne!"
-date = "2025-09-17"
+date = "2025-09-21"
 description = "There are several ways to create a desktop app, and Fyne is one of them"
 tags = [
     "gui",
