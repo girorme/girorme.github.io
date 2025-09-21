@@ -17,6 +17,8 @@ categories = [
 ]
 +++
 
+![fyne-site-img.png](/images/fyne-site-img.png)
+
 Mesmo depois de anos codando para web, não consigo deixar de lado o amor que tenho pelas aplicações escritas para desktop e terminal xD.
 
 Muito tempo atrás passei alguns dias decidindo qual linguagem seria a melhor para se dedicar e dominar de alguma forma: Javão ou C#? As ideias que eu tinha em mente eram exclusivamente voltadas para apps visuais, com progress bars, atualização em tempo real da interface e outras coisas que estavam muito em alta na época.
