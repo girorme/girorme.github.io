@@ -5,10 +5,12 @@ date = "2021-04-03"
 description = "Golang também é uma ótima opção para aplicações desktop"
 tags = [
     "golang",
-    "programming"
+    "programming",
+    "gui",
 ]
 categories = [
     "golang",
+    "gui",
     "react",
     "vue",
     "programming",
