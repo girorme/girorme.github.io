@@ -1,7 +1,7 @@
 +++
 author = "girorme"
 title = "Harness engineering & SDD... the basics that work"
-date = "2026-07-15"
+date = "2026-08-30"
 description = "Callback hell? Forget that, the trend now is: prompt and markdown hell!!! xD"
 tags = [
     "llm",
