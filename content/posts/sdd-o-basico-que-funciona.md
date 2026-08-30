@@ -239,7 +239,7 @@ Talvez uma boa spec já resolva uma boa parte do problema.
 ## É isso...
 É possível gerar features e sistemas com qualidade excepcional utilizando llm, vc só precisa estar no controle desde o inicio!
 
-Vo deixar abaixo nas refs um repositório com exemplos de spec, plan e code para que vc possa utilizar nos seus projetos. Para cada ferramenta existe um padrão de uso, no copilot por exemplo, a gente pode criar qualquer markdown dentro de `projeto/.github/prompts/(spec/plan/code.prompt.md)`, enquanto no claude vc pode ter uma estrutura como: `projeto/.claude/commands/(spec/plan/code.prompt.md)`.
+Vo deixar abaixo nas refs um repositório com exemplos de spec, plan e code para que vc possa utilizar nos seus projetos. Para cada ferramenta existe um padrão de uso, no copilot por exemplo, a gente pode criar qualquer markdown dentro de `projeto/.github/prompts/(spec/plan/code.prompt.md)`, enquanto no claude vc pode ter os mesmos arquivos como skills
 
 > Deixar aqui um abraço ao senhor Zéé hudson que tive a honra de trabalhar junto, que um dia criou e difundiu o esqueleto que mencionei nesse artigo, desde lá minha visão mudou totalmente sobre o uso mais eficiente de llms :)
 
