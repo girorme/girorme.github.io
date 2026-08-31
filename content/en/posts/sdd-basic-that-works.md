@@ -15,7 +15,7 @@ categories = [
 ]
 +++
 
-![sdd-llm](/images/fluxo-trabalho-sdd.png)
+![sdd-llm](/images/sdd-flow-en.png)
 
 One good spec in hand or 18 agents hallucinating? That was what I thought when I saw half the internet full of "experts" promising an entire company made of agents...
 
@@ -230,7 +230,7 @@ Each stage reduces a different kind of uncertainty. The SPEC reduces uncertainty
 
 From here, the picture starts to get more interesting:
 
-![sdd-llm](/images/fluxo-trabalho-sdd.png)
+![sdd-llm](/images/sdd-flow-en.png)
 
 The point is not to create more bureaucracy around developing a feature. It is to create **memory and verifiability** for a process that, without this, depends far too much on the conversation with the LLM.
 
