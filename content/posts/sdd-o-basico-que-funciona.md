@@ -19,6 +19,12 @@ categories = [
 
 Uma boa spec na mão ou 18 agentes alucinando? Foi o que pensei quando vi meio mundo de "especialistas" prometendo uma empresa inteira formada de agentes...
 
+## TL;DR
+
+> **Harness Engineering + SDD** se resume em criar um ambiente onde agentes trabalham com mais contexto, menos improviso e mais verificação.
+> Um fluxo simples: SPEC → PLAN → CODE → VERIFY. A spec define o que precisa ser verdade, o plan decide como fazer, o code implementa e o verify valida. Exemplos prontos de **SPEC, PLAN e CODE**: https://github.com/girorme/artigo-sdd-harness (mencionado no fim do artigo), leia sem preguiça!!! xD
+
+
 ## Um panorama do momento
 
 Se vc como eu não está em uma caverna nesse momento, trabalha / gosta de tecnologia, certamente está vivendo a "fricção cognitiva" atual de centenas de novos repositórios e temas por minuto (e tinha gente que achava que nada superava as libs de JS ~~enquanto vc lia essa frase outra lib js foi criada~~). É tanta informação, tanta coisa pra estudar, que vale acompanhar os "roadmap to roadmaps" xD. Pra te adiantar, esse artigo vai para o lado do código.

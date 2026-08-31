@@ -19,6 +19,11 @@ categories = [
 
 One good spec in hand or 18 agents hallucinating? That was what I thought when I saw half the internet full of "experts" promising an entire company made of agents...
 
+## TL;DR
+
+> **Harness Engineering + SDD** is basically about creating an environment where agents work with more context, less improvisation, and more verification. A simple flow: **SPEC → PLAN → CODE → VERIFY**. The spec defines what needs to be true, the plan decides how to do it, the code implements it, and verify checks whether everything actually matches what was defined. Ready-to-use **SPEC, PLAN, and CODE** examples: https://github.com/girorme/artigo-sdd-harness *(mentioned at the end of the article), don’t be lazy, go read it!!! xD*
+
+
 ## A snapshot of where we are
 
 If, like me, you are not living in a cave right now, work with / like technology, you are certainly going through the current "cognitive friction" of hundreds of new repositories and topics showing up every minute (and some people thought nothing could beat JS libraries ~~while you were reading this sentence another JS lib was created~~). There is so much information and so much to study that it might be worth following the "roadmap to roadmaps" xD. Just to save you some time: this article is going toward the coding side of things.
