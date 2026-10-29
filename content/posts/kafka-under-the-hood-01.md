@@ -1,6 +1,6 @@
 +++
 author = "girorme"
-title = "Por que o Apache Kafka existe?"
+title = "Kafka under the hood - 00"
 date = "2026-10-29"
 description = "Entenda por que o Apache Kafka foi criado, quais problemas ele resolve e como surgiu o event streaming."
 tags = [
