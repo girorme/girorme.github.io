@@ -3,7 +3,6 @@ author = "girorme"
 title = "Por que o Apache Kafka existe?"
 date = "2026-10-29"
 description = "Entenda por que o Apache Kafka foi criado, quais problemas ele resolve e como surgiu o event streaming."
-draft = true
 tags = [
     "kafka",
     "event-streaming",
@@ -15,98 +14,180 @@ categories = [
 ]
 +++
 
-Uma compra acaba de ser confirmada em um e-commerce. Para o cliente, é apenas uma tela de sucesso. Dentro da empresa, esse fato pode iniciar uma pequena avalanche: o estoque precisa reservar itens, o pagamento deve ser conciliado, a transportadora precisa receber uma solicitação, o sistema antifraude atualiza seus modelos, o time de atendimento quer enxergar o pedido e a área de dados quer medir a conversão.
+Uma compra foi aprovada no seu e-commerce. E agora?
 
-O problema não é executar uma dessas tarefas. É fazer com que o mesmo acontecimento chegue a vários sistemas, em tempos diferentes, sem transformar cada aplicação em uma central de integrações. Quanto mais produtos, times e bancos de dados entram na equação, mais difícil fica mover dados de maneira confiável.
+O estoque precisa reservar os produtos. O time de antifraude quer analisar a transação. A transportadora precisa preparar a entrega, o cliente espera uma notificação e alguém do analytics certamente vai querer esses dados.
 
-Foi para uma versão desse problema — em uma escala muito maior — que o Apache Kafka nasceu. Antes de falar em Partitions, Offsets ou Replication, vale entender a necessidade que deu origem a ele.
+É um único pedido, mas vários sistemas precisam saber que ele existe.
 
-## Quando cada sistema precisa conversar com todos os outros
+No começo parece simples. O serviço de pedidos chama o estoque, depois chama o pagamento e por último manda um e-mail. Tudo síncrono, fácil de desenhar e fácil de explicar naquela reunião de arquitetura.
 
-Uma integração começa de forma inocente. O serviço de pedidos chama o estoque por HTTP. Depois passa a chamar também faturamento e notificações. A equipe de analytics pede uma cópia dos dados em seu warehouse. Surge um processo separado para exportar logs. Em seguida, o antifraude precisa receber as mesmas mudanças quase em tempo real.
+Aí o sistema cresce.
 
-Cada nova ligação traz seu próprio contrato, tratamento de falha, política de retentativa e ritmo de processamento. Se um destino ficar indisponível, o produtor espera, descarta, persiste para tentar depois ou bloqueia a operação? Quando um consumidor novo aparece, é possível recuperar os acontecimentos antigos? Quem garante que a versão enviada ao warehouse representa o mesmo fato visto pelo sistema operacional?
+Chega um novo consumidor, depois outro, um deles fica fora do ar, outro precisa reprocessar os pedidos da semana passada e pronto: aquele fluxo simples virou uma coleção de integrações, retentativas e scripts que ninguém quer encostar na sexta-feira.
 
-Isso não significa que chamadas diretas sejam ruins. Uma consulta que precisa de resposta imediata continua combinando bem com request/response. O problema aparece quando fatos de negócio precisam ser distribuídos para muitos interessados independentes. Conexões ponto a ponto fazem o produtor conhecer demais sobre cada destino e multiplicam caminhos que precisam ser operados.
+Kafka nasceu para resolver uma versão bem grande desse problema.
 
-Uma saída é colocar uma infraestrutura intermediária entre quem produz e quem consome a informação. Mas, para grandes fluxos de dados, não basta encaminhar uma mensagem e esquecê-la. Diferentes consumidores precisam ler no próprio ritmo; alguns trabalham em tempo real, outros em lotes; sistemas podem ficar fora do ar; um algoritmo novo pode precisar reprocessar o passado. É aí que a ideia de um log durável se torna importante.
+Antes de falar sobre Partitions, Offsets, Replication e outras coisas que normalmente aparecem logo no primeiro tutorial, quero começar pelo básico: por que alguém precisou criar o Kafka?
 
-## Um evento é um fato, não apenas o estado atual
+## Uma compra, vários sistemas e um problema
 
-Aplicações tradicionais costumam representar **coisas**: a linha do pedido, o saldo atual da conta, a quantidade disponível de um produto. Um evento representa algo que ocorreu em um momento específico: `PedidoConfirmado`, `PagamentoAprovado`, `SaldoDebitado` ou `ItemReservado`.
+Vamos continuar com o e-commerce.
 
-A [documentação do Apache Kafka](https://kafka.apache.org/intro) descreve um evento como o registro de que algo aconteceu. Em Kafka, ele normalmente carrega uma key, um value, um timestamp e, opcionalmente, headers. O nome “mensagem” também aparece, mas pensar em fatos ajuda a desenhar melhores contratos.
+O serviço de pedidos pode chamar cada sistema diretamente por HTTP. Isso funciona e, dependendo do caso, pode ser exatamente a solução certa. Nem toda integração precisa de um cluster distribuído no meio.
 
-Considere `PedidoConfirmado`. O evento não é uma ordem genérica para “atualizar todos os sistemas”. Ele registra um fato de negócio que já aconteceu. Estoque, comunicação e analytics podem reagir a esse mesmo fato sem que o serviço de pedidos conheça a lógica interna de cada um. Amanhã, um novo consumidor pode ser adicionado sem alterar o produtor.
+O problema aparece quando cada novo uso do dado cria uma conexão nova:
 
-Esse desacoplamento não elimina os desafios. Schema evolution, duplicidade, ordenação e falhas continuam existindo. A diferença é que o fluxo de eventos cria um ponto de integração explícito e compartilhado, em vez de esconder esses problemas em dezenas de conexões bilaterais.
+- pedidos chama estoque;
+- pedidos chama pagamento;
+- pedidos chama notificações;
+- pedidos envia dados para analytics;
+- pedidos atualiza o CRM;
+- pedidos precisa avisar algum sistema que ainda nem existe.
 
-## O problema que o LinkedIn precisava resolver
+O serviço começa a conhecer detalhes demais. Se o CRM estiver fora do ar, a compra falha? Se analytics estiver lento, o cliente espera? Onde salvamos o que não foi entregue? Como um sistema novo recupera os pedidos antigos?
 
-No fim dos anos 2000, o LinkedIn produzia volumes crescentes de dados de atividade: visualizações de páginas, pesquisas, anúncios apresentados, métricas de serviços e logs. Esses dados tinham destinos diferentes. Parte alimentava Hadoop e data warehouses para análise offline; outra parte precisava chegar rapidamente a aplicações e monitoramento.
+Essas perguntas acabam virando código dentro de quem produz o dado. O serviço de pedidos deixa de cuidar só de pedidos e passa a administrar a vida de todos os consumidores.
 
-Segundo o relato [*A Brief History of Scaling LinkedIn*](https://www.linkedin.com/blog/engineering/architecture/brief-history-scaling-linkedin), a empresa acumulou pipelines customizadas para streaming, filas, logs, tracking e atualização de sistemas. Cada pipeline precisava escalar e ser mantida separadamente. A resposta foi construir uma infraestrutura comum, baseada na abstração de commit log.
+Podemos colocar uma infraestrutura de mensageria no meio e desacoplar as duas pontas. Beleza. Mas alguns cenários pedem algo além de entregar uma mensagem e seguir em frente.
 
-Kafka foi desenvolvido no LinkedIn por Jay Kreps, Neha Narkhede e Jun Rao. Em janeiro de 2011, a empresa [anunciou a abertura do código](https://www.linkedin.com/blog/member/archive/open-source-linkedin-kafka), descrevendo-o como uma fila distribuída, persistente e eficiente para rastrear eventos de atividade. Em junho daquele ano, a versão 0.6 já era apresentada como um sistema publish/subscribe voltado a activity streams, logs e consumo online e offline; em julho, o projeto entrou no Apache Incubator.
+Um consumidor pode querer processar o evento agora. Outro só durante a madrugada. Um terceiro pode surgir daqui a três meses e precisar reler o histórico. Se algum deles ficar indisponível, o produtor não deveria parar por causa disso.
 
-O [paper apresentado no NetDB 2011](https://cwiki.apache.org/confluence/download/attachments/27822226/Kafka-netdb-06-2011.pdf) deixa clara a combinação desejada: o alto throughput dos agregadores de log, a interface de um sistema de mensageria e a possibilidade de consumidores online processarem eventos com baixa latência. Kafka não surgiu apenas para substituir uma fila. Surgiu para unificar movimentos de dados que antes exigiam ferramentas e pipelines diferentes.
+É aqui que o modelo de log do Kafka começa a fazer sentido.
 
-## Kafka em termos simples
+## Evento não é só mais um JSON
 
-Kafka é uma plataforma distribuída de event streaming. Em um primeiro mapa mental, três nomes bastam:
+Quando pensamos em dados, normalmente pensamos no estado atual de alguma coisa: o saldo da conta, o status do pedido, a quantidade disponível no estoque.
 
-- Um **Producer** publica eventos.
-- Um **Topic** organiza um fluxo relacionado, como `pedidos-confirmados`.
-- Um **Consumer** lê e processa os eventos de que precisa.
+Um evento conta outra história. Ele registra algo que aconteceu em um momento específico:
 
-Entre eles há um cluster Kafka, responsável por receber e manter os eventos disponíveis. Producers não precisam saber quantos Consumers existem. Consumers podem ter objetivos e velocidades distintos: um atualiza uma projeção operacional em segundos; outro transfere dados para um lake; um terceiro calcula indicadores.
+- `PedidoConfirmado`;
+- `PagamentoAprovado`;
+- `SaldoDebitado`;
+- `ItemReservado`.
 
-O detalhe decisivo é que a leitura não precisa destruir imediatamente o evento. A retenção é configurável, e consumidores mantêm sua posição no fluxo. Isso permite que mais de uma aplicação leia o mesmo Topic e que dados ainda retidos sejam reprocessados. Como Kafka distribui e replica seus dados internamente será assunto dos próximos artigos; por enquanto, basta perceber que armazenamento não é um efeito colateral, mas parte do modelo.
+A [documentação do Apache Kafka](https://kafka.apache.org/intro) define evento como o registro de que alguma coisa aconteceu. Dentro do Kafka, esse registro normalmente tem uma key, um value, um timestamp e pode carregar headers.
 
-## De mensagens isoladas a event streaming
+Mas o formato é a parte menos interessante agora.
 
-**Event streaming** é a prática de capturar continuamente eventos vindos de aplicações, bancos de dados, dispositivos e outros sistemas; armazená-los de forma durável; processá-los conforme chegam ou mais tarde; e encaminhá-los aos destinos necessários.
+O ponto é que `PedidoConfirmado` representa um fato. O estoque pode reagir a ele. O sistema de notificações também. Analytics pode ler o mesmo evento sem que o serviço de pedidos precise conhecer nenhum desses detalhes.
 
-Essa definição junta presente e passado. O antifraude pode reagir a um pagamento agora. Uma versão nova do seu modelo pode, depois, reler eventos que continuam retidos. Um pipeline pode transportar os mesmos dados para análise offline sem obrigar o sistema de origem a manter outra integração.
+Se amanhã aparecer um novo consumidor, o produtor não precisa ganhar mais um `if`, uma chamada HTTP e uma política de retry.
 
-Kafka oferece três capacidades que sustentam esse fluxo: publicar e assinar streams de eventos, armazená-los de forma durável e processá-los no momento em que ocorrem ou retrospectivamente. É essa combinação que justifica chamá-lo de plataforma de event streaming.
+Claro que isso não remove os problemas de sistemas distribuídos. Duplicidade, ordenação, contratos, falhas e mudanças de schema continuam existindo. Kafka não joga uma nuvem mágica em cima da arquitetura xD.
 
-## Kafka não é simplesmente “uma fila mais rápida”
+O que muda é o lugar onde lidamos com esses problemas. Em vez de espalhá-los por várias integrações ponto a ponto, criamos um fluxo de eventos que pode ser compartilhado.
 
-Kafka e sistemas de mensageria tradicionais têm uma área de interseção: ambos desacoplam produtores e consumidores e transportam mensagens de forma assíncrona. A diferença útil está no modelo, não em uma disputa de velocidade.
+## O problema do LinkedIn
 
-Em um modelo clássico de work queue, uma mensagem costuma representar trabalho a ser entregue a um consumidor, com recursos ricos de roteamento e acknowledgements por mensagem. Em Kafka, o conceito central é um log ordenado e retido, do qual consumidores acompanham sua própria posição. O mesmo evento pode servir a vários grupos independentes e ser lido novamente enquanto estiver disponível.
+Kafka começou dentro do LinkedIn.
 
-Essa comparação precisa de cuidado. Message brokers modernos também oferecem persistência, replay, streams ou múltiplos padrões de entrega. Kafka, por sua vez, pode cumprir funções de mensageria. A escolha depende da semântica necessária: roteamento complexo de tarefas, filas curtas e prioridades podem favorecer um broker orientado a filas; histórico durável, múltiplos leitores e grande fluxo contínuo favorecem o modelo de log de Kafka.
+No fim dos anos 2000, a empresa produzia cada vez mais dados de atividade: pageviews, pesquisas, anúncios exibidos, métricas de serviços e logs. Parte desses dados precisava chegar ao Hadoop e ao data warehouse para processamento offline. Outra parte precisava alimentar sistemas online e monitoramento com baixa latência.
 
-## Casos que saíram do papel
+O texto [*A Brief History of Scaling LinkedIn*](https://www.linkedin.com/blog/engineering/architecture/brief-history-scaling-linkedin) explica que a empresa tinha várias pipelines customizadas para tracking, filas, logs e atualização de sistemas. Cada pipeline resolvia um pedaço do problema. Cada uma também precisava ser escalada, corrigida e operada.
 
-No LinkedIn, os usos iniciais incluíam activity tracking, logs, métricas e carga de dados para sistemas analíticos. A infraestrutura comum permitiu alimentar tanto consumidores de baixa latência quanto processamento offline — exatamente a tensão que motivou o projeto.
+Em algum momento a conta deixou de fechar.
 
-A Uber documentou outro retrato em 2020. Em [*Disaster Recovery for Multi-Region Kafka at Uber*](https://www.uber.com/blog/kafka/), a equipe descreve Kafka como base para um barramento pub/sub de eventos dos aplicativos, plataformas de streaming analytics, distribuição de changelogs de bancos de dados e ingestão no data lake. O artigo também mostra o outro lado da adoção: quando Kafka vira infraestrutura crítica, recuperação de desastre, replicação entre regiões e operação passam a ser problemas de primeira classe.
+Jay Kreps, Neha Narkhede e Jun Rao desenvolveram Kafka como uma infraestrutura comum baseada na ideia de commit log. O LinkedIn [abriu o código em janeiro de 2011](https://www.linkedin.com/blog/member/archive/open-source-linkedin-kafka), apresentando o projeto como uma fila distribuída e persistente para eventos de atividade.
 
-Esses exemplos não são receitas para copiar. Eles demonstram uma propriedade comum: muitos produtores e consumidores precisam compartilhar fluxos de dados sem criar uma integração exclusiva para cada par.
+Poucos meses depois, a versão 0.6 já era descrita como um sistema publish/subscribe usado para logs, activity streams e consumo online e offline. Em julho de 2011, Kafka entrou no Apache Incubator.
 
-## Quando Kafka faz sentido — e quando é excesso
+O [paper original, apresentado no NetDB 2011](https://cwiki.apache.org/confluence/download/attachments/27822226/Kafka-netdb-06-2011.pdf), mostra bem a intenção: juntar o throughput dos agregadores de log, uma API parecida com sistemas de mensageria e a capacidade de processar eventos em tempo real.
 
-Kafka é um bom candidato quando vários destes sinais aparecem juntos:
+Kafka não nasceu simplesmente como “uma fila mais rápida”. A ideia era substituir várias pipelines específicas por um fluxo comum de dados.
 
-- muitos sistemas precisam reagir aos mesmos eventos;
-- o fluxo é contínuo e pode crescer significativamente;
-- consumidores precisam avançar em velocidades independentes;
-- retenção, replay ou reconstrução de estado têm valor real;
-- integrações online e offline devem partir da mesma fonte de eventos;
-- falhas temporárias de consumidores não podem interromper produtores.
+## Então... o que Kafka faz?
 
-Ele pode ser desnecessário quando existe apenas um produtor, um consumidor e pouco volume; quando uma chamada síncrona simples expressa melhor a interação; quando o banco de dados já resolve a necessidade; ou quando a equipe não está preparada para operar mais um sistema distribuído. Kafka exige decisões sobre contratos, retenção, capacidade, segurança, observabilidade e recuperação. Adotá-lo apenas porque “event-driven” parece moderno troca um problema pequeno por uma plataforma inteira.
+Se eu tivesse que explicar Kafka sem entrar na arquitetura interna, usaria três peças:
 
-Também é importante não confundir Kafka com a fonte definitiva de toda verdade. Em alguns domínios ele pode ser o registro de eventos central; em outros, transporta mudanças cujo estado autoritativo permanece em um banco. Essa decisão depende das garantias e do modelo de dados da aplicação.
+**Producer** é quem publica eventos.
 
-## O ponto de partida
+**Topic** é onde eventos relacionados são organizados. Podemos ter, por exemplo, um Topic chamado `pedidos-confirmados`.
 
-Kafka existe porque mover fatos entre muitos sistemas, em tempo real e com possibilidade de reprocessamento, era um problema que pipelines isoladas e integrações ponto a ponto resolviam mal em escala. Sua resposta foi tratar eventos como um log compartilhado: Producers publicam sem conhecer cada destino, Kafka preserva o fluxo e Consumers leem de maneira independente.
+**Consumer** é quem lê e processa esses eventos.
 
-Esse é apenas o mapa. No próximo artigo, vamos olhar com mais cuidado para eventos, Producers, Consumers e Topics — as peças mínimas para transformar essa ideia em um fluxo executável.
+Entre eles existe o cluster Kafka. Ele recebe os eventos e os mantém disponíveis de acordo com a política de retenção configurada.
+
+Isso já muda bastante o desenho.
+
+O Producer não precisa saber quantos Consumers existem. Também não precisa esperar que todos processem o evento. Cada Consumer segue no próprio ritmo e pode ter um objetivo completamente diferente.
+
+Um atualiza o estoque. Outro alimenta o data lake. Outro calcula métricas. Todos partem do mesmo fluxo.
+
+E a leitura não precisa destruir o evento. Enquanto o dado estiver retido, outros consumidores podem lê-lo e consumidores existentes podem voltar no histórico. Como Kafka organiza e distribui esse armazenamento fica para os próximos artigos. Por enquanto, a ideia principal é esta: armazenar faz parte do modelo, não é um detalhe escondido.
+
+## Event streaming sem complicar
+
+O nome parece mais complicado do que a ideia.
+
+Event streaming é trabalhar com um fluxo contínuo de fatos. Aplicações, bancos, dispositivos e serviços produzem eventos. Esses eventos são armazenados, processados e enviados para quem precisa deles.
+
+Alguns consumidores reagem na hora. Outros trabalham depois.
+
+No exemplo da compra, o antifraude pode analisar o pagamento assim que ele acontece. Mais tarde, uma versão nova do modelo pode reler eventos antigos para testar outro comportamento. Analytics usa o mesmo fluxo sem obrigar o serviço de pedidos a manter uma integração separada.
+
+Kafka junta três capacidades nesse processo:
+
+1. publicar e assinar streams de eventos;
+2. armazenar esses eventos de forma durável;
+3. processá-los agora ou reler o que ficou armazenado.
+
+É essa combinação que faz Kafka ser chamado de plataforma de event streaming.
+
+## Kafka é uma fila?
+
+A resposta curta: ele pode resolver problemas de mensageria, mas pensar nele apenas como fila esconde boa parte do que o torna diferente.
+
+Em uma work queue tradicional, a mensagem geralmente representa um trabalho que deve ser entregue a algum consumidor. Esse modelo costuma oferecer recursos como roteamento, prioridade e acknowledgements individuais.
+
+Kafka coloca um log retido no centro. Consumidores acompanham a própria posição nesse log, vários grupos podem ler o mesmo evento e o histórico pode ser relido enquanto estiver disponível.
+
+Isso não quer dizer que Kafka é “melhor” do que RabbitMQ, ActiveMQ, SQS ou qualquer outro broker. Essa comparação quase sempre depende do problema.
+
+Precisa de roteamento complexo, prioridade entre tarefas e uma fila de trabalho curta? Um broker orientado a filas pode ser mais simples.
+
+Precisa manter um histórico, permitir replay, alimentar vários consumidores e lidar com um fluxo contínuo de eventos? O modelo do Kafka começa a ficar interessante.
+
+Também não dá pra fingir que todos os message brokers trabalham da mesma forma. Muitos já oferecem persistência, múltiplos padrões de entrega e recursos de streaming. A arquitetura deve partir da semântica necessária, não do logo mais popular no diagrama.
+
+## Isso funciona fora dos slides?
+
+No LinkedIn, os primeiros casos envolviam activity tracking, métricas, logs e envio de dados para sistemas analíticos. O mesmo fluxo atendia consumidores online e processamento offline. Era justamente o problema que a empresa queria resolver.
+
+A Uber publicou outro exemplo em 2020. No artigo [*Disaster Recovery for Multi-Region Kafka at Uber*](https://www.uber.com/blog/kafka/), a equipe descreve o uso de Kafka como barramento pub/sub para eventos dos aplicativos, fonte para streaming analytics, transporte de changelogs de bancos e ingestão no data lake.
+
+O texto também mostra a parte que costuma ficar fora dos tutoriais: quando Kafka vira infraestrutura crítica, disaster recovery, replicação entre regiões e operação passam a fazer parte do trabalho.
+
+Não é só subir um container e mandar alguns eventos. Em produção sempre chega a conta xD.
+
+## Quando Kafka faz sentido?
+
+Não existe uma regra única, mas alguns sinais aparecem bastante:
+
+- vários sistemas precisam reagir aos mesmos eventos;
+- cada consumidor trabalha em um ritmo diferente;
+- replay e reconstrução de estado têm valor real;
+- o volume é contínuo e pode crescer;
+- consumidores podem ficar fora do ar sem parar os produtores;
+- sistemas online e offline precisam partir da mesma fonte de dados.
+
+Agora o outro lado.
+
+Se existe um produtor, um consumidor, pouco volume e nenhuma necessidade de replay, Kafka pode ser uma solução grande demais. Uma chamada HTTP, uma fila gerenciada ou até o banco que já existe talvez resolvam o problema com menos peças.
+
+Kafka traz decisões sobre retenção, capacidade, contratos, segurança, observabilidade e recuperação. Se a equipe não precisa dessas capacidades ou não consegue operar a plataforma, o ganho arquitetural desaparece rápido.
+
+Outro cuidado: usar Kafka não transforma automaticamente o evento na fonte definitiva da verdade. Em alguns sistemas ele cumpre esse papel. Em outros, transporta mudanças e o estado autoritativo continua em um banco de dados.
+
+Essa escolha é de arquitetura e depende das garantias que o domínio precisa.
+
+## É isso...
+
+Kafka surgiu porque mover dados entre muitos sistemas, com baixa latência e possibilidade de reprocessamento, ficou difícil demais usando várias pipelines isoladas.
+
+A proposta foi criar um log compartilhado. Producers publicam fatos, Kafka mantém o fluxo e Consumers leem sem exigir uma integração exclusiva com quem produziu o dado.
+
+Ainda tem bastante coisa escondida nesse desenho. No próximo artigo vamos entrar em eventos, Producers, Consumers e Topics com mais calma. Depois chegamos em Partitions, Offsets, Replication e toda a diversão de sistemas distribuídos :)
 
 ## Referências
 
