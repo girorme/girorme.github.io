@@ -2,7 +2,7 @@
 author = "girorme"
 title = "Kafka under the hood - 00"
 date = "2026-10-29"
-description = "Entenda por que o Apache Kafka foi criado, quais problemas ele resolve e como surgiu o event streaming."
+description = "Entenda por que o Apache Kafka foi criado e quais problemas ele resolve"
 tags = [
     "kafka",
     "event-streaming",
@@ -13,6 +13,10 @@ categories = [
     "software-architecture"
 ]
 +++
+
+![kafka-world](/images/kafka-00.png)
+
+O Apache Kafka é uma das tecnologias mais influentes da engenharia de dados e de software moderna: move trilhões de eventos por dia em empresas como LinkedIn, Netflix e Uber, com alta vazão, durabilidade e escala horizontal. Esta série, **Kafka under the hood**, é uma jornada para entender o Kafka por dentro, do problema que o originou até os detalhes internos que o fazem funcionar. Começamos pelo princípio: por que ele existe?
 
 Uma compra foi aprovada no seu e-commerce. E agora?
 
@@ -61,22 +65,22 @@ Quando pensamos em dados, normalmente pensamos no estado atual de alguma coisa: 
 
 Um evento conta outra história. Ele registra algo que aconteceu em um momento específico:
 
-- `PedidoConfirmado`;
-- `PagamentoAprovado`;
-- `SaldoDebitado`;
-- `ItemReservado`.
+- `PedidoConfirmado`
+- `PagamentoAprovado`
+- `SaldoDebitado`
+- `ItemReservado`
 
 A [documentação do Apache Kafka](https://kafka.apache.org/intro) define evento como o registro de que alguma coisa aconteceu. Dentro do Kafka, esse registro normalmente tem uma key, um value, um timestamp e pode carregar headers.
 
-Mas o formato é a parte menos interessante agora.
-
-O ponto é que `PedidoConfirmado` representa um fato. O estoque pode reagir a ele. O sistema de notificações também. Analytics pode ler o mesmo evento sem que o serviço de pedidos precise conhecer nenhum desses detalhes.
+O ponto é que o `PedidoConfirmado` representa um fato. O estoque pode reagir a ele. O sistema de notificações também. Analytics pode ler o mesmo evento sem que o serviço de pedidos precise conhecer nenhum desses detalhes.
 
 Se amanhã aparecer um novo consumidor, o produtor não precisa ganhar mais um `if`, uma chamada HTTP e uma política de retry.
 
-Claro que isso não remove os problemas de sistemas distribuídos. Duplicidade, ordenação, contratos, falhas e mudanças de schema continuam existindo. Kafka não joga uma nuvem mágica em cima da arquitetura xD.
+Claro que isso não remove os problemas de sistemas distribuídos. Duplicidade, ordenação, contratos, falhas e mudanças de schema continuam existindo. Kafka não é bala de prata ~~(vc na llm agora: make no mistakes)~~
 
 O que muda é o lugar onde lidamos com esses problemas. Em vez de espalhá-los por várias integrações ponto a ponto, criamos um fluxo de eventos que pode ser compartilhado.
+
+> Recentemente li um trecho muito bom em um artigo: O benefício do que estamos falando precisa ser maior do que a complexidade implementada na arquitetura para valer a pena (["Começamos com microsserviços. Criamos um monólito distribuído."](https://www.linkedin.com/pulse/come%C3%A7amos-com-microsservi%C3%A7os-criamos-um-mon%C3%B3lito-dennis-rojas-0cwif/))
 
 ## O problema do LinkedIn
 
@@ -96,13 +100,13 @@ O [paper original, apresentado no NetDB 2011](https://cwiki.apache.org/confluenc
 
 Kafka não nasceu simplesmente como “uma fila mais rápida”. A ideia era substituir várias pipelines específicas por um fluxo comum de dados.
 
-## Então... o que Kafka faz?
+## Então... o que o Kafka faz?
 
-Se eu tivesse que explicar Kafka sem entrar na arquitetura interna, usaria três peças:
+Começando do inicio (já alto nível obviamente, pq os internals a gente precisa estudar mais xD):
 
 **Producer** é quem publica eventos.
 
-**Topic** é onde eventos relacionados são organizados. Podemos ter, por exemplo, um Topic chamado `pedidos-confirmados`.
+**Topic** é onde eventos relacionados são organizados. Podemos ter, por exemplo, um `Topic` chamado `pedidos-confirmados`.
 
 **Consumer** é quem lê e processa esses eventos.
 
@@ -124,7 +128,7 @@ Event streaming é trabalhar com um fluxo contínuo de fatos. Aplicações, banc
 
 Alguns consumidores reagem na hora. Outros trabalham depois.
 
-No exemplo da compra, o antifraude pode analisar o pagamento assim que ele acontece. Mais tarde, uma versão nova do modelo pode reler eventos antigos para testar outro comportamento. Analytics usa o mesmo fluxo sem obrigar o serviço de pedidos a manter uma integração separada.
+No exemplo da compra, o antifraude pode analisar o pagamento assim que ele acontece. Mais tarde, uma versão nova do modelo pode reler eventos antigos para testar outro comportamento. Analytics usa o mesmo fluxo sem obrigar o serviço de pedidos a manter uma integração separada, etc.
 
 Kafka junta três capacidades nesse processo:
 
@@ -138,7 +142,7 @@ Kafka junta três capacidades nesse processo:
 
 A resposta curta: ele pode resolver problemas de mensageria, mas pensar nele apenas como fila esconde boa parte do que o torna diferente.
 
-Em uma work queue tradicional, a mensagem geralmente representa um trabalho que deve ser entregue a algum consumidor. Esse modelo costuma oferecer recursos como roteamento, prioridade e acknowledgements individuais.
+Em uma "work queue" tradicional, a mensagem geralmente representa um trabalho que deve ser entregue a algum consumidor. Esse modelo costuma oferecer recursos como roteamento, prioridade e acknowledgements (ack) individuais.
 
 Kafka coloca um log retido no centro. Consumidores acompanham a própria posição nesse log, vários grupos podem ler o mesmo evento e o histórico pode ser relido enquanto estiver disponível.
 
@@ -158,11 +162,11 @@ A Uber publicou outro exemplo em 2020. No artigo [*Disaster Recovery for Multi-R
 
 O texto também mostra a parte que costuma ficar fora dos tutoriais: quando Kafka vira infraestrutura crítica, disaster recovery, replicação entre regiões e operação passam a fazer parte do trabalho.
 
-Não é só subir um container e mandar alguns eventos. Em produção sempre chega a conta xD.
+Não é só subir um container, gerar eventos e esperar a mágica acontecer. Em produção a conta sempre chega e a gente precisa ta preparado de alguma forma...
 
 ## Quando Kafka faz sentido?
 
-Não existe uma regra única, mas alguns sinais aparecem bastante:
+Não existe uma regra única, mas alguns aspectos aparecem com certa frequencia quando chega o momento:
 
 - vários sistemas precisam reagir aos mesmos eventos;
 - cada consumidor trabalha em um ritmo diferente;
@@ -177,9 +181,9 @@ Se existe um produtor, um consumidor, pouco volume e nenhuma necessidade de repl
 
 Kafka traz decisões sobre retenção, capacidade, contratos, segurança, observabilidade e recuperação. Se a equipe não precisa dessas capacidades ou não consegue operar a plataforma, o ganho arquitetural desaparece rápido.
 
-Outro cuidado: usar Kafka não transforma automaticamente o evento na fonte definitiva da verdade. Em alguns sistemas ele cumpre esse papel. Em outros, transporta mudanças e o estado autoritativo continua em um banco de dados.
+Outro cuidado: usar Kafka não transforma automaticamente o evento na fonte definitiva da verdade. Em alguns sistemas ele cumpre esse papel. Em outros, transporta mudanças e o estado final continua em um banco de dados.
 
-Essa escolha é de arquitetura e depende das garantias que o domínio precisa.
+Essa escolha é de arquitetura e depende das garantias que o domínio precisa (o benefício precisa ser maior que a complexidade :)).
 
 ## É isso...
 
