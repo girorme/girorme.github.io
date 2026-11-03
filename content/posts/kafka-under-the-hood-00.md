@@ -74,6 +74,12 @@ Um evento conta outra história. Ele registra algo que aconteceu em um momento e
 
 A [documentação do Apache Kafka](https://kafka.apache.org/intro) define evento como o registro de que alguma coisa aconteceu. Dentro do Kafka, esse registro normalmente tem uma key, um value, um timestamp e pode carregar headers.
 
+Um detalhe: aqui na série eu vou falar de JSON porque é o formato mais fácil de ler e de debugar. Só que o Kafka não liga pra isso. Pra ele, o value é um monte de bytes. Quem decide como transformar o evento em bytes (e voltar) é o produtor e o consumidor.
+
+Na prática, o Kafka é amplamente utilizado com **Avro**, **Protobuf** e JSON. Os dois primeiros são binários, mais compactos e trazem um schema que descreve o formato do evento. Muita gente só descobre isso depois que o primeiro contrato quebra em produção :)
+
+Guarda essa ideia, porque ela volta quando falarmos de Schema Registry.
+
 O ponto é que o `PedidoConfirmado` representa um fato. O estoque pode reagir a ele. O sistema de notificações também. Analytics pode ler o mesmo evento sem que o serviço de pedidos precise conhecer nenhum desses detalhes.
 
 Se amanhã aparecer um novo consumidor, o produtor não precisa ganhar mais um `if`, uma chamada HTTP e uma política de retry.
