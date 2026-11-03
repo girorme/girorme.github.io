@@ -106,7 +106,7 @@ Começando do inicio (já alto nível obviamente, pq os internals a gente precis
 
 **Producer** é quem publica eventos.
 
-**Topic** é onde eventos relacionados são organizados. Podemos ter, por exemplo, um `Topic` chamado `pedidos-confirmados`.
+**Topic** é onde eventos relacionados são organizados. Podemos ter, por exemplo, um `Topic` chamado `confirmed_orders`.
 
 **Consumer** é quem lê e processa esses eventos.
 
