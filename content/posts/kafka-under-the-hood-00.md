@@ -32,6 +32,8 @@ Chega um novo consumidor, depois outro, um deles fica fora do ar, outro precisa 
 
 Kafka nasceu para resolver uma versão bem grande desse problema.
 
+E já aviso: em algum momento você vai ouvir (ou falar) que "Kafka é uma fila". É o erro mais comum de quem está chegando, e a gente vai desmontar isso ao longo do artigo.
+
 Antes de falar sobre Partitions, Offsets, Replication e outras coisas que normalmente aparecem logo no primeiro tutorial, quero começar pelo básico: por que alguém precisou criar o Kafka?
 
 ## Uma compra, vários sistemas e um problema
@@ -92,7 +94,7 @@ O texto [*A Brief History of Scaling LinkedIn*](https://www.linkedin.com/blog/en
 
 Em algum momento a conta deixou de fechar.
 
-Jay Kreps, Neha Narkhede e Jun Rao desenvolveram Kafka como uma infraestrutura comum baseada na ideia de commit log. O LinkedIn [abriu o código em janeiro de 2011](https://www.linkedin.com/blog/member/archive/open-source-linkedin-kafka), apresentando o projeto como uma fila distribuída e persistente para eventos de atividade.
+Jay Kreps, Neha Narkhede e Jun Rao desenvolveram Kafka como uma infraestrutura comum baseada na ideia de commit log. O LinkedIn [abriu o código em janeiro de 2011](https://www.linkedin.com/blog/member/archive/open-source-linkedin-kafka), apresentando o projeto como uma fila distribuída e persistente para eventos de atividade (o título do post fala em *distributed message queue*, e talvez venha daí parte da confusão que a gente carrega até hoje).
 
 Poucos meses depois, a versão 0.6 já era descrita como um sistema publish/subscribe usado para logs, activity streams e consumo online e offline. Em julho de 2011, Kafka entrou no Apache Incubator.
 
@@ -118,7 +120,7 @@ O Producer não precisa saber quantos Consumers existem. Também não precisa es
 
 Um atualiza o estoque. Outro alimenta o data lake. Outro calcula métricas. Todos partem do mesmo fluxo.
 
-E a leitura não precisa destruir o evento. Enquanto o dado estiver retido, outros consumidores podem lê-lo e consumidores existentes podem voltar no histórico. Como Kafka organiza e distribui esse armazenamento fica para os próximos artigos. Por enquanto, a ideia principal é esta: armazenar faz parte do modelo, não é um detalhe escondido.
+E a leitura não precisa destruir o evento. Esse é um dos pontos em que o Kafka mais se afasta de uma fila. Enquanto o dado estiver retido, outros consumidores podem lê-lo e consumidores existentes podem voltar no histórico. Como Kafka organiza e distribui esse armazenamento fica para os próximos artigos. Por enquanto, a ideia principal é esta: armazenar faz parte do modelo, não é um detalhe escondido.
 
 ## Event streaming sem complicar
 
@@ -140,19 +142,64 @@ Kafka junta três capacidades nesse processo:
 
 ## Kafka é uma fila?
 
-A resposta curta: ele pode resolver problemas de mensageria, mas pensar nele apenas como fila esconde boa parte do que o torna diferente.
+Não. E esse é o erro mais comum que vejo (e que eu mesmo já cometi).
 
-Em uma "work queue" tradicional, a mensagem geralmente representa um trabalho que deve ser entregue a algum consumidor. Esse modelo costuma oferecer recursos como roteamento, prioridade e acknowledgements (ack) individuais.
+A resposta curta é: Kafka consegue resolver problemas que a gente costuma resolver com fila, mas por baixo ele é outra coisa. É um **log distribuído, append-only e imutável**.
 
-Kafka coloca um log retido no centro. Consumidores acompanham a própria posição nesse log, vários grupos podem ler o mesmo evento e o histórico pode ser relido enquanto estiver disponível.
+Pra entender a diferença, pensa em como uma fila funciona no RabbitMQ ou no SQS:
 
-Isso não quer dizer que Kafka é “melhor” do que RabbitMQ, ActiveMQ, SQS ou qualquer outro broker. Essa comparação quase sempre depende do problema.
+1. o produtor coloca a mensagem;
+2. um worker pega;
+3. dá ack;
+4. o broker apaga a mensagem.
+
+Vários workers competem pelas mensagens de um mesmo pool. Consumir é **destrutivo**: processou, sumiu. O backlog diminui conforme o trabalho é feito.
+
+No Kafka o consumo não apaga nada. Os registros ficam lá até a retenção expirar, e retenção é política de armazenamento, não tem nada a ver com quem já leu. Cada consumidor guarda a própria posição (o Offset, que vamos ver com calma depois) e dois consumidores podem ler o mesmo dado, em posições totalmente diferentes, sem um atrapalhar o outro.
+
+**Consumir não muda nada: o log fica, quem lê é que se move.**
+
+Parece detalhe, mas muda o desenho todo:
+
+- **Replay é normal.** Achou um bug no processamento? Corrige, volta o offset do consumer group e processa de novo. Numa fila isso nem faz sentido, porque as mensagens já foram embora.
+- **Vários consumidores, mesma fonte.** Estoque, antifraude e analytics podem ler o mesmo tópico, cada um no seu ritmo, sem fan-out configurado e sem duplicar dado.
+- **Consumidores dividem Partitions, não competem por mensagens.** Num consumer group, cada Partition pertence a um único consumidor do grupo. Quem tá acostumado com workers disputando mensagens estranha isso no começo.
+- **Ordem existe por Partition**, não pro tópico inteiro. Também fica pra um próximo artigo.
+
+### Os vícios de quem vem de fila
+
+O problema não é a pessoa chamar de fila. É projetar o Kafka com hábito de fila. Alguns exemplos que aparecem bastante:
+
+- **Uma Partition só "pra garantir a ordem".** Você ganha ordem total, mas trava em um consumidor e complica qualquer recuperação.
+- **Retenção curta "pra limpar".** Nada fica mais limpo porque o consumidor terminou de ler. Retenção é sobre armazenamento.
+- **Tratar lag como incidente.** Lag é informação. Pode ser um consumidor lento, um job batch rodando de hora em hora ou um consumidor novo recuperando histórico.
+- **Um tópico por consumidor.** É isolamento de fila. Duplica dado e acopla quem produz a quem consome. O caminho natural é um tópico e vários consumer groups.
+
+Nenhum deles é problema do Kafka. São hábitos de fila aplicados em um log.
+
+### Mas e o "Queues for Kafka"?
+
+Aqui a história fica interessante. Alguns workloads *são* de fila: um pool de workers processando jobs independentes (captura de pagamento, render de imagem, e-mail) não liga pra ordem, só quer espalhar o trabalho e retentar o que falhou.
+
+Por muito tempo a resposta honesta era "roda um SQS ou RabbitMQ do lado do Kafka" ou criar mais Partitions só pra caber mais consumidores. O [KIP-932 (Queues for Kafka)](https://cwiki.apache.org/confluence/display/KAFKA/KIP-932%3A+Queues+for+Kafka) trouxe os **share groups**, uma segunda forma de consumir um tópico, com ack por registro e sem atribuição exclusiva de Partition. Segundo o [artigo da Conduktor](https://www.conduktor.io/blog/kafka-isnt-a-queue), eles estão prontos para produção desde o Kafka 4.2 (fevereiro de 2026). Vale conferir na versão que você usa.
+
+Então agora Kafka é fila? Ainda não. As próprias release notes do 4.0 são cuidadosas: share groups não adicionam o conceito de "queue" ao Kafka, introduzem *cooperative consumption* em cima de tópicos normais. Registros confirmados não são apagados, o share group só avança a própria posição, e a retenção continua mandando.
+
+Ou seja: o Kafka ganhou uma porta com formato de fila, mas o prédio continua sendo um log.
+
+### Então qual é o modelo certo?
+
+Kafka é um log distribuído e reproduzível. Um consumer group lê esse log como um stream (ordenado por chave, com replay). Um share group lê como um pool de trabalho (sem ordem, com ack por registro). Dois modelos de leitura, um modelo de armazenamento, e o armazenamento é a parte que nunca mudou.
+
+### E o resto do mundo das filas?
+
+Isso não quer dizer que Kafka é "melhor" do que RabbitMQ, ActiveMQ, SQS ou qualquer outro broker. A comparação depende do problema.
 
 Precisa de roteamento complexo, prioridade entre tarefas e uma fila de trabalho curta? Um broker orientado a filas pode ser mais simples.
 
-Precisa manter um histórico, permitir replay, alimentar vários consumidores e lidar com um fluxo contínuo de eventos? O modelo do Kafka começa a ficar interessante.
+Precisa manter histórico, permitir replay, alimentar vários consumidores e lidar com um fluxo contínuo de eventos? O modelo do Kafka começa a ficar interessante.
 
-Também não dá pra fingir que todos os message brokers trabalham da mesma forma. Muitos já oferecem persistência, múltiplos padrões de entrega e recursos de streaming. A arquitetura deve partir da semântica necessária, não do logo mais popular no diagrama.
+Também não dá pra fingir que todo message broker funciona igual. Muitos já oferecem persistência, múltiplos padrões de entrega e recursos de streaming. A arquitetura deve partir da semântica necessária, não do logo mais popular no diagrama.
 
 ## Isso funciona fora dos slides?
 
@@ -191,6 +238,8 @@ Kafka surgiu porque mover dados entre muitos sistemas, com baixa latência e pos
 
 A proposta foi criar um log compartilhado. Producers publicam fatos, Kafka mantém o fluxo e Consumers leem sem exigir uma integração exclusiva com quem produziu o dado.
 
+E se tiver que levar uma coisa daqui: Kafka não é fila. É um log, e fila é só uma das formas de ler ele.
+
 Ainda tem bastante coisa escondida nesse desenho. No próximo artigo vamos entrar em eventos, Producers, Consumers e Topics com mais calma. Depois chegamos em Partitions, Offsets, Replication e toda a diversão de sistemas distribuídos :)
 
 ## Referências
@@ -202,4 +251,5 @@ Ainda tem bastante coisa escondida nesse desenho. No próximo artigo vamos entra
 - Narkhede, Neha. [*Project Kafka, a distributed publish-subscribe messaging system, reaches v0.6*](https://www.linkedin.com/blog/engineering/open-source/project-kafka-distributed-publish-subscribe-messaging-system-reaches-v06). LinkedIn, 16 jun. 2011.
 - LinkedIn Engineering. [*A Brief History of Scaling LinkedIn*](https://www.linkedin.com/blog/engineering/architecture/brief-history-scaling-linkedin). 2015.
 - Fu, Yupeng; Chen, Mingmin. [*Disaster Recovery for Multi-Region Kafka at Uber*](https://www.uber.com/blog/kafka/). Uber Engineering, 21 dez. 2020.
-
+- Apache Kafka. [*KIP-932: Queues for Kafka*](https://cwiki.apache.org/confluence/display/KAFKA/KIP-932%3A+Queues+for+Kafka).
+- Conduktor. [*Kafka Isn't a Queue*](https://www.conduktor.io/blog/kafka-isnt-a-queue). Acesso em 3 nov. 2026.
