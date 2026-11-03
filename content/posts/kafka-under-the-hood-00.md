@@ -47,7 +47,7 @@ O problema aparece quando cada novo uso do dado cria uma conexão nova:
 - pedidos chama notificações;
 - pedidos envia dados para analytics;
 - pedidos atualiza o CRM;
-- pedidos precisa avisar algum sistema que ainda nem existe.
+- pedidos precisa avisar algum sistema que ainda nem existe;
 
 O serviço começa a conhecer detalhes demais. Se o CRM estiver fora do ar, a compra falha? Se analytics estiver lento, o cliente espera? Onde salvamos o que não foi entregue? Como um sistema novo recupera os pedidos antigos?
 
