@@ -32,7 +32,7 @@ Chega um novo consumidor, depois outro, um deles fica fora do ar, outro precisa 
 
 Kafka nasceu para resolver uma versão bem grande desse problema.
 
-E já aviso: em algum momento você vai ouvir (ou falar) que "Kafka é uma fila". É o erro mais comum de quem está chegando, e a gente vai desmontar isso ao longo do artigo.
+> Em algum momento você vai ouvir (ou falar) que "Kafka é uma fila". É o erro mais comum de quem está chegando, e a gente vai desmontar isso ao longo do artigo.
 
 Antes de falar sobre Partitions, Offsets, Replication e outras coisas que normalmente aparecem logo no primeiro tutorial, quero começar pelo básico: por que alguém precisou criar o Kafka?
 
