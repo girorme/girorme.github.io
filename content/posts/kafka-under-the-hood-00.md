@@ -78,7 +78,7 @@ Um detalhe: aqui na série eu vou falar de JSON porque é o formato mais fácil 
 
 Na prática, o Kafka é amplamente utilizado com **Avro**, **Protobuf** e JSON. Os dois primeiros são binários, mais compactos e trazem um schema que descreve o formato do evento. Muita gente só descobre isso depois que o primeiro contrato quebra em produção :)
 
-Guarda essa ideia, porque ela volta quando falarmos de Schema Registry.
+> Mais sobre os formatos diferentes quando falarmos de Schema Registry.
 
 O ponto é que o `PedidoConfirmado` representa um fato. O estoque pode reagir a ele. O sistema de notificações também. Analytics pode ler o mesmo evento sem que o serviço de pedidos precise conhecer nenhum desses detalhes.
 
