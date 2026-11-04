@@ -250,12 +250,12 @@ Ainda tem bastante coisa escondida nesse desenho. No próximo artigo vamos entra
 
 ## Referências
 
-- Apache Kafka. [*Introduction*](https://kafka.apache.org/intro). Acesso em 29 out. 2026.
-- Confluent Developer. [*What You'll Learn in This Apache Kafka 101 Course*](https://developer.confluent.io/courses/apache-kafka/events/). Acesso em 29 out. 2026.
+- Apache Kafka. [*Introduction*](https://kafka.apache.org/intro).
+- Confluent Developer. [*What You'll Learn in This Apache Kafka 101 Course*](https://developer.confluent.io/courses/apache-kafka/events/).
 - Kreps, Jay; Narkhede, Neha; Rao, Jun. [*Kafka: a Distributed Messaging System for Log Processing*](https://cwiki.apache.org/confluence/download/attachments/27822226/Kafka-netdb-06-2011.pdf). NetDB, 2011.
 - Rao, Jun. [*Open-sourcing Kafka, LinkedIn's distributed message queue*](https://www.linkedin.com/blog/member/archive/open-source-linkedin-kafka). LinkedIn, 11 jan. 2011.
 - Narkhede, Neha. [*Project Kafka, a distributed publish-subscribe messaging system, reaches v0.6*](https://www.linkedin.com/blog/engineering/open-source/project-kafka-distributed-publish-subscribe-messaging-system-reaches-v06). LinkedIn, 16 jun. 2011.
 - LinkedIn Engineering. [*A Brief History of Scaling LinkedIn*](https://www.linkedin.com/blog/engineering/architecture/brief-history-scaling-linkedin). 2015.
 - Fu, Yupeng; Chen, Mingmin. [*Disaster Recovery for Multi-Region Kafka at Uber*](https://www.uber.com/blog/kafka/). Uber Engineering, 21 dez. 2020.
 - Apache Kafka. [*KIP-932: Queues for Kafka*](https://cwiki.apache.org/confluence/display/KAFKA/KIP-932%3A+Queues+for+Kafka).
-- Conduktor. [*Kafka Isn't a Queue*](https://www.conduktor.io/blog/kafka-isnt-a-queue). Acesso em 3 nov. 2026.
+- Conduktor. [*Kafka Isn't a Queue*](https://www.conduktor.io/blog/kafka-isnt-a-queue).
