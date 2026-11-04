@@ -251,7 +251,7 @@ Ainda tem bastante coisa escondida nesse desenho. No próximo artigo vamos entra
 ## Referências
 
 - Apache Kafka. [*Introduction*](https://kafka.apache.org/intro).
-- Confluent Developer. [*What You'll Learn in This Apache Kafka 101 Course*](https://developer.confluent.io/courses/apache-kafka/events/).
+- Confluent Developer. [*Apache Kafka 101 Course*](https://developer.confluent.io/courses/apache-kafka/events/).
 - Kreps, Jay; Narkhede, Neha; Rao, Jun. [*Kafka: a Distributed Messaging System for Log Processing*](https://cwiki.apache.org/confluence/download/attachments/27822226/Kafka-netdb-06-2011.pdf). NetDB, 2011.
 - Rao, Jun. [*Open-sourcing Kafka, LinkedIn's distributed message queue*](https://www.linkedin.com/blog/member/archive/open-source-linkedin-kafka). LinkedIn, 11 jan. 2011.
 - Narkhede, Neha. [*Project Kafka, a distributed publish-subscribe messaging system, reaches v0.6*](https://www.linkedin.com/blog/engineering/open-source/project-kafka-distributed-publish-subscribe-messaging-system-reaches-v06). LinkedIn, 16 jun. 2011.
